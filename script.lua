@@ -197,8 +197,16 @@ createCheckbox("ESP Caixa", 0.6, function(isChecked)
                     local box = Instance.new("BoxHandleAdornment")
                     box.Adornee = target.Character.HumanoidRootPart
                     box.Size = target.Character.HumanoidRootPart.Size + Vector3.new(1, 2, 1)
-                    box.Color3 = Color3.fromRGB(255, 0, 0)
+                    box.Color3 = Color3.fromRGB(255, 255, 255)  -- Caixa branca
                     box.Parent = target.Character
+                    box.ZIndex = 10
+
+                    -- Tornar o personagem visível dentro da caixa
+                    for _, part in pairs(target.Character:GetChildren()) do
+                        if part:IsA("MeshPart") or part:IsA("Part") then
+                            part.Transparency = 0  -- Garante que o personagem seja totalmente visível dentro da caixa
+                        end
+                    end
                 end
             end
         end)
@@ -236,11 +244,11 @@ createCheckbox("ESP Linha", 0.8, function(isChecked)
                 if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
                     -- Criação da linha de ESP (linha entre jogador e alvo)
                     local line = Instance.new("Part")
-                    line.Size = Vector3.new(0.1, 0.1, (player.Character.HumanoidRootPart.Position - target.Character.HumanoidRootPart.Position).Magnitude)
+                    line.Size = Vector3.new(0.05, 0.05, (player.Character.HumanoidRootPart.Position - target.Character.HumanoidRootPart.Position).Magnitude)
                     line.CFrame = CFrame.new(player.Character.HumanoidRootPart.Position, target.Character.HumanoidRootPart.Position)
                     line.Anchored = true
                     line.CanCollide = false
-                    line.Color = Color3.fromRGB(255, 0, 0)
+                    line.Color = Color3.fromRGB(255, 255, 255)  -- Linha branca e mais fina
                     line.Parent = workspace
                 end
             end
