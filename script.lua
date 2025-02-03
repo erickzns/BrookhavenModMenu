@@ -5,8 +5,8 @@ screenGui.Parent = player.PlayerGui  -- Garantir que o ScreenGui esteja na Playe
 
 -- Criando o menu flutuante
 local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 600)  -- Aumentei o tamanho para que o menu tenha espaço suficiente
-menu.Position = UDim2.new(0.5, -150, 0.5, -250)
+menu.Size = UDim2.new(0, 300, 0, 400)
+menu.Position = UDim2.new(0.5, -150, 0.5, -200)
 menu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 menu.Parent = screenGui
 
@@ -15,7 +15,7 @@ local scrollingFrame = Instance.new("ScrollingFrame")
 scrollingFrame.Size = UDim2.new(1, 0, 1, 0)
 scrollingFrame.Position = UDim2.new(0, 0, 0, 40)
 scrollingFrame.BackgroundTransparency = 1
-scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 800)  -- Aumentei o tamanho do Canvas para ajustar as novas funções
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 500)
 scrollingFrame.ScrollBarThickness = 10
 scrollingFrame.Parent = menu
 
@@ -88,13 +88,6 @@ end
 
 -- Funções de Trapaça
 
--- Bypass de sistema de segurança para impedir bloqueios do Anticheat (sutil)
-local function bypassAnticheat()
-    local oldCFrame = player.Character:FindFirstChild("HumanoidRootPart").CFrame
-    local randomShift = CFrame.new(math.random(-10, 10), 0, math.random(-10, 10))
-    player.Character:FindFirstChild("HumanoidRootPart").CFrame = oldCFrame * randomShift
-end
-
 -- Aumentar Velocidade
 createCheckbox("Aumentar Velocidade", 0.1, function(isChecked)
     if isChecked then
@@ -104,12 +97,9 @@ createCheckbox("Aumentar Velocidade", 0.1, function(isChecked)
     end
 end)
 
--- Teletransportar
+-- Teleportar
 createCheckbox("Teletransportar", 0.2, function(isChecked)
     if isChecked then
-        -- Bypass Anticheat antes de teletransportar
-        bypassAnticheat()
-
         -- Teletransporta para a posição do mouse
         local targetPosition = mouse.Hit.p
         player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
@@ -187,8 +177,8 @@ createCheckbox("Aimbot", 0.5, function(isChecked)
     end
 end)
 
--- ESP (Caixa, Nome, Linha)
-createCheckbox("ESP Caixa", 0.6, function(isChecked)
+-- ESP para destacar jogadores
+createCheckbox("ESP", 0.6, function(isChecked)
     if isChecked then
         game:GetService("RunService").Heartbeat:Connect(function()
             for _, target in pairs(game.Players:GetPlayers()) do
@@ -196,97 +186,95 @@ createCheckbox("ESP Caixa", 0.6, function(isChecked)
                     -- Criação da caixa de ESP (borda ao redor do personagem)
                     local box = Instance.new("BoxHandleAdornment")
                     box.Adornee = target.Character.HumanoidRootPart
-                    box.Size = target.Character.HumanoidRootPart.Size + Vector3.new(1, 2, 1)
-                    box.Color3 = Color3.fromRGB(255, 255, 255)  -- Caixa branca
-                    box.Parent = target.Character
-                    box.ZIndex = 10
-
-                    -- Tornar o personagem visível dentro da caixa
-                    for _, part in pairs(target.Character:GetChildren()) do
-                        if part:IsA("MeshPart") or part:IsA("Part") then
-                            part.Transparency = 0  -- Garante que o personagem seja totalmente visível dentro da caixa
-                        end
-                    end
+                    box.Size = target.Character.HumanoidRootPart.Size + Vector3.new(1, 2, 1)  -- Ajuste de tamanho para se ajustar ao personagem
+                    box.Color3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
+                    box.Transparency = 0.5  -- Um pouco transparente
+                    box.Parent = game.Workspace
+                    -- Remover a caixa quando o alvo sair de cena
+                    target.Character:Destroying:Connect(function()
+                        box:Destroy()
+                    end)
                 end
             end
         end)
     end
 end)
 
+-- ESP Nome
 createCheckbox("ESP Nome", 0.7, function(isChecked)
     if isChecked then
         game:GetService("RunService").Heartbeat:Connect(function()
             for _, target in pairs(game.Players:GetPlayers()) do
                 if target ~= player and target.Character and target.Character:FindFirstChild("Head") then
-                    -- Exibe o nome acima da cabeça do jogador
-                    local nameLabel = Instance.new("BillboardGui")
-                    nameLabel.Adornee = target.Character.Head
-                    nameLabel.Size = UDim2.new(0, 100, 0, 50)
-                    nameLabel.StudsOffset = Vector3.new(0, 3, 0)
-                    nameLabel.Parent = target.Character.Head
+                    -- Exibir o nome acima do personagem
+                    local nameTag = Instance.new("BillboardGui")
+                    nameTag.Adornee = target.Character.Head
+                    nameTag.Size = UDim2.new(0, 100, 0, 50)
+                    nameTag.StudsOffset = Vector3.new(0, 2, 0)
+                    nameTag.Parent = target.Character.Head
 
                     local label = Instance.new("TextLabel")
-                    label.Text = target.Name
                     label.Size = UDim2.new(1, 0, 1, 0)
-                    label.TextColor3 = Color3.fromRGB(255, 255, 255)
                     label.BackgroundTransparency = 1
-                    label.Parent = nameLabel
+                    label.Text = target.Name
+                    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    label.TextStrokeTransparency = 0.7
+                    label.Parent = nameTag
                 end
             end
         end)
     end
 end)
 
+-- ESP Linha (corrigido)
 createCheckbox("ESP Linha", 0.8, function(isChecked)
     if isChecked then
+        -- Criação da linha de ESP (apenas entre jogador e alvo)
         game:GetService("RunService").Heartbeat:Connect(function()
+            -- Remover as linhas antigas para evitar que fiquem persistindo
+            for _, line in pairs(workspace:GetChildren()) do
+                if line:IsA("Part") and line.Name == "ESP_Line" then
+                    line:Destroy()  -- Apaga as linhas antigas antes de desenhar novas
+                end
+            end
+
+            -- Agora só desenha as linhas entre você e os inimigos
             for _, target in pairs(game.Players:GetPlayers()) do
                 if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-                    -- Criação da linha de ESP (linha entre jogador e alvo)
+                    -- Cria a linha somente entre você e os inimigos
                     local line = Instance.new("Part")
+                    line.Name = "ESP_Line"
                     line.Size = Vector3.new(0.05, 0.05, (player.Character.HumanoidRootPart.Position - target.Character.HumanoidRootPart.Position).Magnitude)
                     line.CFrame = CFrame.new(player.Character.HumanoidRootPart.Position, target.Character.HumanoidRootPart.Position)
                     line.Anchored = true
                     line.CanCollide = false
                     line.Color = Color3.fromRGB(255, 255, 255)  -- Linha branca e mais fina
                     line.Parent = workspace
+                    line.ZIndex = 10  -- Assegura que a linha fique visível por cima dos outros elementos
                 end
             end
         end)
-    end
-end)
-
--- Outras funções novas
-
--- Voar
-createCheckbox("Voar", 0.9, function(isChecked)
-    local flying = false
-    if isChecked then
-        flying = true
-        local bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.MaxForce = Vector3.new(50000, 50000, 50000)
-        bodyVelocity.Velocity = Vector3.new(0, 50, 0)
-        bodyVelocity.Parent = player.Character.HumanoidRootPart
     else
-        flying = false
-        -- Remover o BodyVelocity para parar o voo
-        player.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity"):Destroy()
-    end
-end)
-
--- Aumentar dano
-createCheckbox("Aumentar Dano", 1.0, function(isChecked)
-    if isChecked then
-        -- Modificando o dano causado pelo jogador
-        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.Damage = 100  -- Aumenta o dano para 100
-        end
-    else
-        -- Retorna ao valor padrão de dano
-        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.Damage = 10  -- Valor padrão de dano
+        -- Desativa as linhas de ESP quando desmarcado
+        for _, line in pairs(workspace:GetChildren()) do
+            if line:IsA("Part") and line.Name == "ESP_Line" then
+                line:Destroy()  -- Remove todas as linhas quando a opção é desativada
+            end
         end
     end
 end)
+
+-- Garantir que o menu esteja visível
+menu.Visible = true  -- Garantir que o menu esteja visível ao ser carregado
+
+-- Mostrar o cursor quando passar o mouse no menu
+menu.MouseEnter:Connect(function()
+    mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor ao passar o mouse sobre o menu
+end)
+
+menu.MouseLeave:Connect(function()
+    mouse.Icon = ""  -- Remove o cursor ao sair do menu
+end)
+
+-- Mostrar o cursor ao abrir o menu
+mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor padrão ao mostrar o menu
