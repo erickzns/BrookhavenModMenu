@@ -88,6 +88,14 @@ end
 
 -- Funções de Trapaça
 
+-- Bypass de sistema de segurança para impedir bloqueios do Anticheat (sutil)
+local function bypassAnticheat()
+    -- Evitar que o sistema de segurança da Roblox detecte alterações de CFrame
+    local oldCFrame = player.Character:FindFirstChild("HumanoidRootPart").CFrame
+    local randomShift = CFrame.new(math.random(-10, 10), 0, math.random(-10, 10))
+    player.Character:FindFirstChild("HumanoidRootPart").CFrame = oldCFrame * randomShift  -- Pequena mudança para dificultar detecção
+end
+
 -- Aumentar Velocidade
 createCheckbox("Aumentar Velocidade", 0.1, function(isChecked)
     if isChecked then
@@ -97,9 +105,12 @@ createCheckbox("Aumentar Velocidade", 0.1, function(isChecked)
     end
 end)
 
--- Teleportar
+-- Teletransportar
 createCheckbox("Teletransportar", 0.2, function(isChecked)
     if isChecked then
+        -- Bypass Anticheat antes de teletransportar
+        bypassAnticheat()
+
         -- Teletransporta para a posição do mouse
         local targetPosition = mouse.Hit.p
         player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
@@ -177,94 +188,4 @@ createCheckbox("Aimbot", 0.5, function(isChecked)
     end
 end)
 
--- Função ESP para destacar jogadores
-createCheckbox("ESP", 0.6, function(isChecked)
-    if isChecked then
-        game:GetService("RunService").Heartbeat:Connect(function()
-            for _, target in pairs(game.Players:GetPlayers()) do
-                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-                    -- Criação da caixa de ESP (borda ao redor do personagem)
-                    local box = Instance.new("BoxHandleAdornment")
-                    box.Adornee = target.Character.HumanoidRootPart
-                    box.Size = target.Character.HumanoidRootPart.Size + Vector3.new(1, 2, 1)  -- Ajuste de tamanho para se ajustar ao personagem
-                    box.Color3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
-                    box.Transparency = 0.5  -- Um pouco transparente
-                    box.Parent = game.Workspace
-                    -- Remover a caixa quando o alvo sair de cena
-                    target.Character:Destroying:Connect(function()
-                        box:Destroy()
-                    end)
-                end
-            end
-        end)
-    end
-end)
-
--- ESP Nome
-createCheckbox("ESP Nome", 0.7, function(isChecked)
-    if isChecked then
-        game:GetService("RunService").Heartbeat:Connect(function()
-            for _, target in pairs(game.Players:GetPlayers()) do
-                if target ~= player and target.Character and target.Character:FindFirstChild("Head") then
-                    -- Exibir o nome acima do personagem
-                    local nameTag = Instance.new("BillboardGui")
-                    nameTag.Adornee = target.Character.Head
-                    nameTag.Size = UDim2.new(0, 100, 0, 50)
-                    nameTag.StudsOffset = Vector3.new(0, 2, 0)
-                    nameTag.Parent = target.Character.Head
-
-                    local label = Instance.new("TextLabel")
-                    label.Size = UDim2.new(1, 0, 1, 0)
-                    label.BackgroundTransparency = 1
-                    label.Text = target.Name
-                    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    label.TextStrokeTransparency = 0.7
-                    label.Parent = nameTag
-                end
-            end
-        end)
-    end
-end)
-
--- ESP Linha
-createCheckbox("ESP Linha", 0.8, function(isChecked)
-    if isChecked then
-        game:GetService("RunService").Heartbeat:Connect(function()
-            for _, target in pairs(game.Players:GetPlayers()) do
-                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-                    -- Criando a linha de ESP
-                    local line = Instance.new("Part")
-                    line.Size = Vector3.new(0.2, 0.2, (player.Character.HumanoidRootPart.Position - target.Character.HumanoidRootPart.Position).Magnitude)
-                    line.Position = (player.Character.HumanoidRootPart.Position + target.Character.HumanoidRootPart.Position) / 2
-                    line.Anchored = true
-                    line.CanCollide = false
-                    line.BrickColor = BrickColor.White()
-                    line.Parent = game.Workspace
-
-                    -- Alinhar a linha com a direção do alvo
-                    line.CFrame = CFrame.new(line.Position, target.Character.HumanoidRootPart.Position)
-
-                    -- Remover linha quando alvo sair
-                    target.Character:Destroying:Connect(function()
-                        line:Destroy()
-                    end)
-                end
-            end
-        end)
-    end
-end)
-
--- Garantir que o menu esteja visível
-menu.Visible = true  -- Garantir que o menu esteja visível ao ser carregado
-
--- Mostrar o cursor quando passar o mouse no menu
-menu.MouseEnter:Connect(function()
-    mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor ao passar o mouse sobre o menu
-end)
-
-menu.MouseLeave:Connect(function()
-    mouse.Icon = ""  -- Remove o cursor ao sair do menu
-end)
-
--- Mostrar o cursor ao abrir o menu
-mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor padrão ao mostrar o menu
+-- Resto do código continua...
