@@ -113,35 +113,38 @@ createCheckbox("Dar Vidas Extras", 0.4, function(isChecked)
     end
 end)
 
--- Função para ESP (ver jogadores através das paredes)
-createCheckbox("Ativar ESP", 0.5, function(isChecked)
+-- Função para ESP Caixa (contorno do personagem)
+createCheckbox("Ativar ESP Caixa", 0.5, function(isChecked)
     if isChecked then
-        -- Ativar ESP
+        -- Adicionar as caixas de ESP ao redor dos personagens
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player then
-                local box = Instance.new("BillboardGui")
-                box.Adornee = otherPlayer.Character
-                box.Size = UDim2.new(0, 100, 0, 100)
-                box.StudsOffset = Vector3.new(0, 5, 0)
-                box.AlwaysOnTop = true
-                box.Parent = otherPlayer.Character
-
-                local frame = Instance.new("Frame")
-                frame.Size = UDim2.new(1, 0, 1, 0)
-                frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-                frame.Parent = box
+            if otherPlayer ~= player and otherPlayer.Character then
+                local character = otherPlayer.Character
+                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+                if humanoidRootPart then
+                    -- Criar a caixa ao redor do personagem
+                    local box = character:FindFirstChild("ESP_Box")
+                    if not box then
+                        box = Instance.new("BoxHandleAdornment")
+                        box.Name = "ESP_Box"
+                        box.Adornee = humanoidRootPart
+                        box.Size = humanoidRootPart.Size + Vector3.new(2, 5, 2) -- Ajustando o tamanho da caixa ao redor
+                        box.Color3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
+                        box.Transparency = 0.5
+                        box.ZIndex = 10
+                        box.Parent = character
+                    end
+                end
             end
         end
     else
-        -- Desativar ESP
+        -- Remover as caixas de ESP se desmarcado
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player then
+            if otherPlayer ~= player and otherPlayer.Character then
                 local character = otherPlayer.Character
-                if character then
-                    local box = character:FindFirstChildOfClass("BillboardGui")
-                    if box then
-                        box:Destroy()
-                    end
+                local box = character:FindFirstChild("ESP_Box")
+                if box then
+                    box:Destroy()
                 end
             end
         end
