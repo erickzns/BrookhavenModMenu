@@ -21,6 +21,8 @@ function CheatFunction:deactivate()
     print(self.name .. " deactivated.")
 end
 
+print("Classe base criada")
+
 -- Classe Velocidade Extra (Speed Hack)
 SpeedHack = CheatFunction:new("Speed Hack")
 
@@ -39,6 +41,8 @@ function SpeedHack:deactivate()
     CheatFunction.deactivate(self)
     self:setSpeed(16) -- Valor padrão de velocidade
 end
+
+print("Speed Hack criado")
 
 -- Classe Super Salto (Super Jump)
 SuperJump = CheatFunction:new("Super Jump")
@@ -59,6 +63,8 @@ function SuperJump:deactivate()
     self:setJumpPower(50) -- Valor padrão de salto
 end
 
+print("Super Jump criado")
+
 -- Classe Gravidade Zero (Low Gravity)
 LowGravity = CheatFunction:new("Low Gravity")
 
@@ -77,6 +83,8 @@ function LowGravity:deactivate()
     self:setGravity(196.2) -- Valor padrão de gravidade
 end
 
+print("Low Gravity criado")
+
 -- Classe Invencibilidade (God Mode)
 GodMode = CheatFunction:new("God Mode")
 
@@ -93,6 +101,8 @@ function GodMode:deactivate()
     player.Character.Humanoid.MaxHealth = 100
     player.Character.Humanoid.Health = 100
 end
+
+print("God Mode criado")
 
 -- Classe Voo (Fly Mode)
 FlyMode = CheatFunction:new("Fly Mode")
@@ -111,6 +121,8 @@ function FlyMode:deactivate()
     CheatFunction.deactivate(self)
     self:fly(0) -- Desativar voo
 end
+
+print("Fly Mode criado")
 
 -- Classe Teleportação (Teleportation)
 Teleportation = CheatFunction:new("Teleportation")
@@ -142,6 +154,8 @@ function Teleportation:deactivate()
     print(self.name .. " deactivated.")
 end
 
+print("Teleportation criado")
+
 -- Classe Menu Principal
 CheatMenu = {}
 CheatMenu.__index = CheatMenu
@@ -172,6 +186,8 @@ function CheatMenu:deactivateFunction(name)
     end
 end
 
+print("Menu principal criado")
+
 -- Criando instâncias das funções de cheats
 local speedHack = SpeedHack:new()
 local superJump = SuperJump:new()
@@ -189,6 +205,8 @@ cheatMenu:addFunction(godMode)
 cheatMenu:addFunction(flyMode)
 cheatMenu:addFunction(teleportation)
 
+print("Funções adicionadas ao menu")
+
 -- Exemplos de ativação e desativação das funções
 cheatMenu:activateFunction("Speed Hack", 10)
 cheatMenu:activateFunction("Super Jump", 100)
@@ -197,6 +215,8 @@ cheatMenu:activateFunction("God Mode")
 cheatMenu:activateFunction("Fly Mode", 50)
 cheatMenu:activateFunction("Teleportation", {x = 0, y = 10, z = 0})
 
+print("Funções ativadas")
+
 -- Desativação
 cheatMenu:deactivateFunction("Speed Hack")
 cheatMenu:deactivateFunction("Super Jump")
@@ -204,3 +224,5 @@ cheatMenu:deactivateFunction("Low Gravity")
 cheatMenu:deactivateFunction("God Mode")
 cheatMenu:deactivateFunction("Fly Mode")
 cheatMenu:deactivateFunction("Teleportation")
+
+print("Funções desativadas")
