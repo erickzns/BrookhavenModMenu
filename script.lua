@@ -23,30 +23,30 @@ titleLabel.TextSize = 24
 titleLabel.Parent = menuFrame
 
 -- Função para criar caixas de marcar de trapaça
-local function createCheatCheckbox(text, position, onChange)
+local function createCheatCheckbox(name, position, onChange)
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(1, -20, 0, 50)
     frame.Position = position
     frame.BackgroundTransparency = 1
     frame.Parent = menuFrame
 
-    local checkbox = Instance.new("TextButton")
-    checkbox.Size = UDim2.new(0, 25, 0, 25)
-    checkbox.Position = UDim2.new(0, 0, 0, 12.5)
-    checkbox.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-    checkbox.Text = ""
-    checkbox.Parent = frame
-
     local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -30, 1, 0)
-    label.Position = UDim2.new(0, 30, 0, 0)
+    label.Size = UDim2.new(1, -40, 1, 0)
+    label.Position = UDim2.new(0, 0, 0, 0)
     label.BackgroundTransparency = 1
-    label.Text = text
+    label.Text = name
     label.TextColor3 = Color3.new(1, 1, 1)
     label.Font = Enum.Font.SourceSans
     label.TextSize = 20
     label.TextXAlignment = Enum.TextXAlignment.Left
     label.Parent = frame
+
+    local checkbox = Instance.new("TextButton")
+    checkbox.Size = UDim2.new(0, 25, 0, 25)
+    checkbox.Position = UDim2.new(1, -30, 0.5, -12.5)
+    checkbox.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+    checkbox.Text = ""
+    checkbox.Parent = frame
 
     checkbox.MouseButton1Click:Connect(function()
         checkbox.BackgroundColor3 = checkbox.BackgroundColor3 == Color3.new(0.1, 0.1, 0.1) and Color3.new(0, 1, 0) or Color3.new(0.1, 0.1, 0.1)
