@@ -73,6 +73,7 @@ local function createCheckbox(labelText, positionY, callback)
 end
 
 -- Funções de Trapaça
+
 createCheckbox("Aumentar Velocidade", 0.1, function(isChecked)
     if isChecked then
         player.Character.Humanoid.WalkSpeed = 100
@@ -89,23 +90,42 @@ createCheckbox("Teletransportar", 0.2, function(isChecked)
     end
 end)
 
-createCheckbox("Dar Dinheiro", 0.3, function(isChecked)
+createCheckbox("Pegar Dinheiro", 0.3, function(isChecked)
     if isChecked then
+        -- Pega dinheiro de outro jogador (ou da sua conta, dependendo da lógica)
         local leaderstats = player:FindFirstChild("leaderstats")
         if leaderstats then
             local money = leaderstats:FindFirstChild("Dinheiro")
             if money then
-                money.Value = money.Value + 1000 -- Dá 1000 de dinheiro
+                -- Subtrai 1000 de dinheiro
+                if money.Value >= 1000 then
+                    money.Value = money.Value - 1000 -- Pega 1000 de dinheiro
+                else
+                    print("Dinheiro insuficiente.")
+                end
             end
         end
     end
 end)
 
-createCheckbox("Dar Vidas Extras", 0.4, function(isChecked)
+createCheckbox("Godmode (Imortal)", 0.4, function(isChecked)
+    local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+    
     if isChecked then
-        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
         if humanoid then
-            humanoid.Health = humanoid.MaxHealth -- Restabelece toda a vida
+            -- Ativa o Godmode (imortalidade)
+            humanoid.Health = humanoid.MaxHealth  -- Restaura a saúde para o máximo
+            humanoid.MaxHealth = math.huge  -- Define a saúde máxima como infinita
+            humanoid.HealthChanged:Connect(function()
+                if humanoid.Health < humanoid.MaxHealth then
+                    humanoid.Health = humanoid.MaxHealth  -- Sempre restaura a saúde para o máximo
+                end
+            end)
+        end
+    else
+        if humanoid then
+            humanoid.MaxHealth = 100 -- Restaura a saúde máxima para um valor padrão
+            humanoid.Health = humanoid.MaxHealth -- Restaura a saúde para o valor original
         end
     end
 end)
