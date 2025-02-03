@@ -4,8 +4,8 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Criar Frame para o menu
 local menuFrame = Instance.new("Frame")
-menuFrame.Size = UDim2.new(0, 300, 0, 400)
-menuFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+menuFrame.Size = UDim2.new(0, 300, 0, 500) -- Aumentar a altura para caber mais funções
+menuFrame.Position = UDim2.new(0.5, -150, 0.5, -250) -- Ajustar posição para centralizar
 menuFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
 menuFrame.BorderSizePixel = 0
 menuFrame.BackgroundTransparency = 0.5
@@ -123,5 +123,52 @@ createCheatCheckbox("Super Força", UDim2.new(0, 10, 0.6, 0), function(isEnabled
         character.Humanoid.Strength = 100 -- Aumenta a força do jogador
     else
         character.Humanoid.Strength = 10 -- Define a força do jogador de volta ao normal
+    end
+end)
+
+-- Caixa de marcar para Visão Noturna
+createCheatCheckbox("Visão Noturna", UDim2.new(0, 10, 0.7, 0), function(isEnabled)
+    local player = game.Players.LocalPlayer
+    local lighting = game.Lighting
+    if isEnabled then
+        lighting.Brightness = 2 -- Aumenta o brilho para simular visão noturna
+        lighting.OutdoorAmbient = Color3.new(1, 1, 1)
+    else
+        lighting.Brightness = 1 -- Volta ao brilho normal
+        lighting.OutdoorAmbient = Color3.new(0.5, 0.5, 0.5)
+    end
+end)
+
+-- Caixa de marcar para Teletransporte
+createCheatCheckbox("Teletransporte", UDim2.new(0, 10, 0.8, 0), function(isEnabled)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    if isEnabled then
+        character:SetPrimaryPartCFrame(CFrame.new(0, 100, 0)) -- Teletransporta o jogador para uma posição específica
+    end
+end)
+
+-- Caixa de marcar para Noclip
+createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), function(isEnabled)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local noclipConnection
+    if isEnabled then
+        noclipConnection = game:GetService("RunService").Stepped:Connect(function()
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false -- Ativa o noclip
+                end
+            end
+        end)
+    else
+        if noclipConnection then
+            noclipConnection:Disconnect() -- Desativa o noclip
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = true -- Volta ao normal
+                end
+            end
+        end
     end
 end)
