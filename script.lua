@@ -5,8 +5,8 @@ screenGui.Parent = player.PlayerGui  -- Garantir que o ScreenGui esteja na Playe
 
 -- Criando o menu flutuante
 local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 400)
-menu.Position = UDim2.new(0.5, -150, 0.5, -200)
+menu.Size = UDim2.new(0, 300, 0, 500)
+menu.Position = UDim2.new(0.5, -150, 0.5, -250)
 menu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 menu.Parent = screenGui
 
@@ -15,7 +15,7 @@ local scrollingFrame = Instance.new("ScrollingFrame")
 scrollingFrame.Size = UDim2.new(1, 0, 1, 0)
 scrollingFrame.Position = UDim2.new(0, 0, 0, 40)
 scrollingFrame.BackgroundTransparency = 1
-scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 500)
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 600)
 scrollingFrame.ScrollBarThickness = 10
 scrollingFrame.Parent = menu
 
@@ -90,10 +90,9 @@ end
 
 -- Bypass de sistema de segurança para impedir bloqueios do Anticheat (sutil)
 local function bypassAnticheat()
-    -- Evitar que o sistema de segurança da Roblox detecte alterações de CFrame
     local oldCFrame = player.Character:FindFirstChild("HumanoidRootPart").CFrame
     local randomShift = CFrame.new(math.random(-10, 10), 0, math.random(-10, 10))
-    player.Character:FindFirstChild("HumanoidRootPart").CFrame = oldCFrame * randomShift  -- Pequena mudança para dificultar detecção
+    player.Character:FindFirstChild("HumanoidRootPart").CFrame = oldCFrame * randomShift
 end
 
 -- Aumentar Velocidade
@@ -188,4 +187,98 @@ createCheckbox("Aimbot", 0.5, function(isChecked)
     end
 end)
 
--- Resto do código continua...
+-- ESP (Caixa, Nome, Linha)
+createCheckbox("ESP Caixa", 0.6, function(isChecked)
+    if isChecked then
+        game:GetService("RunService").Heartbeat:Connect(function()
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                    -- Criação da caixa de ESP (borda ao redor do personagem)
+                    local box = Instance.new("BoxHandleAdornment")
+                    box.Adornee = target.Character.HumanoidRootPart
+                    box.Size = target.Character.HumanoidRootPart.Size + Vector3.new(1, 2, 1)
+                    box.Color3 = Color3.fromRGB(255, 0, 0)
+                    box.Parent = target.Character
+                end
+            end
+        end)
+    end
+end)
+
+createCheckbox("ESP Nome", 0.7, function(isChecked)
+    if isChecked then
+        game:GetService("RunService").Heartbeat:Connect(function()
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("Head") then
+                    -- Exibe o nome acima da cabeça do jogador
+                    local nameLabel = Instance.new("BillboardGui")
+                    nameLabel.Adornee = target.Character.Head
+                    nameLabel.Size = UDim2.new(0, 100, 0, 50)
+                    nameLabel.StudsOffset = Vector3.new(0, 3, 0)
+                    nameLabel.Parent = target.Character.Head
+
+                    local label = Instance.new("TextLabel")
+                    label.Text = target.Name
+                    label.Size = UDim2.new(1, 0, 1, 0)
+                    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    label.BackgroundTransparency = 1
+                    label.Parent = nameLabel
+                end
+            end
+        end)
+    end
+end)
+
+createCheckbox("ESP Linha", 0.8, function(isChecked)
+    if isChecked then
+        game:GetService("RunService").Heartbeat:Connect(function()
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                    -- Criação da linha de ESP (linha entre jogador e alvo)
+                    local line = Instance.new("Part")
+                    line.Size = Vector3.new(0.1, 0.1, (player.Character.HumanoidRootPart.Position - target.Character.HumanoidRootPart.Position).Magnitude)
+                    line.CFrame = CFrame.new(player.Character.HumanoidRootPart.Position, target.Character.HumanoidRootPart.Position)
+                    line.Anchored = true
+                    line.CanCollide = false
+                    line.Color = Color3.fromRGB(255, 0, 0)
+                    line.Parent = workspace
+                end
+            end
+        end)
+    end
+end)
+
+-- Outras funções novas
+
+-- Voar
+createCheckbox("Voar", 0.9, function(isChecked)
+    local flying = false
+    if isChecked then
+        flying = true
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(50000, 50000, 50000)
+        bodyVelocity.Velocity = Vector3.new(0, 50, 0)
+        bodyVelocity.Parent = player.Character.HumanoidRootPart
+    else
+        flying = false
+        -- Remover o BodyVelocity para parar o voo
+        player.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity"):Destroy()
+    end
+end)
+
+-- Aumentar dano
+createCheckbox("Aumentar Dano", 1.0, function(isChecked)
+    if isChecked then
+        -- Modificando o dano causado pelo jogador
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.Damage = 100  -- Aumenta o dano para 100
+        end
+    else
+        -- Retorna ao valor padrão de dano
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.Damage = 10  -- Valor padrão de dano
+        end
+    end
+end)
