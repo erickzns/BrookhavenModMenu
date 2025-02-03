@@ -26,7 +26,7 @@ _f.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 
 _f.MouseButton1Click:Connect(_e)
 
--- Função para mover o menu
+-- Função para mover o menu flutuante
 local dragStart, dragInput, dragPos
 local function update(input)
     local delta = input.Position - dragStart
@@ -71,27 +71,28 @@ _g.MouseButton1Click:Connect(function()
             if _i ~= _a then
                 -- Criar caixa ao redor do jogador
                 local _box = Instance.new("Frame")
-                _box.Size = UDim2.new(0, 200, 0, 200)
-                _box.Position = UDim2.new(0, 100, 0, 100)
-                _box.BackgroundTransparency = 0.5
+                _box.Size = UDim2.new(0, 100, 0, 100)
+                _box.Position = UDim2.new(0, 0, 0, 0)
+                _box.BackgroundTransparency = 0
                 _box.BorderColor3 = Color3.fromRGB(255, 0, 0)
-                _box.BorderSizePixel = 5
+                _box.BorderSizePixel = 3
                 _box.Parent = _b
                 
-                -- Criar linhas conectando o jogador
+                -- Criar linha conectando o jogador
                 local _line = Instance.new("Frame")
                 _line.Size = UDim2.new(0, 5, 0, 200)
                 _line.Position = UDim2.new(0.5, -2, 0, 100)
                 _line.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
                 _line.Parent = _b
                 
-                -- Atualizar a posição da caixa e linha
+                -- Atualizando a posição da caixa e linha
                 game:GetService("RunService").Heartbeat:Connect(function()
                     if _i.Character and _i.Character:FindFirstChild("HumanoidRootPart") then
                         local screenPos, onScreen = game.Workspace.CurrentCamera:WorldToScreenPoint(_i.Character.HumanoidRootPart.Position)
                         if onScreen then
-                            _box.Position = UDim2.new(0, screenPos.X - 100, 0, screenPos.Y - 100)
+                            _box.Position = UDim2.new(0, screenPos.X - 50, 0, screenPos.Y - 50)
                             _line.Position = UDim2.new(0, screenPos.X - 2, 0, screenPos.Y)
+                            _line.Size = UDim2.new(0, 5, 0, screenPos.Y)
                         else
                             _box.Visible = false
                             _line.Visible = false
@@ -126,4 +127,16 @@ _i.MouseButton1Click:Connect(function()
     -- Exemplo de teleportação para um local específico no Brookhaven (ex: para uma casa)
     local targetPosition = CFrame.new(10, 0, 10)  -- Exemplo de coordenadas
     _a.Character:SetPrimaryPartCFrame(targetPosition)
+end)
+
+-- Outro exemplo de função adicional: mudar a cor do personagem
+local _j = Instance.new("TextButton")
+_j.Size = UDim2.new(0, 200, 0, 50)
+_j.Position = UDim2.new(0.5, -100, 0, 250)
+_j.Text = "Mudar Cor do Personagem"
+_j.Parent = _d
+_j.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+
+_j.MouseButton1Click:Connect(function()
+    _a.Character.HumanoidRootPart.BrickColor = BrickColor.Random() -- Muda a cor do personagem
 end)
