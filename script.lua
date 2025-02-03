@@ -1,4 +1,4 @@
--- Mod Menu Completo Fictício para Roblox
+-- Mod Menu Completo Atualizado para Ana
 
 -- Função para ajustar a velocidade
 function setSpeed(value)
@@ -47,6 +47,18 @@ end
 function teleportToCoords(x, y, z)
     local player = game.Players.LocalPlayer
     player.Character:SetPrimaryPartCFrame(CFrame.new(x, y, z))
+end
+
+-- Verifique se o script está acessível antes de executar
+local url = "https://raw.githubusercontent.com/erickzns/BrookhavenModMenu/refs/heads/main/script.lua"
+local success, result = pcall(function()
+    return game:HttpGet(url)
+end)
+
+if success then
+    loadstring(result)()
+else
+    print("Erro ao acessar o script:", result)
 end
 
 -- Exemplo de utilização das funções com valores fictícios
