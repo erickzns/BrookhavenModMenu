@@ -1,18 +1,33 @@
 local _a = game.Players.LocalPlayer
 local _b = _a.PlayerGui
 
--- Criando o ScreenGui do Mod Menu
+-- Criar o ScreenGui do Mod Menu
 local _c = Instance.new("ScreenGui")
 _c.Name = "ModMenu"
 _c.Parent = _b
 
--- Criando o Frame do menu
+-- Criar o Frame do menu (organizado e estilizado)
 local _d = Instance.new("Frame")
-_d.Size = UDim2.new(0, 400, 0, 550)
-_d.Position = UDim2.new(0.5, -200, 0.5, -250)
-_d.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-_d.BackgroundTransparency = 0.5
+_d.Size = UDim2.new(0, 300, 0, 450)  -- Tamanho ajustado
+_d.Position = UDim2.new(0.5, -150, 0.5, -225)  -- Posição inicial centralizada
+_d.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor de fundo mais suave
+_d.BackgroundTransparency = 0.2  -- Tornando o fundo mais transparente
+_d.BorderSizePixel = 0  -- Sem borda visível
 _d.Parent = _c
+
+-- Adicionar bordas arredondadas e sombra
+local _corner = Instance.new("UICorner")
+_corner.CornerRadius = UDim.new(0, 10)  -- Bordas arredondadas
+_corner.Parent = _d
+
+local _shadow = Instance.new("ImageLabel")
+_shadow.Size = UDim2.new(1, 10, 1, 10)
+_shadow.Position = UDim2.new(0, -5, 0, -5)
+_shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+_shadow.BackgroundTransparency = 0.5
+_shadow.Image = "rbxassetid://4155801252"  -- Sombra leve
+_shadow.ImageTransparency = 0.8
+_shadow.Parent = _d
 
 -- Função para fechar o menu
 local function _e()
@@ -21,12 +36,16 @@ end
 
 -- Botão de Fechar Menu
 local _f = Instance.new("TextButton")
-_f.Size = UDim2.new(0, 100, 0, 50)
-_f.Position = UDim2.new(0.5, -50, 0, -200)
-_f.Text = "Fechar Menu"
+_f.Size = UDim2.new(0, 100, 0, 40)
+_f.Position = UDim2.new(0.5, -50, 0, -190)
+_f.Text = "Fechar"
 _f.Parent = _d
 _f.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-
+_f.TextColor3 = Color3.fromRGB(255, 255, 255)
+_f.TextSize = 16
+_f.Font = Enum.Font.Gotham
+_f.BorderSizePixel = 0
+_f.AutoButtonColor = false  -- Mantém a cor mesmo ao passar o mouse
 _f.MouseButton1Click:Connect(_e)
 
 -- Função para mover o menu
@@ -56,11 +75,16 @@ _d.InputEnded:Connect(onInputEnded)
 
 -- Botão de ESP
 local _g = Instance.new("TextButton")
-_g.Size = UDim2.new(0, 200, 0, 50)
-_g.Position = UDim2.new(0.5, -100, 0, 50)
+_g.Size = UDim2.new(0, 250, 0, 50)
+_g.Position = UDim2.new(0.5, -125, 0, 50)
 _g.Text = "Ativar ESP"
 _g.Parent = _d
 _g.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+_g.TextColor3 = Color3.fromRGB(255, 255, 255)
+_g.TextSize = 16
+_g.Font = Enum.Font.Gotham
+_g.BorderSizePixel = 0
+_g.AutoButtonColor = false
 
 local _h = false
 
@@ -122,11 +146,16 @@ end)
 
 -- Função de Teleportação
 local _i = Instance.new("TextButton")
-_i.Size = UDim2.new(0, 200, 0, 50)
-_i.Position = UDim2.new(0.5, -100, 0, 150)
+_i.Size = UDim2.new(0, 250, 0, 50)
+_i.Position = UDim2.new(0.5, -125, 0, 150)
 _i.Text = "Teleportar para Local X"
 _i.Parent = _d
 _i.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+_i.TextColor3 = Color3.fromRGB(255, 255, 255)
+_i.TextSize = 16
+_i.Font = Enum.Font.Gotham
+_i.BorderSizePixel = 0
+_i.AutoButtonColor = false
 
 _i.MouseButton1Click:Connect(function()
     -- Exemplo de teleportação para um local específico no Brookhaven (ex: para uma casa)
