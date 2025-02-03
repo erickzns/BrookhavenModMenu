@@ -55,31 +55,73 @@ local function createCheatCheckbox(name, position, onChange)
 end
 
 -- Caixa de marcar para Aumentar Velocidade
-createCheatCheckbox("Aumentar Velocidade", UDim2.new(0, 10, 0.2, 0), function(isEnabled)
+createCheatCheckbox("Aumentar Velocidade", UDim2.new(0, 10, 0.1, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     character.Humanoid.WalkSpeed = isEnabled and 100 or 16 -- Ativa/desativa a trapaça de velocidade
 end)
 
 -- Caixa de marcar para Pular Mais Alto
-createCheatCheckbox("Pular Mais Alto", UDim2.new(0, 10, 0.4, 0), function(isEnabled)
+createCheatCheckbox("Pular Mais Alto", UDim2.new(0, 10, 0.2, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     character.Humanoid.JumpPower = isEnabled and 150 or 50 -- Ativa/desativa a trapaça de pular alto
 end)
 
 -- Caixa de marcar para Invisibilidade
-createCheatCheckbox("Invisibilidade", UDim2.new(0, 10, 0.6, 0), function(isEnabled)
+createCheatCheckbox("Invisibilidade", UDim2.new(0, 10, 0.3, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     character.HumanoidRootPart.Transparency = isEnabled and 0.5 or 0 -- Ativa/desativa a trapaça de invisibilidade
+    for _, part in pairs(character:GetChildren()) do
+        if part:IsA("BasePart") then
+            part.Transparency = isEnabled and 0.5 or 0
+        end
+    end
 end)
 
 -- Caixa de marcar para Cura Instantânea
-createCheatCheckbox("Cura Instantânea", UDim2.new(0, 10, 0.8, 0), function(isEnabled)
+createCheatCheckbox("Cura Instantânea", UDim2.new(0, 10, 0.4, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     if isEnabled then
         character.Humanoid.Health = character.Humanoid.MaxHealth -- Cura o jogador
+    end
+end)
+
+-- Caixa de marcar para Voo
+createCheatCheckbox("Voo", UDim2.new(0, 10, 0.5, 0), function(isEnabled)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    if isEnabled then
+        character.Humanoid.PlatformStand = true
+        local bodyGyro = Instance.new("BodyGyro")
+        bodyGyro.P = 9e4
+        bodyGyro.Parent = character.HumanoidRootPart
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+        bodyVelocity.MaxForce = Vector3.new(9e4, 9e4, 9e4)
+        bodyVelocity.Parent = character.HumanoidRootPart
+        character.HumanoidRootPart.BodyGyro = bodyGyro
+        character.HumanoidRootPart.BodyVelocity = bodyVelocity
+    else
+        character.Humanoid.PlatformStand = false
+        if character.HumanoidRootPart:FindFirstChild("BodyGyro") then
+            character.HumanoidRootPart.BodyGyro:Destroy()
+        end
+        if character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
+            character.HumanoidRootPart.BodyVelocity:Destroy()
+        end
+    end
+end)
+
+-- Caixa de marcar para Super Força
+createCheatCheckbox("Super Força", UDim2.new(0, 10, 0.6, 0), function(isEnabled)
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    if isEnabled then
+        character.Humanoid.Strength = 100 -- Aumenta a força do jogador
+    else
+        character.Humanoid.Strength = 10 -- Define a força do jogador de volta ao normal
     end
 end)
