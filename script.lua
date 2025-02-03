@@ -27,19 +27,54 @@ titleLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Parent = menu
 
--- Função para aumentar a velocidade
-local speedCheckbox = Instance.new("TextButton")
-speedCheckbox.Size = UDim2.new(1, 0, 0, 40)
-speedCheckbox.Position = UDim2.new(0, 0, 0.1, 0)
-speedCheckbox.Text = "Aumentar Velocidade"
-speedCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-speedCheckbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-speedCheckbox.Parent = scrollingFrame
+-- Função para criar uma caixinha de marcação
+local function createCheckbox(labelText, positionY, callback)
+    local checkboxFrame = Instance.new("Frame")
+    checkboxFrame.Size = UDim2.new(1, 0, 0, 30)
+    checkboxFrame.Position = UDim2.new(0, 0, positionY, 0)
+    checkboxFrame.BackgroundTransparency = 1
+    checkboxFrame.Parent = scrollingFrame
 
-local speedActive = false
-speedCheckbox.MouseButton1Click:Connect(function()
-    speedActive = not speedActive
-    if speedActive then
+    -- Caixinha de marcação
+    local checkbox = Instance.new("TextButton")
+    checkbox.Size = UDim2.new(0, 20, 0, 20)
+    checkbox.Position = UDim2.new(0, 0, 0.5, -10)
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    checkbox.BorderSizePixel = 1
+    checkbox.Text = ""
+    checkbox.Parent = checkboxFrame
+
+    -- Nome da função
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -30, 1, 0)
+    label.Position = UDim2.new(0, 30, 0, 0)
+    label.Text = labelText
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = checkboxFrame
+
+    -- Variável para controlar o estado da caixa de marcação
+    local isChecked = false
+
+    -- Função para lidar com a marcação
+    checkbox.MouseButton1Click:Connect(function()
+        isChecked = not isChecked
+        if isChecked then
+            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Cor verde quando marcado
+            callback(true)
+        else
+            checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)  -- Cor branca quando desmarcado
+            callback(false)
+        end
+    end)
+
+    return checkboxFrame
+end
+
+-- Função para aumentar a velocidade
+createCheckbox("Aumentar Velocidade", 0.1, function(isChecked)
+    if isChecked then
         player.Character.Humanoid.WalkSpeed = 100
     else
         player.Character.Humanoid.WalkSpeed = 16 -- Valor padrão de velocidade
@@ -47,18 +82,8 @@ speedCheckbox.MouseButton1Click:Connect(function()
 end)
 
 -- Função para teleportar
-local teleportCheckbox = Instance.new("TextButton")
-teleportCheckbox.Size = UDim2.new(1, 0, 0, 40)
-teleportCheckbox.Position = UDim2.new(0, 0, 0.2, 0)
-teleportCheckbox.Text = "Teletransportar"
-teleportCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-teleportCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0)
-teleportCheckbox.Parent = scrollingFrame
-
-local teleportActive = false
-teleportCheckbox.MouseButton1Click:Connect(function()
-    teleportActive = not teleportActive
-    if teleportActive then
+createCheckbox("Teletransportar", 0.2, function(isChecked)
+    if isChecked then
         -- Teletransporta para a posição do mouse
         local targetPosition = mouse.Hit.p
         player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
@@ -66,18 +91,8 @@ teleportCheckbox.MouseButton1Click:Connect(function()
 end)
 
 -- Função para dar dinheiro
-local moneyCheckbox = Instance.new("TextButton")
-moneyCheckbox.Size = UDim2.new(1, 0, 0, 40)
-moneyCheckbox.Position = UDim2.new(0, 0, 0.3, 0)
-moneyCheckbox.Text = "Dar Dinheiro"
-moneyCheckbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-moneyCheckbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-moneyCheckbox.Parent = scrollingFrame
-
-local moneyActive = false
-moneyCheckbox.MouseButton1Click:Connect(function()
-    moneyActive = not moneyActive
-    if moneyActive then
+createCheckbox("Dar Dinheiro", 0.3, function(isChecked)
+    if isChecked then
         local leaderstats = player:FindFirstChild("leaderstats")
         if leaderstats then
             local money = leaderstats:FindFirstChild("Dinheiro")
@@ -89,18 +104,8 @@ moneyCheckbox.MouseButton1Click:Connect(function()
 end)
 
 -- Função para dar vidas extras
-local healthCheckbox = Instance.new("TextButton")
-healthCheckbox.Size = UDim2.new(1, 0, 0, 40)
-healthCheckbox.Position = UDim2.new(0, 0, 0.4, 0)
-healthCheckbox.Text = "Dar Vidas Extras"
-healthCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
-healthCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0)
-healthCheckbox.Parent = scrollingFrame
-
-local healthActive = false
-healthCheckbox.MouseButton1Click:Connect(function()
-    healthActive = not healthActive
-    if healthActive then
+createCheckbox("Dar Vidas Extras", 0.4, function(isChecked)
+    if isChecked then
         local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
         if humanoid then
             humanoid.Health = humanoid.MaxHealth -- Restabelece toda a vida
@@ -109,19 +114,8 @@ healthCheckbox.MouseButton1Click:Connect(function()
 end)
 
 -- Função para ESP (ver jogadores através das paredes)
-local espCheckbox = Instance.new("TextButton")
-espCheckbox.Size = UDim2.new(1, 0, 0, 40)
-espCheckbox.Position = UDim2.new(0, 0, 0.5, 0)
-espCheckbox.Text = "Ativar ESP"
-espCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
-espCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0)
-espCheckbox.Parent = scrollingFrame
-
-local espActive = false
-espCheckbox.MouseButton1Click:Connect(function()
-    espActive = not espActive
-    if espActive then
-        espCheckbox.Text = "Desativar ESP"
+createCheckbox("Ativar ESP", 0.5, function(isChecked)
+    if isChecked then
         -- Ativar ESP
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
             if otherPlayer ~= player then
@@ -139,7 +133,6 @@ espCheckbox.MouseButton1Click:Connect(function()
             end
         end
     else
-        espCheckbox.Text = "Ativar ESP"
         -- Desativar ESP
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
             if otherPlayer ~= player then
