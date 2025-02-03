@@ -4,13 +4,25 @@ screenGui.Name = "ModMenuGui"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
+-- Criar a bolinha para abrir/minimizar o menu
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 50, 0, 50)
+toggleButton.Position = UDim2.new(0, 10, 0.5, -25)
+toggleButton.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+toggleButton.Text = "O"
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.TextSize = 24
+toggleButton.TextColor3 = Color3.new(1, 1, 1)
+toggleButton.Parent = screenGui
+
 -- Criar Frame para o menu
 local menuFrame = Instance.new("Frame")
-menuFrame.Size = UDim2.new(0, 400, 0, 600) -- Aumentar a altura para caber mais funções
-menuFrame.Position = UDim2.new(0.5, -200, 0.5, -300) -- Ajustar posição para centralizar
+menuFrame.Size = UDim2.new(0, 400, 0, 600)
+menuFrame.Position = UDim2.new(0.5, -200, 0.5, -300)
 menuFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
 menuFrame.BorderSizePixel = 0
 menuFrame.BackgroundTransparency = 0.5
+menuFrame.Visible = false -- Iniciar com o menu minimizado
 menuFrame.Parent = screenGui
 
 -- Título do Menu
@@ -160,17 +172,3 @@ createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), mainTab, function(isEnab
             for _, part in pairs(character:GetDescendants()) do
                 if part:IsA("BasePart") then
                     part.CanCollide = false
-                end
-            end
-        end)
-    else
-        if noclipConnection then
-            noclipConnection:Disconnect()
-            for _, part in pairs(character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = true
-                end
-            end
-        end
-    end
-end)
