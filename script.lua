@@ -210,6 +210,7 @@ createCheckbox("ESP Linha", 0.7, function(isChecked)
                         line.CanCollide = false
                         line.Color = Color3.fromRGB(255, 255, 255)
                         line.Parent = game.Workspace
+
                         -- Alinhar a linha para que fique na direção certa
                         line.CFrame = CFrame.new(player.Character.HumanoidRootPart.Position, humanoidRootPart.Position)
                     end
