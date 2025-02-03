@@ -5,8 +5,8 @@ screenGui.Parent = player.PlayerGui
 
 -- Criando o menu flutuante
 local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 200)
-menu.Position = UDim2.new(0.5, -150, 0.5, -100)
+menu.Size = UDim2.new(0, 300, 0, 300)
+menu.Position = UDim2.new(0.5, -150, 0.5, -150)
 menu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 menu.Parent = screenGui
 
@@ -21,7 +21,7 @@ titleLabel.Parent = menu
 -- Função para aumentar a velocidade
 local speedButton = Instance.new("TextButton")
 speedButton.Size = UDim2.new(1, 0, 0, 40)
-speedButton.Position = UDim2.new(0, 0, 0.2, 0)
+speedButton.Position = UDim2.new(0, 0, 0.1, 0)
 speedButton.Text = "Aumentar Velocidade"
 speedButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 speedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -34,7 +34,7 @@ end)
 -- Função para teleportar
 local teleportButton = Instance.new("TextButton")
 teleportButton.Size = UDim2.new(1, 0, 0, 40)
-teleportButton.Position = UDim2.new(0, 0, 0.4, 0)
+teleportButton.Position = UDim2.new(0, 0, 0.2, 0)
 teleportButton.Text = "Teletransportar"
 teleportButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
 teleportButton.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -49,7 +49,7 @@ end)
 -- Função para dar dinheiro
 local moneyButton = Instance.new("TextButton")
 moneyButton.Size = UDim2.new(1, 0, 0, 40)
-moneyButton.Position = UDim2.new(0, 0, 0.6, 0)
+moneyButton.Position = UDim2.new(0, 0, 0.3, 0)
 moneyButton.Text = "Dar Dinheiro"
 moneyButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 moneyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -69,7 +69,7 @@ end)
 -- Função para dar vidas extras
 local healthButton = Instance.new("TextButton")
 healthButton.Size = UDim2.new(1, 0, 0, 40)
-healthButton.Position = UDim2.new(0, 0, 0.8, 0)
+healthButton.Position = UDim2.new(0, 0, 0.4, 0)
 healthButton.Text = "Dar Vidas Extras"
 healthButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
 healthButton.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -80,6 +80,54 @@ healthButton.MouseButton1Click:Connect(function()
     local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
     if humanoid then
         humanoid.Health = humanoid.MaxHealth -- Restabelece toda a vida
+    end
+end)
+
+-- Função para ESP (ver jogadores através das paredes)
+local espButton = Instance.new("TextButton")
+espButton.Size = UDim2.new(1, 0, 0, 40)
+espButton.Position = UDim2.new(0, 0, 0.5, 0)
+espButton.Text = "Ativar ESP"
+espButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+espButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+espButton.Parent = menu
+
+local espActive = false
+
+espButton.MouseButton1Click:Connect(function()
+    espActive = not espActive
+    if espActive then
+        espButton.Text = "Desativar ESP"
+        -- Ativar ESP
+        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+            if otherPlayer ~= player then
+                local box = Instance.new("BillboardGui")
+                box.Adornee = otherPlayer.Character
+                box.Size = UDim2.new(0, 100, 0, 100)
+                box.StudsOffset = Vector3.new(0, 5, 0)
+                box.AlwaysOnTop = true
+                box.Parent = otherPlayer.Character
+
+                local frame = Instance.new("Frame")
+                frame.Size = UDim2.new(1, 0, 1, 0)
+                frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                frame.Parent = box
+            end
+        end
+    else
+        espButton.Text = "Ativar ESP"
+        -- Desativar ESP
+        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+            if otherPlayer ~= player then
+                local character = otherPlayer.Character
+                if character then
+                    local box = character:FindFirstChildOfClass("BillboardGui")
+                    if box then
+                        box:Destroy()
+                    end
+                end
+            end
+        end
     end
 end)
 
