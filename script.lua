@@ -99,27 +99,31 @@ _g.MouseButton1Click:Connect(function()
                 -- Criar caixa ao redor do jogador
                 local _box = Instance.new("Frame")
                 _box.Size = UDim2.new(0, 200, 0, 200)
-                _box.Position = UDim2.new(0, 100, 0, 100)
                 _box.BackgroundTransparency = 0.5
                 _box.BorderColor3 = Color3.fromRGB(255, 0, 0)
                 _box.BorderSizePixel = 5
                 _box.Parent = _b
-                
-                -- Criar linhas conectando o jogador
+                _box.Visible = false  -- Começa invisível
+
+                -- Criar linha conectando o jogador
                 local _line = Instance.new("Frame")
                 _line.Size = UDim2.new(0, 5, 0, 200)
-                _line.Position = UDim2.new(0.5, -2, 0, 100)
                 _line.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
                 _line.Parent = _b
-                
+                _line.Visible = false  -- Começa invisível
+
                 -- Atualizar a posição da caixa e linha
                 game:GetService("RunService").Heartbeat:Connect(function()
                     if _i.Character and _i.Character:FindFirstChild("HumanoidRootPart") then
                         local screenPos, onScreen = game.Workspace.CurrentCamera:WorldToScreenPoint(_i.Character.HumanoidRootPart.Position)
                         if onScreen then
-                            -- Posiciona a caixa
+                            -- Tornar a caixa e linha visíveis quando o jogador estiver na tela
+                            _box.Visible = true
+                            _line.Visible = true
+
+                            -- Posiciona a caixa em torno do jogador
                             _box.Position = UDim2.new(0, screenPos.X - 100, 0, screenPos.Y - 100)
-                            -- Posiciona a linha
+                            -- Posiciona a linha conectando o jogador
                             _line.Position = UDim2.new(0, screenPos.X - 2, 0, screenPos.Y)
                         else
                             -- Se o jogador sair da tela, esconda a caixa e linha
@@ -137,7 +141,7 @@ _g.MouseButton1Click:Connect(function()
         _g.Text = "Ativar ESP"
         -- Desativar o ESP (remover as caixas e linhas)
         for _, _k in ipairs(_b:GetChildren()) do
-            if _k:IsA("Frame") then
+            if _k:IsA("Frame") and _k.BorderSizePixel == 5 then
                 _k:Destroy()
             end
         end
