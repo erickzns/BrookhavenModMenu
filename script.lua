@@ -9,7 +9,7 @@ local function createModMenu()
 
     -- Criando o Frame do Menu
     local menuFrame = Instance.new("Frame")
-    menuFrame.Size = UDim2.new(0, 300, 0, 600)
+    menuFrame.Size = UDim2.new(0, 300, 0, 400)
     menuFrame.Position = UDim2.new(0, 10, 0, 10)
     menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     menuFrame.BackgroundTransparency = 0.5
@@ -17,7 +17,7 @@ local function createModMenu()
 
     -- Criando o Título do Menu
     local titleLabel = Instance.new("TextLabel")
-    titleLabel.Size = UDim2.new(1, 0, 0, 50)
+    titleLabel.Size = UDim2.new(1, 0, 0, 30)
     titleLabel.Position = UDim2.new(0, 0, 0, 0)
     titleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     titleLabel.Text = "Ghos Menu"
@@ -28,7 +28,7 @@ local function createModMenu()
     -- Função para criar um botão de alternância
     local function createToggleButton(parent, position, text, toggleFunction)
         local button = Instance.new("TextButton")
-        button.Size = UDim2.new(1, -20, 0, 50)
+        button.Size = UDim2.new(1, -20, 0, 30)
         button.Position = position
         button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
         button.Text = text
@@ -55,7 +55,7 @@ local function createModMenu()
     -- Função para criar um slider
     local function createSlider(parent, position, min, max, callback)
         local sliderFrame = Instance.new("Frame")
-        sliderFrame.Size = UDim2.new(1, -20, 0, 50)
+        sliderFrame.Size = UDim2.new(1, -20, 0, 30)
         sliderFrame.Position = position
         sliderFrame.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
         sliderFrame.Parent = parent
@@ -92,7 +92,7 @@ local function createModMenu()
     local player = game.Players.LocalPlayer
 
     -- Velocidade Extra (Speed Hack)
-    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 60), "Ativar Velocidade", function(active)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 40), "Ativar Velocidade", function(active)
         if active then
             player.Character.Humanoid.WalkSpeed = 50
         else
@@ -100,14 +100,14 @@ local function createModMenu()
         end
     end)
 
-    createSlider(menuFrame, UDim2.new(0, 10, 0, 120), 1, 10, function(value)
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 80), 1, 10, function(value)
         if player.Character.Humanoid.WalkSpeed > 16 then
             player.Character.Humanoid.WalkSpeed = 16 * value
         end
     end)
 
     -- Super Salto (Super Jump)
-    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 180), "Ativar Super Salto", function(active)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 120), "Ativar Super Salto", function(active)
         if active then
             player.Character.Humanoid.JumpPower = 100
         else
@@ -115,14 +115,14 @@ local function createModMenu()
         end
     end)
 
-    createSlider(menuFrame, UDim2.new(0, 10, 0, 240), 1, 10, function(value)
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 160), 1, 10, function(value)
         if player.Character.Humanoid.JumpPower > 50 then
             player.Character.Humanoid.JumpPower = 50 * value
         end
     end)
 
     -- Gravidade Zero (Low Gravity)
-    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 300), "Ativar Gravidade Zero", function(active)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 200), "Ativar Gravidade Zero", function(active)
         if active then
             game.Workspace.Gravity = 50
         else
@@ -130,10 +130,48 @@ local function createModMenu()
         end
     end)
 
-    createSlider(menuFrame, UDim2.new(0, 10, 0, 360), 0, 1, function(value)
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 240), 0, 1, function(value)
         if game.Workspace.Gravity < 196.2 then
             game.Workspace.Gravity = 196.2 * (1 - value)
         end
+    end)
+
+    -- Invencibilidade (God Mode)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 280), "Ativar Invencibilidade", function(active)
+        if active then
+            player.Character.Humanoid.MaxHealth = math.huge
+            player.Character.Humanoid.Health = math.huge
+        else
+            player.Character.Humanoid.MaxHealth = 100
+            player.Character.Humanoid.Health = 100
+        end
+    end)
+
+    -- Voo (Fly Mode)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 320), "Ativar Voo", function(active)
+        -- Função fictícia para voo
+        if active then
+            print("Voo ativado")
+        else
+            print("Voo desativado")
+        end
+    end)
+
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 360), 0, 1, function(value)
+        print("Velocidade de voo ajustada para: " .. value)
+    end)
+
+    -- Teleportação (Teleportation)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 400), "Ativar Teleportação", function(active)
+        if active then
+            print("Teleportação ativada")
+        else
+            print("Teleportação desativada")
+        end
+    end)
+
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 440), 1, 100, function(value)
+        print("Distância de teleporte ajustada para: " .. value)
     end)
 end
 
