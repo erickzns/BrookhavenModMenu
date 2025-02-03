@@ -1,103 +1,105 @@
--- Mod Menu Completo para Roblox com rolagem e caixas de seleção
--- Certifique-se de usar scripts em conformidade com os Termos de Serviço do Roblox.
+-- Mod Menu Completo Fictício para Roblox
 
--- Interface de Usuário
-local ScreenGui = Instance.new("ScreenGui")
-local ScrollingFrame = Instance.new("ScrollingFrame")
-local UIListLayout = Instance.new("UIListLayout")
+-- Função para ajustar a velocidade
+function setSpeed(value)
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.WalkSpeed = value
+end
 
--- Adicionando caixas de seleção para cada função
-local functions = {
-    {name = "Velocidade Extra (Speed Hack)", action = function(value)
-        local Player = game.Players.LocalPlayer
-        Player.Character.Humanoid.WalkSpeed = value and 50 or 16 -- 16 é o valor padrão
-    end},
-    {name = "Super Salto (Super Jump)", action = function(value)
-        local Player = game.Players.LocalPlayer
-        Player.Character.Humanoid.JumpPower = value and 100 or 50 -- 50 é o valor padrão
-    end},
-    {name = "Gravidade Zero (Low Gravity)", action = function(value)
-        game.Workspace.Gravity = value and 50 or 196.2 -- 196.2 é o valor padrão
-    end},
-    {name = "Invencibilidade (God Mode)", action = function(value)
-        local Player = game.Players.LocalPlayer
-        Player.Character.Humanoid.MaxHealth = value and math.huge or 100
-        Player.Character.Humanoid.Health = value and math.huge or 100
-    end},
-    {name = "Voo (Fly)", action = function(value)
-        local Player = game.Players.LocalPlayer
-        local Humanoid = Player.Character.Humanoid
-        Humanoid.PlatformStand = value
-        Humanoid:ChangeState(value and Enum.HumanoidStateType.Physics or Enum.HumanoidStateType.Running)
-    end},
-    {name = "Mudar Aparência (Character Customization)", action = function(value)
-        -- Adicione a lógica para abrir o editor de aparência
-    end},
-    {name = "Mudar Cores (Color Swap)", action = function(value)
-        -- Adicione a lógica para alterar cores
-    end},
-    {name = "Mudar o Céu (Skybox)", action = function(value)
-        -- Adicione a lógica para alterar o céu
-    end},
-    {name = "Efeitos Visuais (Visual Effects)", action = function(value)
-        -- Adicione a lógica para ativar efeitos visuais
-    end},
-    {name = "Desempenho Máximo (Max Performance)", action = function(value)
-        -- Adicione a lógica para ativar máxima performance
-    end},
-    {name = "FPS Boost", action = function(value)
-        -- Adicione a lógica para ativar FPS Boost
-    end},
-    {name = "Modo de Construção (Build Mode)", action = function(value)
-        -- Adicione a lógica para ativar modo de construção
-    end},
-    {name = "Manipular Objetos (Object Manipulation)", action = function(value)
-        -- Adicione a lógica para manipular objetos
-    end},
-    {name = "Teleportar (Teleportation)", action = function(value)
-        -- Adicione a lógica para teletransportar
-    end},
-    {name = "Modo de Espectador (Spectator Mode)", action = function(value)
-        -- Adicione a lógica para ativar modo espectador
-    end},
-    {name = "Mostrar/Ocultar Jogadores (Show/Hide Players)", action = function(value)
-        -- Adicione a lógica para mostrar/ocultar jogadores
-    end},
-    {name = "Modo Noturno (Night Mode)", action = function(value)
-        -- Adicione a lógica para ativar modo noturno
-    end},
-    {name = "Recompensas Automáticas (Auto Collect)", action = function(value)
-        -- Adicione a lógica para ativar coleta automática
-    end},
-    {name = "Auto Play (Auto Play Mode)", action = function(value)
-        -- Adicione a lógica para ativar auto play
-    end},
-    {name = "HUD Personalizável (Customizable HUD)", action = function(value)
-        -- Adicione a lógica para personalizar HUD
-    end},
-    {name = "Comandos de Chat", action = function(value)
-        -- Adicione a lógica para ativar comandos de chat
-    end},
-}
+-- Função para ajustar a altura do salto
+function setJumpPower(value)
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.JumpPower = value
+end
 
--- Propriedades da Interface
-ScreenGui.Parent = game.CoreGui
+-- Função para ajustar a gravidade
+function setGravity(value)
+    game.Workspace.Gravity = value
+end
 
-ScrollingFrame.Parent = ScreenGui
-ScrollingFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-ScrollingFrame.Position = UDim2.new(0, 50, 0, 50)
-ScrollingFrame.Size = UDim2.new(0, 300, 0, 300) -- Altura ajustada para 300
-ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, #functions * 40)
-ScrollingFrame.ScrollBarThickness = 10
+-- Função para ativar/desativar invencibilidade
+function setInvincible(toggle)
+    local player = game.Players.LocalPlayer
+    if toggle then
+        player.Character.Humanoid.MaxHealth = math.huge
+        player.Character.Humanoid.Health = math.huge
+    else
+        player.Character.Humanoid.MaxHealth = 100
+        player.Character.Humanoid.Health = 100
+    end
+end
 
-UIListLayout.Parent = ScrollingFrame
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 5)
+-- Função para voar
+function fly(value)
+    -- Função fictícia para voo
+end
 
--- Função para criar caixas de seleção
-local function createCheckbox(name, action)
-    local checkbox = Instance.new("TextButton")
-    checkbox.Parent = ScrollingFrame
-    checkbox.Text = "[ ] " .. name
-    checkbox.Size = UDim2.new(0, 280, 0, 30)
-    checkbox
+-- Função para teleportar para um jogador
+function teleportToPlayer(playerName)
+    local player = game.Players.LocalPlayer
+    local targetPlayer = game.Players:FindFirstChild(playerName)
+    if targetPlayer then
+        player.Character:SetPrimaryPartCFrame(targetPlayer.Character:GetPrimaryPartCFrame())
+    end
+end
+
+-- Função para teleportar para coordenadas
+function teleportToCoords(x, y, z)
+    local player = game.Players.LocalPlayer
+    player.Character:SetPrimaryPartCFrame(CFrame.new(x, y, z))
+end
+
+-- Exemplo de utilização das funções com valores fictícios
+local speedToggle = true
+local speedValue = 10
+
+local jumpToggle = true
+local jumpValue = 100
+
+local gravityToggle = true
+local gravityValue = 50
+
+local godModeToggle = true
+
+local flyToggle = true
+local flySpeed = 50
+
+local teleportToggle = true
+local teleportType = "player"
+local targetPlayer = "TargetPlayerName"
+local targetCoords = {x = 0, y = 10, z = 0}
+
+-- Aplicando as funcionalidades com base nos valores fictícios
+if speedToggle then
+    setSpeed(speedValue)
+else
+    setSpeed(16)
+end
+
+if jumpToggle then
+    setJumpPower(jumpValue)
+else
+    setJumpPower(50)
+end
+
+if gravityToggle then
+    setGravity(gravityValue)
+else
+    setGravity(196.2)
+end
+
+setInvincible(godModeToggle)
+
+if flyToggle then
+    fly(flySpeed)
+else
+    fly(0)
+end
+
+if teleportToggle then
+    if teleportType == "player" then
+        teleportToPlayer(targetPlayer)
+    else
+        teleportToCoords(targetCoords.x, targetCoords.y, targetCoords.z)
+    end
+end
