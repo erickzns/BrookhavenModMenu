@@ -5,10 +5,19 @@ screenGui.Parent = player.PlayerGui
 
 -- Criando o menu flutuante
 local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 300)
-menu.Position = UDim2.new(0.5, -150, 0.5, -150)
+menu.Size = UDim2.new(0, 300, 0, 400)
+menu.Position = UDim2.new(0.5, -150, 0.5, -200)
 menu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 menu.Parent = screenGui
+
+-- Criando a barra de rolagem
+local scrollingFrame = Instance.new("ScrollingFrame")
+scrollingFrame.Size = UDim2.new(1, 0, 1, 0)
+scrollingFrame.Position = UDim2.new(0, 0, 0, 40)
+scrollingFrame.BackgroundTransparency = 1
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 500)
+scrollingFrame.ScrollBarThickness = 10
+scrollingFrame.Parent = menu
 
 -- Título do Menu
 local titleLabel = Instance.new("TextLabel")
@@ -19,85 +28,100 @@ titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Parent = menu
 
 -- Função para aumentar a velocidade
-local speedButton = Instance.new("TextButton")
-speedButton.Size = UDim2.new(1, 0, 0, 40)
-speedButton.Position = UDim2.new(0, 0, 0.1, 0)
-speedButton.Text = "Aumentar Velocidade"
-speedButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-speedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-speedButton.Parent = menu
+local speedCheckbox = Instance.new("TextButton")
+speedCheckbox.Size = UDim2.new(1, 0, 0, 40)
+speedCheckbox.Position = UDim2.new(0, 0, 0.1, 0)
+speedCheckbox.Text = "Aumentar Velocidade"
+speedCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+speedCheckbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedCheckbox.Parent = scrollingFrame
 
-speedButton.MouseButton1Click:Connect(function()
-    player.Character.Humanoid.WalkSpeed = 100
+local speedActive = false
+speedCheckbox.MouseButton1Click:Connect(function()
+    speedActive = not speedActive
+    if speedActive then
+        player.Character.Humanoid.WalkSpeed = 100
+    else
+        player.Character.Humanoid.WalkSpeed = 16 -- Valor padrão de velocidade
+    end
 end)
 
 -- Função para teleportar
-local teleportButton = Instance.new("TextButton")
-teleportButton.Size = UDim2.new(1, 0, 0, 40)
-teleportButton.Position = UDim2.new(0, 0, 0.2, 0)
-teleportButton.Text = "Teletransportar"
-teleportButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-teleportButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-teleportButton.Parent = menu
+local teleportCheckbox = Instance.new("TextButton")
+teleportCheckbox.Size = UDim2.new(1, 0, 0, 40)
+teleportCheckbox.Position = UDim2.new(0, 0, 0.2, 0)
+teleportCheckbox.Text = "Teletransportar"
+teleportCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+teleportCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+teleportCheckbox.Parent = scrollingFrame
 
-teleportButton.MouseButton1Click:Connect(function()
-    -- Teletransporta para a posição do mouse
-    local targetPosition = mouse.Hit.p
-    player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+local teleportActive = false
+teleportCheckbox.MouseButton1Click:Connect(function()
+    teleportActive = not teleportActive
+    if teleportActive then
+        -- Teletransporta para a posição do mouse
+        local targetPosition = mouse.Hit.p
+        player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+    end
 end)
 
 -- Função para dar dinheiro
-local moneyButton = Instance.new("TextButton")
-moneyButton.Size = UDim2.new(1, 0, 0, 40)
-moneyButton.Position = UDim2.new(0, 0, 0.3, 0)
-moneyButton.Text = "Dar Dinheiro"
-moneyButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-moneyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-moneyButton.Parent = menu
+local moneyCheckbox = Instance.new("TextButton")
+moneyCheckbox.Size = UDim2.new(1, 0, 0, 40)
+moneyCheckbox.Position = UDim2.new(0, 0, 0.3, 0)
+moneyCheckbox.Text = "Dar Dinheiro"
+moneyCheckbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+moneyCheckbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+moneyCheckbox.Parent = scrollingFrame
 
-moneyButton.MouseButton1Click:Connect(function()
-    -- Aumenta a quantidade de dinheiro (presumindo que você tenha uma variável de dinheiro)
-    local leaderstats = player:FindFirstChild("leaderstats")
-    if leaderstats then
-        local money = leaderstats:FindFirstChild("Dinheiro")
-        if money then
-            money.Value = money.Value + 1000 -- Dá 1000 de dinheiro
+local moneyActive = false
+moneyCheckbox.MouseButton1Click:Connect(function()
+    moneyActive = not moneyActive
+    if moneyActive then
+        local leaderstats = player:FindFirstChild("leaderstats")
+        if leaderstats then
+            local money = leaderstats:FindFirstChild("Dinheiro")
+            if money then
+                money.Value = money.Value + 1000 -- Dá 1000 de dinheiro
+            end
         end
     end
 end)
 
 -- Função para dar vidas extras
-local healthButton = Instance.new("TextButton")
-healthButton.Size = UDim2.new(1, 0, 0, 40)
-healthButton.Position = UDim2.new(0, 0, 0.4, 0)
-healthButton.Text = "Dar Vidas Extras"
-healthButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
-healthButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-healthButton.Parent = menu
+local healthCheckbox = Instance.new("TextButton")
+healthCheckbox.Size = UDim2.new(1, 0, 0, 40)
+healthCheckbox.Position = UDim2.new(0, 0, 0.4, 0)
+healthCheckbox.Text = "Dar Vidas Extras"
+healthCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+healthCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+healthCheckbox.Parent = scrollingFrame
 
-healthButton.MouseButton1Click:Connect(function()
-    -- Dá mais vida ao jogador
-    local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-    if humanoid then
-        humanoid.Health = humanoid.MaxHealth -- Restabelece toda a vida
+local healthActive = false
+healthCheckbox.MouseButton1Click:Connect(function()
+    healthActive = not healthActive
+    if healthActive then
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.Health = humanoid.MaxHealth -- Restabelece toda a vida
+        end
     end
 end)
 
 -- Função para ESP (ver jogadores através das paredes)
-local espButton = Instance.new("TextButton")
-espButton.Size = UDim2.new(1, 0, 0, 40)
-espButton.Position = UDim2.new(0, 0, 0.5, 0)
-espButton.Text = "Ativar ESP"
-espButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
-espButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-espButton.Parent = menu
+local espCheckbox = Instance.new("TextButton")
+espCheckbox.Size = UDim2.new(1, 0, 0, 40)
+espCheckbox.Position = UDim2.new(0, 0, 0.5, 0)
+espCheckbox.Text = "Ativar ESP"
+espCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+espCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+espCheckbox.Parent = scrollingFrame
 
 local espActive = false
-
-espButton.MouseButton1Click:Connect(function()
+espCheckbox.MouseButton1Click:Connect(function()
     espActive = not espActive
     if espActive then
-        espButton.Text = "Desativar ESP"
+        espCheckbox.Text = "Desativar ESP"
         -- Ativar ESP
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
             if otherPlayer ~= player then
@@ -115,7 +139,7 @@ espButton.MouseButton1Click:Connect(function()
             end
         end
     else
-        espButton.Text = "Ativar ESP"
+        espCheckbox.Text = "Ativar ESP"
         -- Desativar ESP
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
             if otherPlayer ~= player then
