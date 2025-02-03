@@ -43,16 +43,8 @@ titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextSize = 24
 titleLabel.Parent = menuFrame
 
--- Criar aba principal
-local mainTab = Instance.new("Frame")
-mainTab.Size = UDim2.new(1, 0, 1, -50)
-mainTab.Position = UDim2.new(0, 0, 0, 50)
-mainTab.BackgroundTransparency = 1
-mainTab.Visible = true
-mainTab.Parent = menuFrame
-
 -- Função para criar caixas de marcar de trapaça
-local function createCheatCheckbox(name, position, parent, onChange)
+local function createCheatToggle(name, position, parent, isEnabled)
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(1, -20, 0, 40)
     frame.Position = position
@@ -60,7 +52,7 @@ local function createCheatCheckbox(name, position, parent, onChange)
     frame.Parent = parent
 
     local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -40, 1, 0)
+    label.Size = UDim2.new(0.7, 0, 1, 0)
     label.Position = UDim2.new(0, 0, 0, 0)
     label.BackgroundTransparency = 1
     label.Text = name
@@ -70,109 +62,64 @@ local function createCheatCheckbox(name, position, parent, onChange)
     label.TextXAlignment = Enum.TextXAlignment.Left
     label.Parent = frame
 
-    local checkbox = Instance.new("TextButton")
-    checkbox.Size = UDim2.new(0, 25, 0, 25)
-    checkbox.Position = UDim2.new(1, -30, 0.5, -12.5)
-    checkbox.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-    checkbox.Text = ""
-    checkbox.Parent = frame
+    local toggle = Instance.new("TextButton")
+    toggle.Size = UDim2.new(0, 60, 0, 30)
+    toggle.Position = UDim2.new(1, -70, 0.5, -15)
+    toggle.BackgroundColor3 = isEnabled and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
+    toggle.Text = isEnabled and "On" or "Off"
+    toggle.TextColor3 = Color3.new(1, 1, 1)
+    toggle.Font = Enum.Font.SourceSansBold
+    toggle.TextSize = 20
+    toggle.Parent = frame
 
-    checkbox.MouseButton1Click:Connect(function()
-        checkbox.BackgroundColor3 = checkbox.BackgroundColor3 == Color3.new(0.1, 0.1, 0.1) and Color3.new(0, 1, 0) or Color3.new(0.1, 0.1, 0.1)
-        onChange(checkbox.BackgroundColor3 == Color3.new(0, 1, 0))
+    toggle.MouseButton1Click:Connect(function()
+        isEnabled = not isEnabled
+        toggle.BackgroundColor3 = isEnabled and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
+        toggle.Text = isEnabled and "On" or "Off"
     end)
 end
 
 -- Adicionar caixas de marcar para diferentes funções
-createCheatCheckbox("Aumentar Velocidade", UDim2.new(0, 10, 0.1, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    character.Humanoid.WalkSpeed = isEnabled and 100 or 16
-end)
+createCheatToggle("Auto Cast", UDim2.new(0, 10, 0.1, 0), menuFrame, false)
+createCheatToggle("Auto Shake", UDim2.new(0, 10, 0.2, 0), menuFrame, true)
+createCheatToggle("Auto Reel", UDim2.new(0, 10, 0.3, 0), menuFrame, false)
+createCheatToggle("Instant Bobber", UDim2.new(0, 10, 0.4, 0), menuFrame, false)
+createCheatToggle("Auto Balance Nuke", UDim2.new(0, 10, 0.5, 0), menuFrame, true)
+createCheatToggle("Freeze Character", UDim2.new(0, 10, 0.6, 0), menuFrame, false)
 
-createCheatCheckbox("Pular Mais Alto", UDim2.new(0, 10, 0.2, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    character.Humanoid.JumpPower = isEnabled and 150 or 50
-end)
+-- Adicione mais funções conforme necessário
 
-createCheatCheckbox("Invisibilidade", UDim2.new(0, 10, 0.3, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    character.HumanoidRootPart.Transparency = isEnabled and 0.5 or 0
-    for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
-            part.Transparency = isEnabled and 0.5 or 0
-        end
-    end
-end)
+-- Função para criar abas do menu
+local function createMenuTab(name, position, parent, onSelect)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 0, 40)
+    button.Position = position
+    button.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+    button.Text = name
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.Font = Enum.Font.SourceSansBold
+    button.TextSize = 20
+    button.Parent = parent
 
-createCheatCheckbox("Cura Instantânea", UDim2.new(0, 10, 0.4, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    if isEnabled then
-        character.Humanoid.Health = character.Humanoid.MaxHealth
-    end
-end)
+    button.MouseButton1Click:Connect(onSelect)
+end
 
-createCheatCheckbox("Voo", UDim2.new(0, 10, 0.5, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    if isEnabled then
-        character.Humanoid.PlatformStand = true
-        local bodyGyro = Instance.new("BodyGyro")
-        bodyGyro.P = 9e4
-        bodyGyro.Parent = character.HumanoidRootPart
-        local bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-        bodyVelocity.MaxForce = Vector3.new(9e4, 9e4, 9e4)
-        bodyVelocity.Parent = character.HumanoidRootPart
-        character.HumanoidRootPart.BodyGyro = bodyGyro
-        character.HumanoidRootPart.BodyVelocity = bodyVelocity
-    else
-        character.Humanoid.PlatformStand = false
-        if character.HumanoidRootPart:FindFirstChild("BodyGyro") then
-            character.HumanoidRootPart.BodyGyro:Destroy()
-        end
-        if character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
-            character.HumanoidRootPart.BodyVelocity:Destroy()
-        end
-    end
-end)
+-- Criar abas do menu
+local tabFrame = Instance.new("Frame")
+tabFrame.Size = UDim2.new(0, 200, 1, 0)
+tabFrame.Position = UDim2.new(0, 0, 0, 50)
+tabFrame.BackgroundTransparency = 1
+tabFrame.Parent = menuFrame
 
-createCheatCheckbox("Super Força", UDim2.new(0, 10, 0.6, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    if isEnabled then
-        character.Humanoid.Strength = 100
-    else
-        character.Humanoid.Strength = 10
-    end
-end)
+createMenuTab("Main", UDim2.new(0, 0, 0, 0), tabFrame, function() print("Main tab selected") end)
+createMenuTab("Legit", UDim2.new(0, 0, 0.1, 0), tabFrame, function() print("Legit tab selected") end)
+createMenuTab("Zone Cast", UDim2.new(0, 0, 0.2, 0), tabFrame, function() print("Zone Cast tab selected") end)
+createMenuTab("Visuals", UDim2.new(0, 0, 0.3, 0), tabFrame, function() print("Visuals tab selected") end)
+createMenuTab("Items", UDim2.new(0, 0, 0.4, 0), tabFrame, function() print("Items tab selected") end)
+createMenuTab("Teleports", UDim2.new(0, 0, 0.5, 0), tabFrame, function() print("Teleports tab selected") end)
+createMenuTab("Misc", UDim2.new(0, 0, 0.6, 0), tabFrame, function() print("Misc tab selected") end)
+createMenuTab("Gifting", UDim2.new(0, 0, 0.7, 0), tabFrame, function() print("Gifting tab selected") end)
+createMenuTab("Webhook", UDim2.new(0, 0, 0.8, 0), tabFrame, function() print("Webhook tab selected") end)
+createMenuTab("Settings", UDim2.new(0, 0, 0.9, 0), tabFrame, function() print("Settings tab selected") end)
 
-createCheatCheckbox("Visão Noturna", UDim2.new(0, 10, 0.7, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local lighting = game.Lighting
-    if isEnabled then
-        lighting.Brightness = 2
-        lighting.OutdoorAmbient = Color3.new(1, 1, 1)
-    else
-        lighting.Brightness = 1
-        lighting.OutdoorAmbient = Color3.new(0.5, 0.5, 0.5)
-    end
-end)
-
-createCheatCheckbox("Teletransporte", UDim2.new(0, 10, 0.8, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    if isEnabled then
-        character:SetPrimaryPartCFrame(CFrame.new(0, 100, 0))
-    end
-end)
-
-createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), mainTab, function(isEnabled)
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local noclipConnection
-    if isEnabled then
-        noc
+-- Adicionar mais abas conforme necessário
