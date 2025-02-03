@@ -1,13 +1,9 @@
--- Mod Menu com GUI para Roblox
-
-print("loadstring(game:HttpGet("https://raw.githubusercontent.com/erickzns/BrookhavenModMenu/refs/heads/main/script.lua"))()")
+-- Mod Menu Básico para Roblox
 
 -- Criando a ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "CheatMenu"
 screenGui.Parent = game.CoreGui
-
-print("ScreenGui criada e parent configurado")
 
 -- Criando o Frame do Menu
 local menuFrame = Instance.new("Frame")
@@ -16,8 +12,6 @@ menuFrame.Position = UDim2.new(0, 10, 0, 10)
 menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 menuFrame.BackgroundTransparency = 0.5
 menuFrame.Parent = screenGui
-
-print("Frame do menu criado")
 
 -- Criando o Título do Menu
 local titleLabel = Instance.new("TextLabel")
@@ -29,8 +23,6 @@ titleLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 titleLabel.TextScaled = true
 titleLabel.Parent = menuFrame
 
-print("Título do menu criado")
-
 -- Criando o Botão de Speed Hack
 local speedHackButton = Instance.new("TextButton")
 speedHackButton.Size = UDim2.new(1, -20, 0, 50)
@@ -40,8 +32,6 @@ speedHackButton.Text = "Ativar Speed Hack"
 speedHackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 speedHackButton.TextScaled = true
 speedHackButton.Parent = menuFrame
-
-print("Botão de Speed Hack criado")
 
 -- Variável para controlar o estado do Speed Hack
 local speedHackActive = false
@@ -59,10 +49,7 @@ local function toggleSpeedHack()
         speedHackButton.Text = "Desativar Speed Hack"
     end
     speedHackActive = not speedHackActive
-    print("Speed Hack toggled, estado atual: " .. tostring(speedHackActive))
 end
 
 -- Conectando a função ao clique do botão
 speedHackButton.MouseButton1Click:Connect(toggleSpeedHack)
-
-print("Função toggleSpeedHack conectada ao botão")
