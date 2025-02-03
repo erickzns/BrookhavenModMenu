@@ -1,5 +1,3 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/erickzns/BrookhavenModMenu/refs/heads/main/script.lua"))()
-
 -- Criar ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ModMenuGui"
@@ -175,4 +173,6 @@ end)
 createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), mainTab, function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    local noclip
+    local noclipConnection
+    if isEnabled then
+        noclipConnection = game:GetService("RunService").Stepped:Connect(function
