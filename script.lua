@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/erickzns/BrookhavenModMenu/refs/heads/main/script.lua"))()
+
 -- Criar ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ModMenuGui"
@@ -24,6 +26,13 @@ menuFrame.BorderSizePixel = 0
 menuFrame.BackgroundTransparency = 0.5
 menuFrame.Visible = false -- Iniciar com o menu minimizado
 menuFrame.Parent = screenGui
+
+-- Função para abrir e fechar o menu
+local isMenuOpen = false
+toggleButton.MouseButton1Click:Connect(function()
+    isMenuOpen = not isMenuOpen
+    menuFrame.Visible = isMenuOpen
+end)
 
 -- Título do Menu
 local titleLabel = Instance.new("TextLabel")
@@ -166,9 +175,4 @@ end)
 createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), mainTab, function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    local noclipConnection
-    if isEnabled then
-        noclipConnection = game:GetService("RunService").Stepped:Connect(function()
-            for _, part in pairs(character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = false
+    local noclip
