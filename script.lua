@@ -1,106 +1,116 @@
--- Mod Menu Completo para Roblox
+-- Mod Menu Completo para Roblox com rolagem e caixas de seleção
 -- Certifique-se de usar scripts em conformidade com os Termos de Serviço do Roblox.
 
 -- Interface de Usuário
 local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
+local ScrollingFrame = Instance.new("ScrollingFrame")
 local UICorner = Instance.new("UICorner")
 
--- Adicionando Botões para cada função
-local buttons = {
-    {name = "Ativar Velocidade", position = UDim2.new(0, 10, 0, 10), action = function()
+-- Adicionando caixas de seleção para cada função
+local functions = {
+    {name = "Velocidade Extra (Speed Hack)", position = UDim2.new(0, 10, 0, 10), action = function(value)
         local Player = game.Players.LocalPlayer
-        Player.Character.Humanoid.WalkSpeed = 50 -- Mude o valor conforme desejado
+        Player.Character.Humanoid.WalkSpeed = value and 50 or 16 -- 16 é o valor padrão
     end},
-    {name = "Ativar Super Salto", position = UDim2.new(0, 10, 0, 50), action = function()
+    {name = "Super Salto (Super Jump)", position = UDim2.new(0, 10, 0, 50), action = function(value)
         local Player = game.Players.LocalPlayer
-        Player.Character.Humanoid.JumpPower = 100 -- Mude o valor conforme desejado
+        Player.Character.Humanoid.JumpPower = value and 100 or 50 -- 50 é o valor padrão
     end},
-    {name = "Ativar Gravidade Zero", position = UDim2.new(0, 10, 0, 90), action = function()
-        game.Workspace.Gravity = 50 -- Mude o valor conforme desejado
+    {name = "Gravidade Zero (Low Gravity)", position = UDim2.new(0, 10, 0, 90), action = function(value)
+        game.Workspace.Gravity = value and 50 or 196.2 -- 196.2 é o valor padrão
     end},
-    {name = "Ativar Invencibilidade", position = UDim2.new(0, 10, 0, 130), action = function()
+    {name = "Invencibilidade (God Mode)", position = UDim2.new(0, 10, 0, 130), action = function(value)
         local Player = game.Players.LocalPlayer
-        Player.Character.Humanoid.MaxHealth = math.huge
-        Player.Character.Humanoid.Health = math.huge
+        Player.Character.Humanoid.MaxHealth = value and math.huge or 100
+        Player.Character.Humanoid.Health = value and math.huge or 100
     end},
-    {name = "Ativar Voo", position = UDim2.new(0, 10, 0, 170), action = function()
+    {name = "Voo (Fly)", position = UDim2.new(0, 10, 0, 170), action = function(value)
         local Player = game.Players.LocalPlayer
         local Humanoid = Player.Character.Humanoid
-        Humanoid.PlatformStand = true
-        Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+        Humanoid.PlatformStand = value
+        Humanoid:ChangeState(value and Enum.HumanoidStateType.Physics or Enum.HumanoidStateType.Running)
     end},
-    {name = "Abrir Editor de Aparência", position = UDim2.new(0, 10, 0, 210), action = function()
+    {name = "Mudar Aparência (Character Customization)", position = UDim2.new(0, 10, 0, 210), action = function(value)
         -- Adicione a lógica para abrir o editor de aparência
     end},
-    {name = "Alterar Cores", position = UDim2.new(0, 10, 0, 250), action = function()
+    {name = "Mudar Cores (Color Swap)", position = UDim2.new(0, 10, 0, 250), action = function(value)
         -- Adicione a lógica para alterar cores
     end},
-    {name = "Alterar Céu", position = UDim2.new(0, 10, 0, 290), action = function()
+    {name = "Mudar o Céu (Skybox)", position = UDim2.new(0, 10, 0, 290), action = function(value)
         -- Adicione a lógica para alterar o céu
     end},
-    {name = "Ativar Efeitos Visuais", position = UDim2.new(0, 10, 0, 330), action = function()
+    {name = "Efeitos Visuais (Visual Effects)", position = UDim2.new(0, 10, 0, 330), action = function(value)
         -- Adicione a lógica para ativar efeitos visuais
     end},
-    {name = "Ativar Máxima Performance", position = UDim2.new(0, 10, 0, 370), action = function()
+    {name = "Desempenho Máximo (Max Performance)", position = UDim2.new(0, 10, 0, 370), action = function(value)
         -- Adicione a lógica para ativar máxima performance
     end},
-    {name = "Ativar FPS Boost", position = UDim2.new(0, 10, 0, 410), action = function()
+    {name = "FPS Boost", position = UDim2.new(0, 10, 0, 410), action = function(value)
         -- Adicione a lógica para ativar FPS Boost
     end},
-    {name = "Ativar Modo de Construção", position = UDim2.new(0, 10, 0, 450), action = function()
+    {name = "Modo de Construção (Build Mode)", position = UDim2.new(0, 10, 0, 450), action = function(value)
         -- Adicione a lógica para ativar modo de construção
     end},
-    {name = "Manipular Objetos", position = UDim2.new(0, 10, 0, 490), action = function()
+    {name = "Manipular Objetos (Object Manipulation)", position = UDim2.new(0, 10, 0, 490), action = function(value)
         -- Adicione a lógica para manipular objetos
     end},
-    {name = "Teletransportar", position = UDim2.new(0, 10, 0, 530), action = function()
+    {name = "Teleportar (Teleportation)", position = UDim2.new(0, 10, 0, 530), action = function(value)
         -- Adicione a lógica para teletransportar
     end},
-    {name = "Ativar Modo Espectador", position = UDim2.new(0, 10, 0, 570), action = function()
+    {name = "Modo de Espectador (Spectator Mode)", position = UDim2.new(0, 10, 0, 570), action = function(value)
         -- Adicione a lógica para ativar modo espectador
     end},
-    {name = "Mostrar/Ocultar Jogadores", position = UDim2.new(0, 10, 0, 610), action = function()
+    {name = "Mostrar/Ocultar Jogadores (Show/Hide Players)", position = UDim2.new(0, 10, 0, 610), action = function(value)
         -- Adicione a lógica para mostrar/ocultar jogadores
     end},
-    {name = "Ativar Modo Noturno", position = UDim2.new(0, 10, 0, 650), action = function()
+    {name = "Modo Noturno (Night Mode)", position = UDim2.new(0, 10, 0, 650), action = function(value)
         -- Adicione a lógica para ativar modo noturno
     end},
-    {name = "Ativar Coleta Automática", position = UDim2.new(0, 10, 0, 690), action = function()
+    {name = "Recompensas Automáticas (Auto Collect)", position = UDim2.new(0, 10, 0, 690), action = function(value)
         -- Adicione a lógica para ativar coleta automática
     end},
-    {name = "Ativar Auto Play", position = UDim2.new(0, 10, 0, 730), action = function()
+    {name = "Auto Play (Auto Play Mode)", position = UDim2.new(0, 10, 0, 730), action = function(value)
         -- Adicione a lógica para ativar auto play
     end},
-    {name = "Personalizar HUD", position = UDim2.new(0, 10, 0, 770), action = function()
+    {name = "HUD Personalizável (Customizable HUD)", position = UDim2.new(0, 10, 0, 770), action = function(value)
         -- Adicione a lógica para personalizar HUD
     end},
-    {name = "Ativar Comandos de Chat", position = UDim2.new(0, 10, 0, 810), action = function()
+    {name = "Comandos de Chat", position = UDim2.new(0, 10, 0, 810), action = function(value)
         -- Adicione a lógica para ativar comandos de chat
     end},
 }
 
 -- Propriedades da Interface
 ScreenGui.Parent = game.CoreGui
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Frame.Position = UDim2.new(0, 50, 0, 50)
-Frame.Size = UDim2.new(0, 220, 0, 850)
-UICorner.Parent = Frame
 
--- Função para criar botões
-local function createButton(name, position, action)
-    local button = Instance.new("TextButton")
-    button.Parent = Frame
-    button.Text = name
-    button.Size = UDim2.new(0, 200, 0, 30)
-    button.Position = position
-    button.MouseButton1Click:Connect(action)
+ScrollingFrame.Parent = ScreenGui
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+ScrollingFrame.Position = UDim2.new(0, 50, 0, 50)
+ScrollingFrame.Size = UDim2.new(0, 220, 0, 400)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, #functions * 40 + 10)
+ScrollingFrame.ScrollBarThickness = 10
+
+UICorner.Parent = ScrollingFrame
+
+-- Função para criar caixas de seleção
+local function createCheckbox(name, position, action)
+    local checkbox = Instance.new("TextButton")
+    checkbox.Parent = ScrollingFrame
+    checkbox.Text = "[ ] " .. name
+    checkbox.Size = UDim2.new(0, 200, 0, 30)
+    checkbox.Position = position
+    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    checkbox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    checkbox.MouseButton1Click:Connect(function()
+        local isActive = checkbox.Text:sub(1, 3) == "[x]"
+        checkbox.Text = isActive and "[ ] " .. name or "[x] " .. name
+        action(not isActive)
+    end)
 end
 
--- Criar todos os botões
-for _, btn in pairs(buttons) do
-    createButton(btn.name, btn.position, btn.action)
+-- Criar todas as caixas de seleção
+for _, func in pairs(functions) do
+    createCheckbox(func.name, func.position, func.action)
 end
 
 -- Mostrar o GUI
