@@ -38,6 +38,7 @@ closeButton.Parent = menu
 
 closeButton.MouseButton1Click:Connect(function()
     menu.Visible = false  -- Fecha o menu quando clicar no X
+    mouse.Icon = ""  -- Remove o cursor do mouse ao fechar o menu
 end)
 
 -- Função para criar uma caixinha de marcação
@@ -138,7 +139,6 @@ createCheckbox("Godmode (Imortal)", 0.4, function(isChecked)
     end
 end)
 
--- Aimbot (Mirar no inimigo mais próximo)
 createCheckbox("Aimbot", 0.5, function(isChecked)
     if isChecked then
         local function aimbot()
@@ -172,176 +172,42 @@ createCheckbox("Aimbot", 0.5, function(isChecked)
     end
 end)
 
--- Função para ESP Caixa (contorno do personagem)
-createCheckbox("Ativar ESP Caixa", 0.6, function(isChecked)
+createCheckbox("ESP", 0.6, function(isChecked)
     if isChecked then
-        -- Adicionar as caixas de ESP ao redor dos personagens
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-                if humanoidRootPart then
-                    -- Criar a caixa ao redor do personagem
-                    local box = character:FindFirstChild("ESP_Box")
-                    if not box then
-                        box = Instance.new("BoxHandleAdornment")
-                        box.Name = "ESP_Box"
-                        box.Adornee = humanoidRootPart
-                        box.Size = humanoidRootPart.Size + Vector3.new(2, 5, 2) -- Ajustando o tamanho da caixa ao redor
-                        box.Color3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
-                        box.Transparency = 0.5
-                        box.ZIndex = 10
-                        box.Parent = character
+        local espEnabled = true
+        local espPart = Instance.new("BillboardGui")
+        espPart.Size = UDim2.new(0, 200, 0, 50)
+        espPart.StudsOffset = Vector3.new(0, 2, 0)
+        espPart.Parent = game.Workspace.CurrentCamera
+        
+        game:GetService("RunService").Heartbeat:Connect(function()
+            if espEnabled then
+                for _, target in pairs(game.Players:GetPlayers()) do
+                    if target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                        local box = Instance.new("Frame")
+                        box.Size = UDim2.new(0, 200, 0, 50)
+                        box.Position = UDim2.new(0, target.Character.HumanoidRootPart.Position.X, 0, target.Character.HumanoidRootPart.Position.Y)
+                        box.BackgroundTransparency = 0.5
+                        box.BorderSizePixel = 2
+                        box.BorderColor3 = Color3.fromRGB(255, 255, 255)
+                        box.Parent = espPart
                     end
                 end
             end
-        end
-    else
-        -- Remover as caixas de ESP se desmarcado
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local box = character:FindFirstChild("ESP_Box")
-                if box then
-                    box:Destroy()
-                end
-            end
-        end
+        end)
     end
 end)
 
--- Funções de ESP adicionais (Nome, Linha e Distância)
-createCheckbox("ESP Nome", 0.7, function(isChecked)
-    if isChecked then
-        -- Adiciona o nome ao redor do personagem
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-                if humanoidRootPart then
-                    local nameLabel = character:FindFirstChild("ESP_Name")
-                    if not nameLabel then
-                        nameLabel = Instance.new("BillboardGui")
-                        nameLabel.Name = "ESP_Name"
-                        nameLabel.Adornee = humanoidRootPart
-                        nameLabel.Size = UDim2.new(0, 100, 0, 50)
-                        nameLabel.StudsOffset = Vector3.new(0, 2, 0)
-                        nameLabel.AlwaysOnTop = true
-                        nameLabel.Parent = character
-
-                        local label = Instance.new("TextLabel")
-                        label.Size = UDim2.new(1, 0, 1, 0)
-                        label.Text = otherPlayer.Name
-                        label.BackgroundTransparency = 1
-                        label.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        label.TextScaled = true
-                        label.Parent = nameLabel
-                    end
-                end
-            end
-        end
-    else
-        -- Remover os nomes
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local nameLabel = character:FindFirstChild("ESP_Name")
-                if nameLabel then
-                    nameLabel:Destroy()
-                end
-            end
-        end
-    end
+-- Ação ao mostrar o menu: Mostrar cursor
+menu.MouseEnter:Connect(function()
+    mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor ao passar o mouse sobre o menu
 end)
 
-createCheckbox("ESP Linha", 0.8, function(isChecked)
-    if isChecked then
-        -- Adiciona a linha ao redor do personagem
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-                if humanoidRootPart then
-                    -- Criar ou atualizar a linha
-                    local line = player.Character:FindFirstChild("ESP_Line_" .. otherPlayer.Name)
-                    if not line then
-                        line = Instance.new("Part")
-                        line.Name = "ESP_Line_" .. otherPlayer.Name
-                        line.Size = Vector3.new(0.1, 0.1, 0.1) -- Inicialmente a linha é invisível
-                        line.Anchored = true
-                        line.CanCollide = false
-                        line.Color = Color3.fromRGB(255, 255, 255)  -- Linha branca
-                        line.Parent = game.Workspace
-                    end
-                    
-                    -- Função para manter a linha atualizada
-                    game:GetService("RunService").Heartbeat:Connect(function()
-                        if isChecked and line then
-                            -- Atualizando a posição e tamanho da linha
-                            local startPos = player.Character.HumanoidRootPart.Position
-                            local endPos = humanoidRootPart.Position
-                            line.Position = (startPos + endPos) / 2  -- Posição da linha no meio dos dois personagens
-
-                            -- Atualizando o tamanho e direção da linha
-                            line.Size = Vector3.new(0.1, 0.1, (startPos - endPos).Magnitude)  -- Linha fina
-                            line.CFrame = CFrame.new(startPos, endPos)  -- Orienta a linha para ir do seu personagem até o outro
-                        end
-                    end)
-                end
-            end
-        end
-    else
-        -- Remover as linhas
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local line = player.Character:FindFirstChild("ESP_Line_" .. otherPlayer.Name)
-                if line then
-                    line:Destroy()
-                end
-            end
-        end
-    end
+menu.MouseLeave:Connect(function()
+    mouse.Icon = ""  -- Remove o cursor ao sair do menu
 end)
 
-createCheckbox("ESP Distância", 0.9, function(isChecked)
-    if isChecked then
-        -- Adiciona a distância ao redor do personagem
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-                if humanoidRootPart then
-                    local distanceLabel = character:FindFirstChild("ESP_Distance")
-                    if not distanceLabel then
-                        distanceLabel = Instance.new("BillboardGui")
-                        distanceLabel.Name = "ESP_Distance"
-                        distanceLabel.Adornee = humanoidRootPart
-                        distanceLabel.Size = UDim2.new(0, 100, 0, 50)
-                        distanceLabel.StudsOffset = Vector3.new(0, 2, 0)
-                        distanceLabel.AlwaysOnTop = true
-                        distanceLabel.Parent = character
+-- Tornar o cursor visível ao abrir o menu
+menu.Visible = true
+mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor padrão ao mostrar o menu
 
-                        local label = Instance.new("TextLabel")
-                        label.Size = UDim2.new(1, 0, 1, 0)
-                        label.Text = string.format("%.0f studs", (player.Character.HumanoidRootPart.Position - humanoidRootPart.Position).Magnitude)
-                        label.BackgroundTransparency = 1
-                        label.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        label.TextScaled = true
-                        label.Parent = distanceLabel
-                    end
-                end
-            end
-        end
-    else
-        -- Remover a distância
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local distanceLabel = character:FindFirstChild("ESP_Distance")
-                if distanceLabel then
-                    distanceLabel:Destroy()
-                end
-            end
-        end
-    end
-end)
