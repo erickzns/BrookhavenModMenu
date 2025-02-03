@@ -73,29 +73,68 @@ end
 _d.InputBegan:Connect(onInputBegan)
 _d.InputEnded:Connect(onInputEnded)
 
--- Botão de ESP
+-- Função para Copiar o Personagem de Outro Jogador
 local _g = Instance.new("TextButton")
 _g.Size = UDim2.new(0, 250, 0, 50)
 _g.Position = UDim2.new(0.5, -125, 0, 50)
-_g.Text = "Ativar ESP"
+_g.Text = "Copiar Personagem"
 _g.Parent = _d
-_g.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-_g.TextColor3 = Color3.fromRGB(255, 255, 255)
+_g.BackgroundColor3 = Color3.fromRGB(0, 255, 255)  -- Azul claro
+_g.TextColor3 = Color3.fromRGB(0, 0, 0)
 _g.TextSize = 16
 _g.Font = Enum.Font.Gotham
 _g.BorderSizePixel = 0
 _g.AutoButtonColor = false
 
-local _h = false
-
 _g.MouseButton1Click:Connect(function()
+    -- Abrir uma janela para o jogador selecionar outro jogador
+    local playerName = "Nome do Jogador"  -- Exemplo, o jogador precisa digitar o nome
+    local targetPlayer = game.Players:FindFirstChild(playerName)
+
+    if targetPlayer then
+        -- Copiar a aparência do personagem (roupas, cabelo, etc)
+        local targetCharacter = targetPlayer.Character
+        if targetCharacter then
+            -- Copiar a aparência do personagem
+            local characterClone = targetCharacter:Clone()
+
+            -- Remover o personagem atual
+            _a.Character:Destroy()
+
+            -- Definir o novo personagem como o do jogador alvo
+            characterClone.Parent = workspace
+            characterClone:SetPrimaryPartCFrame(_a.Character.HumanoidRootPart.CFrame)  -- Coloca no mesmo lugar
+
+            -- Atribuir o novo personagem ao jogador
+            _a.Character = characterClone
+        end
+    else
+        print("Jogador não encontrado!")
+    end
+end)
+
+-- Função de ESP
+local _h = false
+local _i = Instance.new("TextButton")
+_i.Size = UDim2.new(0, 250, 0, 50)
+_i.Position = UDim2.new(0.5, -125, 0, 150)
+_i.Text = "Ativar ESP"
+_i.Parent = _d
+_i.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+_i.TextColor3 = Color3.fromRGB(255, 255, 255)
+_i.TextSize = 16
+_i.Font = Enum.Font.Gotham
+_i.BorderSizePixel = 0
+_i.AutoButtonColor = false
+
+_i.MouseButton1Click:Connect(function()
     _h = not _h  -- Alterna entre ativar e desativar o ESP
 
     if _h then
-        _g.Text = "Desativar ESP"
+        _i.Text = "Desativar ESP"
         -- Ativar ESP para mostrar caixas e linhas em volta dos jogadores
-        for _, _i in ipairs(game.Players:GetPlayers()) do
-            if _i ~= _a then
+        for _, _j in ipairs(game.Players:GetPlayers()) do
+            if _j ~= _a then
                 -- Criar caixa ao redor do jogador
                 local _box = Instance.new("Frame")
                 _box.Size = UDim2.new(0, 200, 0, 200)
@@ -114,8 +153,8 @@ _g.MouseButton1Click:Connect(function()
 
                 -- Atualizar a posição da caixa e linha
                 game:GetService("RunService").Heartbeat:Connect(function()
-                    if _i.Character and _i.Character:FindFirstChild("HumanoidRootPart") then
-                        local screenPos, onScreen = game.Workspace.CurrentCamera:WorldToScreenPoint(_i.Character.HumanoidRootPart.Position)
+                    if _j.Character and _j.Character:FindFirstChild("HumanoidRootPart") then
+                        local screenPos, onScreen = game.Workspace.CurrentCamera:WorldToScreenPoint(_j.Character.HumanoidRootPart.Position)
                         if onScreen then
                             -- Tornar a caixa e linha visíveis quando o jogador estiver na tela
                             _box.Visible = true
@@ -138,7 +177,7 @@ _g.MouseButton1Click:Connect(function()
             end
         end
     else
-        _g.Text = "Ativar ESP"
+        _i.Text = "Ativar ESP"
         -- Desativar o ESP (remover as caixas e linhas)
         for _, _k in ipairs(_b:GetChildren()) do
             if _k:IsA("Frame") and _k.BorderSizePixel == 5 then
@@ -146,76 +185,4 @@ _g.MouseButton1Click:Connect(function()
             end
         end
     end
-end)
-
--- Função de Teleportação
-local _i = Instance.new("TextButton")
-_i.Size = UDim2.new(0, 250, 0, 50)
-_i.Position = UDim2.new(0.5, -125, 0, 150)
-_i.Text = "Teleportar para Local X"
-_i.Parent = _d
-_i.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
-_i.TextColor3 = Color3.fromRGB(255, 255, 255)
-_i.TextSize = 16
-_i.Font = Enum.Font.Gotham
-_i.BorderSizePixel = 0
-_i.AutoButtonColor = false
-
-_i.MouseButton1Click:Connect(function()
-    -- Exemplo de teleportação para um local específico no Brookhaven (ex: para uma casa)
-    local targetPosition = CFrame.new(10, 0, 10)  -- Exemplo de coordenadas
-    _a.Character:SetPrimaryPartCFrame(targetPosition)
-end)
-
--- Função de Voar
-local _j = Instance.new("TextButton")
-_j.Size = UDim2.new(0, 250, 0, 50)
-_j.Position = UDim2.new(0.5, -125, 0, 250)
-_j.Text = "Ativar Voar"
-_j.Parent = _d
-_j.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-_j.TextColor3 = Color3.fromRGB(255, 255, 255)
-_j.TextSize = 16
-_j.Font = Enum.Font.Gotham
-_j.BorderSizePixel = 0
-_j.AutoButtonColor = false
-
-local flying = false
-local bodyVelocity = nil
-
-_j.MouseButton1Click:Connect(function()
-    flying = not flying
-    if flying then
-        _j.Text = "Desativar Voar"
-        -- Criar BodyVelocity para permitir o voo
-        bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.MaxForce = Vector3.new(40000, 40000, 40000)
-        bodyVelocity.Velocity = Vector3.new(0, 50, 0)
-        bodyVelocity.Parent = _a.Character.HumanoidRootPart
-    else
-        _j.Text = "Ativar Voar"
-        -- Remover o BodyVelocity para parar de voar
-        if bodyVelocity then
-            bodyVelocity:Destroy()
-        end
-    end
-end)
-
--- Função para Mudar o Personagem (com exemplo de skin)
-local _k = Instance.new("TextButton")
-_k.Size = UDim2.new(0, 250, 0, 50)
-_k.Position = UDim2.new(0.5, -125, 0, 350)
-_k.Text = "Mudar Personagem"
-_k.Parent = _d
-_k.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
-_k.TextColor3 = Color3.fromRGB(255, 255, 255)
-_k.TextSize = 16
-_k.Font = Enum.Font.Gotham
-_k.BorderSizePixel = 0
-_k.AutoButtonColor = false
-
-_k.MouseButton1Click:Connect(function()
-    -- Exemplo de mudar a aparência do personagem (adicione sua própria lógica aqui)
-    local newAppearance = "rbxassetid://INSERT_ASSET_ID_HERE"  -- Insira um ID de aparência de personagem
-    _a.CharacterAppearance = newAppearance  -- Muda a aparência
 end)
