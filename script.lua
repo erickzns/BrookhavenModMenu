@@ -22,44 +22,64 @@ titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextSize = 24
 titleLabel.Parent = menuFrame
 
--- Função para criar botões de trapaça
-local function createCheatButton(text, position, onClick)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0, 200, 0, 50)
-    button.Position = position
-    button.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-    button.Text = text
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.Font = Enum.Font.SourceSans
-    button.TextSize = 20
-    button.Parent = menuFrame
-    button.MouseButton1Click:Connect(onClick)
+-- Função para criar caixas de marcar de trapaça
+local function createCheatCheckbox(text, position, onChange)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, -20, 0, 50)
+    frame.Position = position
+    frame.BackgroundTransparency = 1
+    frame.Parent = menuFrame
+
+    local checkbox = Instance.new("TextButton")
+    checkbox.Size = UDim2.new(0, 25, 0, 25)
+    checkbox.Position = UDim2.new(0, 0, 0, 12.5)
+    checkbox.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+    checkbox.Text = ""
+    checkbox.Parent = frame
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -30, 1, 0)
+    label.Position = UDim2.new(0, 30, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.Font = Enum.Font.SourceSans
+    label.TextSize = 20
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = frame
+
+    checkbox.MouseButton1Click:Connect(function()
+        checkbox.BackgroundColor3 = checkbox.BackgroundColor3 == Color3.new(0.1, 0.1, 0.1) and Color3.new(0, 1, 0) or Color3.new(0.1, 0.1, 0.1)
+        onChange(checkbox.BackgroundColor3 == Color3.new(0, 1, 0))
+    end)
 end
 
--- Botão de Aumentar Velocidade
-createCheatButton("Aumentar Velocidade", UDim2.new(0.5, -100, 0.2, -25), function()
+-- Caixa de marcar para Aumentar Velocidade
+createCheatCheckbox("Aumentar Velocidade", UDim2.new(0, 10, 0.2, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    character.Humanoid.WalkSpeed = 100 -- Aumenta a velocidade de caminhada
+    character.Humanoid.WalkSpeed = isEnabled and 100 or 16 -- Ativa/desativa a trapaça de velocidade
 end)
 
--- Botão de Pular Mais Alto
-createCheatButton("Pular Mais Alto", UDim2.new(0.5, -100, 0.4, -25), function()
+-- Caixa de marcar para Pular Mais Alto
+createCheatCheckbox("Pular Mais Alto", UDim2.new(0, 10, 0.4, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    character.Humanoid.JumpPower = 150 -- Aumenta a altura do pulo
+    character.Humanoid.JumpPower = isEnabled and 150 or 50 -- Ativa/desativa a trapaça de pular alto
 end)
 
--- Botão de Invisibilidade
-createCheatButton("Invisibilidade", UDim2.new(0.5, -100, 0.6, -25), function()
+-- Caixa de marcar para Invisibilidade
+createCheatCheckbox("Invisibilidade", UDim2.new(0, 10, 0.6, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    character.HumanoidRootPart.Transparency = 0.5 -- Torna o jogador meio invisível
+    character.HumanoidRootPart.Transparency = isEnabled and 0.5 or 0 -- Ativa/desativa a trapaça de invisibilidade
 end)
 
--- Botão de Cura Instantânea
-createCheatButton("Cura Instantânea", UDim2.new(0.5, -100, 0.8, -25), function()
+-- Caixa de marcar para Cura Instantânea
+createCheatCheckbox("Cura Instantânea", UDim2.new(0, 10, 0.8, 0), function(isEnabled)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-    character.Humanoid.Health = character.Humanoid.MaxHealth -- Cura o jogador completamente
+    if isEnabled then
+        character.Humanoid.Health = character.Humanoid.MaxHealth -- Cura o jogador
+    end
 end)
