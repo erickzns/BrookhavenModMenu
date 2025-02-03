@@ -1,92 +1,57 @@
--- Mod Menu Simplificado com uma Função (Speed Hack)
+-- Mod Menu com GUI para Roblox
 
--- Classe Base
-CheatFunction = {}
-CheatFunction.__index = CheatFunction
+-- Criando a ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CheatMenu"
+screenGui.Parent = game.CoreGui
 
-function CheatFunction:new(name)
-    local obj = setmetatable({}, CheatFunction)
-    obj.name = name or "Cheat Function"
-    obj.active = false
-    return obj
-end
+-- Criando o Frame do Menu
+local menuFrame = Instance.new("Frame")
+menuFrame.Size = UDim2.new(0, 200, 0, 300)
+menuFrame.Position = UDim2.new(0, 10, 0, 10)
+menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+menuFrame.BackgroundTransparency = 0.5
+menuFrame.Parent = screenGui
 
-function CheatFunction:activate()
-    self.active = true
-    print(self.name .. " activated.")
-end
+-- Criando o Título do Menu
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0, 50)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Text = "Mod Menu"
+titleLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+titleLabel.TextScaled = true
+titleLabel.Parent = menuFrame
 
-function CheatFunction:deactivate()
-    self.active = false
-    print(self.name .. " deactivated.")
-end
+-- Criando o Botão de Speed Hack
+local speedHackButton = Instance.new("TextButton")
+speedHackButton.Size = UDim2.new(1, -20, 0, 50)
+speedHackButton.Position = UDim2.new(0, 10, 0, 60)
+speedHackButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+speedHackButton.Text = "Ativar Speed Hack"
+speedHackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedHackButton.TextScaled = true
+speedHackButton.Parent = menuFrame
 
-print("Classe base criada")
+-- Variável para controlar o estado do Speed Hack
+local speedHackActive = false
 
--- Classe Velocidade Extra (Speed Hack)
-SpeedHack = CheatFunction:new("Speed Hack")
-
-function SpeedHack:setSpeed(value)
+-- Função para ativar/desativar o Speed Hack
+local function toggleSpeedHack()
     local player = game.Players.LocalPlayer
-    player.Character.Humanoid.WalkSpeed = value
-end
-
-function SpeedHack:activate(value)
-    CheatFunction.activate(self)
-    self:setSpeed(value)
-    print(self.name .. " activated with speed " .. value)
-end
-
-function SpeedHack:deactivate()
-    CheatFunction.deactivate(self)
-    self:setSpeed(16) -- Valor padrão de velocidade
-end
-
-print("Speed Hack criado")
-
--- Classe Menu Principal
-CheatMenu = {}
-CheatMenu.__index = CheatMenu
-
-function CheatMenu:new()
-    local obj = setmetatable({}, CheatMenu)
-    obj.functions = {}
-    return obj
-end
-
-function CheatMenu:addFunction(cheatFunction)
-    table.insert(self.functions, cheatFunction)
-end
-
-function CheatMenu:activateFunction(name, value)
-    for _, func in ipairs(self.functions) do
-        if func.name == name then
-            func:activate(value)
-        end
+    if speedHackActive then
+        player.Character.Humanoid.WalkSpeed = 16 -- Velocidade padrão
+        speedHackButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        speedHackButton.Text = "Ativar Speed Hack"
+    else
+        player.Character.Humanoid.WalkSpeed = 50 -- Velocidade aumentada
+        speedHackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        speedHackButton.Text = "Desativar Speed Hack"
     end
+    speedHackActive = not speedHackActive
 end
 
-function CheatMenu:deactivateFunction(name)
-    for _, func in ipairs(self.functions) do
-        if func.name == name then
-            func:deactivate()
-        end
-    end
-end
+-- Conectando a função ao clique do botão
+speedHackButton.MouseButton1Click:Connect(toggleSpeedHack)
 
-print("Menu principal criado")
-
--- Criando instância da função de Speed Hack
-local speedHack = SpeedHack:new()
-
--- Criando o menu principal e adicionando a função de Speed Hack
-local cheatMenu = CheatMenu:new()
-cheatMenu:addFunction(speedHack)
-
-print("Função adicionada ao menu")
-
--- Exemplos de ativação e desativação da função de Speed Hack
-cheatMenu:activateFunction("Speed Hack", 10)
-print("Função Speed Hack ativada")
-cheatMenu:deactivateFunction("Speed Hack")
-print("Função Speed Hack desativada")
+print("Menu criado e botão de Speed Hack configurado")
