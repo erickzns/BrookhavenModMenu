@@ -175,4 +175,4 @@ createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), mainTab, function(isEnab
     local character = player.Character or player.CharacterAdded:Wait()
     local noclipConnection
     if isEnabled then
-        noclipConnection = game:GetService("RunService").Stepped:Connect(function
+        noc
