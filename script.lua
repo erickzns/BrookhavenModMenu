@@ -80,14 +80,15 @@ local function createCheatToggle(name, position, parent, isEnabled)
 end
 
 -- Adicionar caixas de marcar para diferentes funções
-createCheatToggle("Auto Cast", UDim2.new(0, 10, 0.1, 0), menuFrame, false)
-createCheatToggle("Auto Shake", UDim2.new(0, 10, 0.2, 0), menuFrame, true)
-createCheatToggle("Auto Reel", UDim2.new(0, 10, 0.3, 0), menuFrame, false)
-createCheatToggle("Instant Bobber", UDim2.new(0, 10, 0.4, 0), menuFrame, false)
-createCheatToggle("Auto Balance Nuke", UDim2.new(0, 10, 0.5, 0), menuFrame, true)
-createCheatToggle("Freeze Character", UDim2.new(0, 10, 0.6, 0), menuFrame, false)
-
--- Adicione mais funções conforme necessário
+createCheatToggle("Aumentar Velocidade", UDim2.new(0, 10, 0.1, 0), menuFrame, false)
+createCheatToggle("Pular Mais Alto", UDim2.new(0, 10, 0.2, 0), menuFrame, false)
+createCheatToggle("Invisibilidade", UDim2.new(0, 10, 0.3, 0), menuFrame, false)
+createCheatToggle("Cura Instantânea", UDim2.new(0, 10, 0.4, 0), menuFrame, false)
+createCheatToggle("Voo", UDim2.new(0, 10, 0.5, 0), menuFrame, false)
+createCheatToggle("Super Força", UDim2.new(0, 10, 0.6, 0), menuFrame, false)
+createCheatToggle("Visão Noturna", UDim2.new(0, 10, 0.7, 0), menuFrame, false)
+createCheatToggle("Teletransporte", UDim2.new(0, 10, 0.8, 0), menuFrame, false)
+createCheatToggle("Noclip", UDim2.new(0, 10, 0.9, 0), menuFrame, false)
 
 -- Função para criar abas do menu
 local function createMenuTab(name, position, parent, onSelect)
@@ -111,15 +112,15 @@ tabFrame.Position = UDim2.new(0, 0, 0, 50)
 tabFrame.BackgroundTransparency = 1
 tabFrame.Parent = menuFrame
 
-createMenuTab("Main", UDim2.new(0, 0, 0, 0), tabFrame, function() print("Main tab selected") end)
-createMenuTab("Legit", UDim2.new(0, 0, 0.1, 0), tabFrame, function() print("Legit tab selected") end)
-createMenuTab("Zone Cast", UDim2.new(0, 0, 0.2, 0), tabFrame, function() print("Zone Cast tab selected") end)
-createMenuTab("Visuals", UDim2.new(0, 0, 0.3, 0), tabFrame, function() print("Visuals tab selected") end)
-createMenuTab("Items", UDim2.new(0, 0, 0.4, 0), tabFrame, function() print("Items tab selected") end)
-createMenuTab("Teleports", UDim2.new(0, 0, 0.5, 0), tabFrame, function() print("Teleports tab selected") end)
-createMenuTab("Misc", UDim2.new(0, 0, 0.6, 0), tabFrame, function() print("Misc tab selected") end)
-createMenuTab("Gifting", UDim2.new(0, 0, 0.7, 0), tabFrame, function() print("Gifting tab selected") end)
-createMenuTab("Webhook", UDim2.new(0, 0, 0.8, 0), tabFrame, function() print("Webhook tab selected") end)
-createMenuTab("Settings", UDim2.new(0, 0, 0.9, 0), tabFrame, function() print("Settings tab selected") end)
+createMenuTab("Principal", UDim2.new(0, 0, 0, 0), tabFrame, function() print("Aba Principal selecionada") end)
+createMenuTab("Legit", UDim2.new(0, 0, 0.1, 0), tabFrame, function() print("Aba Legit selecionada") end)
+createMenuTab("Zone Cast", UDim2.new(0, 0, 0.2, 0), tabFrame, function() print("Aba Zone Cast selecionada") end)
+createMenuTab("Visuals", UDim2.new(0, 0, 0.3, 0), tabFrame, function() print("Aba Visuals selecionada") end)
+createMenuTab("Itens", UDim2.new(0, 0, 0.4, 0), tabFrame, function() print("Aba Itens selecionada") end)
+createMenuTab("Teletransporte", UDim2.new(0, 0, 0.5, 0), tabFrame, function() print("Aba Teletransporte selecionada") end)
+createMenuTab("Misc", UDim2.new(0, 0, 0.6, 0), tabFrame, function() print("Aba Misc selecionada") end)
+createMenuTab("Gifting", UDim2.new(0, 0, 0.7, 0), tabFrame, function() print("Aba Gifting selecionada") end)
+createMenuTab("Webhook", UDim2.new(0, 0, 0.8, 0), tabFrame, function() print("Aba Webhook selecionada") end)
+createMenuTab("Configurações", UDim2.new(0, 0, 0.9, 0), tabFrame, function() print("Aba Configurações selecionada") end)
 
 -- Adicionar mais abas conforme necessário
