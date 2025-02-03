@@ -5,7 +5,7 @@ screenGui.Parent = player.PlayerGui  -- Garantir que o ScreenGui esteja na Playe
 
 -- Criando o menu flutuante
 local menu = Instance.new("Frame")
-menu.Size = UDim2.new(0, 300, 0, 500)
+menu.Size = UDim2.new(0, 300, 0, 600)  -- Aumentei o tamanho para que o menu tenha espaço suficiente
 menu.Position = UDim2.new(0.5, -150, 0.5, -250)
 menu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 menu.Parent = screenGui
@@ -15,7 +15,7 @@ local scrollingFrame = Instance.new("ScrollingFrame")
 scrollingFrame.Size = UDim2.new(1, 0, 1, 0)
 scrollingFrame.Position = UDim2.new(0, 0, 0, 40)
 scrollingFrame.BackgroundTransparency = 1
-scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 600)
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 800)  -- Aumentei o tamanho do Canvas para ajustar as novas funções
 scrollingFrame.ScrollBarThickness = 10
 scrollingFrame.Parent = menu
 
