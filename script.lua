@@ -192,6 +192,7 @@ createCheckbox("ESP Nome", 0.6, function(isChecked)
     end
 end)
 
+-- Função de ESP Linha (agora fica grudada no jogador e mais fina)
 createCheckbox("ESP Linha", 0.7, function(isChecked)
     if isChecked then
         -- Adiciona a linha ao redor do personagem
@@ -200,20 +201,31 @@ createCheckbox("ESP Linha", 0.7, function(isChecked)
                 local character = otherPlayer.Character
                 local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
                 if humanoidRootPart then
-                    local line = character:FindFirstChild("ESP_Line")
+                    -- Criar ou atualizar a linha
+                    local line = player.Character:FindFirstChild("ESP_Line_" .. otherPlayer.Name)
                     if not line then
                         line = Instance.new("Part")
-                        line.Name = "ESP_Line"
-                        line.Size = Vector3.new(0.1, 0.1, (player.Character.HumanoidRootPart.Position - humanoidRootPart.Position).Magnitude)
-                        line.Position = (player.Character.HumanoidRootPart.Position + humanoidRootPart.Position) / 2
+                        line.Name = "ESP_Line_" .. otherPlayer.Name
+                        line.Size = Vector3.new(0.1, 0.1, 0.1) -- Inicialmente a linha é invisível
                         line.Anchored = true
                         line.CanCollide = false
-                        line.Color = Color3.fromRGB(255, 255, 255)
+                        line.Color = Color3.fromRGB(255, 255, 255)  -- Linha branca
                         line.Parent = game.Workspace
-
-                        -- Alinhar a linha para que fique na direção certa
-                        line.CFrame = CFrame.new(player.Character.HumanoidRootPart.Position, humanoidRootPart.Position)
                     end
+                    
+                    -- Função para manter a linha atualizada
+                    game:GetService("RunService").Heartbeat:Connect(function()
+                        if isChecked and line then
+                            -- Atualizando a posição e tamanho da linha
+                            local startPos = player.Character.HumanoidRootPart.Position
+                            local endPos = humanoidRootPart.Position
+                            line.Position = (startPos + endPos) / 2  -- Posição da linha no meio dos dois personagens
+
+                            -- Atualizando o tamanho e direção da linha
+                            line.Size = Vector3.new(0.1, 0.1, (startPos - endPos).Magnitude)  -- Linha fina
+                            line.CFrame = CFrame.new(startPos, endPos)  -- Orienta a linha para ir do seu personagem até o outro
+                        end
+                    end)
                 end
             end
         end
@@ -221,8 +233,7 @@ createCheckbox("ESP Linha", 0.7, function(isChecked)
         -- Remover as linhas
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
             if otherPlayer ~= player and otherPlayer.Character then
-                local character = otherPlayer.Character
-                local line = character:FindFirstChild("ESP_Line")
+                local line = player.Character:FindFirstChild("ESP_Line_" .. otherPlayer.Name)
                 if line then
                     line:Destroy()
                 end
@@ -261,7 +272,7 @@ createCheckbox("ESP Distância", 0.8, function(isChecked)
             end
         end
     else
-        -- Remover as distâncias
+        -- Remover a distância
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
             if otherPlayer ~= player and otherPlayer.Character then
                 local character = otherPlayer.Character
@@ -272,17 +283,4 @@ createCheckbox("ESP Distância", 0.8, function(isChecked)
             end
         end
     end
-end)
-
--- Adiciona um botão de fechar
-local closeButton = Instance.new("TextButton")
-closeButton.Size = UDim2.new(0, 100, 0, 40)
-closeButton.Position = UDim2.new(1, -110, 0, -50)
-closeButton.Text = "Fechar"
-closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.Parent = menu
-
-closeButton.MouseButton1Click:Connect(function()
-    screenGui:Destroy() -- Fecha o menu
 end)
