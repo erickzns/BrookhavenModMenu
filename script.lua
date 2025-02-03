@@ -8,8 +8,8 @@ _c.Parent = _b
 
 -- Criar o Frame do menu (organizado e estilizado)
 local _d = Instance.new("Frame")
-_d.Size = UDim2.new(0, 300, 0, 450)  -- Tamanho ajustado
-_d.Position = UDim2.new(0.5, -150, 0.5, -225)  -- Posição inicial centralizada
+_d.Size = UDim2.new(0, 300, 0, 600)  -- Tamanho ajustado
+_d.Position = UDim2.new(0.5, -150, 0.5, -300)  -- Posição inicial centralizada
 _d.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor de fundo mais suave
 _d.BackgroundTransparency = 0.2  -- Tornando o fundo mais transparente
 _d.BorderSizePixel = 0  -- Sem borda visível
@@ -165,4 +165,57 @@ _i.MouseButton1Click:Connect(function()
     -- Exemplo de teleportação para um local específico no Brookhaven (ex: para uma casa)
     local targetPosition = CFrame.new(10, 0, 10)  -- Exemplo de coordenadas
     _a.Character:SetPrimaryPartCFrame(targetPosition)
+end)
+
+-- Função de Voar
+local _j = Instance.new("TextButton")
+_j.Size = UDim2.new(0, 250, 0, 50)
+_j.Position = UDim2.new(0.5, -125, 0, 250)
+_j.Text = "Ativar Voar"
+_j.Parent = _d
+_j.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+_j.TextColor3 = Color3.fromRGB(255, 255, 255)
+_j.TextSize = 16
+_j.Font = Enum.Font.Gotham
+_j.BorderSizePixel = 0
+_j.AutoButtonColor = false
+
+local flying = false
+local bodyVelocity = nil
+
+_j.MouseButton1Click:Connect(function()
+    flying = not flying
+    if flying then
+        _j.Text = "Desativar Voar"
+        -- Criar BodyVelocity para permitir o voo
+        bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(40000, 40000, 40000)
+        bodyVelocity.Velocity = Vector3.new(0, 50, 0)
+        bodyVelocity.Parent = _a.Character.HumanoidRootPart
+    else
+        _j.Text = "Ativar Voar"
+        -- Remover o BodyVelocity para parar de voar
+        if bodyVelocity then
+            bodyVelocity:Destroy()
+        end
+    end
+end)
+
+-- Função para Mudar o Personagem (com exemplo de skin)
+local _k = Instance.new("TextButton")
+_k.Size = UDim2.new(0, 250, 0, 50)
+_k.Position = UDim2.new(0.5, -125, 0, 350)
+_k.Text = "Mudar Personagem"
+_k.Parent = _d
+_k.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+_k.TextColor3 = Color3.fromRGB(255, 255, 255)
+_k.TextSize = 16
+_k.Font = Enum.Font.Gotham
+_k.BorderSizePixel = 0
+_k.AutoButtonColor = false
+
+_k.MouseButton1Click:Connect(function()
+    -- Exemplo de mudar a aparência do personagem (adicione sua própria lógica aqui)
+    local newAppearance = "rbxassetid://INSERT_ASSET_ID_HERE"  -- Insira um ID de aparência de personagem
+    _a.CharacterAppearance = newAppearance  -- Muda a aparência
 end)
