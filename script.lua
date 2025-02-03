@@ -10,14 +10,14 @@ _c.Parent = _b
 local _d = Instance.new("Frame")
 _d.Size = UDim2.new(0, 300, 0, 600)  -- Tamanho ajustado
 _d.Position = UDim2.new(0.5, -150, 0.5, -300)  -- Posição inicial centralizada
-_d.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor de fundo mais suave
+_d.BackgroundColor3 = Color3.fromRGB(40, 40, 40)  -- Cor de fundo mais suave
 _d.BackgroundTransparency = 0.2  -- Tornando o fundo mais transparente
 _d.BorderSizePixel = 0  -- Sem borda visível
 _d.Parent = _c
 
 -- Adicionar bordas arredondadas e sombra
 local _corner = Instance.new("UICorner")
-_corner.CornerRadius = UDim.new(0, 10)  -- Bordas arredondadas
+_corner.CornerRadius = UDim.new(0, 15)  -- Bordas arredondadas mais suaves
 _corner.Parent = _d
 
 local _shadow = Instance.new("ImageLabel")
