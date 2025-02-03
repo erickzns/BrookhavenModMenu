@@ -27,6 +27,19 @@ titleLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Parent = menu
 
+-- Botão para fechar (minimizar) o menu
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -40, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Parent = menu
+
+closeButton.MouseButton1Click:Connect(function()
+    menu.Visible = false  -- Fecha o menu quando clicar no X
+end)
+
 -- Função para criar uma caixinha de marcação
 local function createCheckbox(labelText, positionY, callback)
     local checkboxFrame = Instance.new("Frame")
@@ -92,17 +105,12 @@ end)
 
 createCheckbox("Pegar Dinheiro", 0.3, function(isChecked)
     if isChecked then
-        -- Pega dinheiro de outro jogador (ou da sua conta, dependendo da lógica)
+        -- Adiciona dinheiro ao jogador
         local leaderstats = player:FindFirstChild("leaderstats")
         if leaderstats then
             local money = leaderstats:FindFirstChild("Dinheiro")
             if money then
-                -- Subtrai 1000 de dinheiro
-                if money.Value >= 1000 then
-                    money.Value = money.Value - 1000 -- Pega 1000 de dinheiro
-                else
-                    print("Dinheiro insuficiente.")
-                end
+                money.Value = money.Value + 1000 -- Adiciona 1000 de dinheiro
             end
         end
     end
@@ -130,8 +138,42 @@ createCheckbox("Godmode (Imortal)", 0.4, function(isChecked)
     end
 end)
 
+-- Aimbot (Mirar no inimigo mais próximo)
+createCheckbox("Aimbot", 0.5, function(isChecked)
+    if isChecked then
+        local function aimbot()
+            local closestTarget = nil
+            local closestDistance = math.huge
+            for _, enemy in pairs(game.Players:GetPlayers()) do
+                if enemy ~= player and enemy.Character and enemy.Character:FindFirstChild("HumanoidRootPart") then
+                    local targetPosition = enemy.Character.HumanoidRootPart.Position
+                    local distance = (player.Character.HumanoidRootPart.Position - targetPosition).Magnitude
+                    if distance < closestDistance then
+                        closestDistance = distance
+                        closestTarget = enemy.Character.HumanoidRootPart
+                    end
+                end
+            end
+
+            -- Mira no alvo mais próximo
+            if closestTarget then
+                local direction = (closestTarget.Position - mouse.Hit.p).unit
+                local newCFrame = CFrame.new(player.Character.HumanoidRootPart.Position, closestTarget.Position)
+                player.Character.HumanoidRootPart.CFrame = newCFrame
+            end
+        end
+
+        -- Ativa o aimbot a cada quadro
+        game:GetService("RunService").Heartbeat:Connect(function()
+            if isChecked then
+                aimbot()
+            end
+        end)
+    end
+end)
+
 -- Função para ESP Caixa (contorno do personagem)
-createCheckbox("Ativar ESP Caixa", 0.5, function(isChecked)
+createCheckbox("Ativar ESP Caixa", 0.6, function(isChecked)
     if isChecked then
         -- Adicionar as caixas de ESP ao redor dos personagens
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
@@ -169,7 +211,7 @@ createCheckbox("Ativar ESP Caixa", 0.5, function(isChecked)
 end)
 
 -- Funções de ESP adicionais (Nome, Linha e Distância)
-createCheckbox("ESP Nome", 0.6, function(isChecked)
+createCheckbox("ESP Nome", 0.7, function(isChecked)
     if isChecked then
         -- Adiciona o nome ao redor do personagem
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
@@ -212,8 +254,7 @@ createCheckbox("ESP Nome", 0.6, function(isChecked)
     end
 end)
 
--- Função de ESP Linha (agora fica grudada no jogador e mais fina)
-createCheckbox("ESP Linha", 0.7, function(isChecked)
+createCheckbox("ESP Linha", 0.8, function(isChecked)
     if isChecked then
         -- Adiciona a linha ao redor do personagem
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
@@ -262,7 +303,7 @@ createCheckbox("ESP Linha", 0.7, function(isChecked)
     end
 end)
 
-createCheckbox("ESP Distância", 0.8, function(isChecked)
+createCheckbox("ESP Distância", 0.9, function(isChecked)
     if isChecked then
         -- Adiciona a distância ao redor do personagem
         for _, otherPlayer in pairs(game.Players:GetPlayers()) do
