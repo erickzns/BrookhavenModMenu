@@ -1,5 +1,7 @@
 -- Criar ScreenGui
 local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ModMenuGui"
+screenGui.ResetOnSpawn = false
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Criar Frame para o menu
@@ -172,11 +174,3 @@ createCheatCheckbox("Noclip", UDim2.new(0, 10, 0.9, 0), mainTab, function(isEnab
         end
     end
 end)
-
--- Função para criar abas do menu
-local function createMenuTab(name, position, parent, onSelect)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, 0, 0, 40)
-    button.Position = position
-    button.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-    button.Text
