@@ -139,6 +139,7 @@ createCheckbox("Godmode (Imortal)", 0.4, function(isChecked)
     end
 end)
 
+-- Aimbot (Mirar no inimigo mais próximo)
 createCheckbox("Aimbot", 0.5, function(isChecked)
     if isChecked then
         local function aimbot()
@@ -172,26 +173,85 @@ createCheckbox("Aimbot", 0.5, function(isChecked)
     end
 end)
 
+-- Função ESP para destacar jogadores
 createCheckbox("ESP", 0.6, function(isChecked)
     if isChecked then
-        local espEnabled = true
-        local espPart = Instance.new("BillboardGui")
-        espPart.Size = UDim2.new(0, 200, 0, 50)
-        espPart.StudsOffset = Vector3.new(0, 2, 0)
-        espPart.Parent = game.Workspace.CurrentCamera
-        
         game:GetService("RunService").Heartbeat:Connect(function()
-            if espEnabled then
-                for _, target in pairs(game.Players:GetPlayers()) do
-                    if target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-                        local box = Instance.new("Frame")
-                        box.Size = UDim2.new(0, 200, 0, 50)
-                        box.Position = UDim2.new(0, target.Character.HumanoidRootPart.Position.X, 0, target.Character.HumanoidRootPart.Position.Y)
-                        box.BackgroundTransparency = 0.5
-                        box.BorderSizePixel = 2
-                        box.BorderColor3 = Color3.fromRGB(255, 255, 255)
-                        box.Parent = espPart
-                    end
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                    -- Criação da caixa de ESP (borda ao redor do personagem)
+                    local box = Instance.new("BoxHandleAdornment")
+                    box.Adornee = target.Character.HumanoidRootPart
+                    box.Size = target.Character.HumanoidRootPart.Size + Vector3.new(1, 2, 1)  -- Ajuste de tamanho para se ajustar ao personagem
+                    box.Color3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
+                    box.Transparency = 0.5  -- Um pouco transparente
+                    box.Parent = game.Workspace
+                    -- Remover a caixa quando o alvo sair de cena
+                    target.Character:Destroying:Connect(function()
+                        box:Destroy()
+                    end)
+                end
+            end
+        end)
+    end
+end)
+
+createCheckbox("ESP Nome", 0.7, function(isChecked)
+    if isChecked then
+        game:GetService("RunService").Heartbeat:Connect(function()
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("Head") then
+                    -- Exibir o nome acima do personagem
+                    local nameTag = Instance.new("BillboardGui")
+                    nameTag.Adornee = target.Character.Head
+                    nameTag.Size = UDim2.new(0, 100, 0, 50)
+                    nameTag.StudsOffset = Vector3.new(0, 2, 0)
+                    nameTag.Parent = target.Character.Head
+
+                    local label = Instance.new("TextLabel")
+                    label.Size = UDim2.new(1, 0, 1, 0)
+                    label.BackgroundTransparency = 1
+                    label.Text = target.Name
+                    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    label.TextStrokeTransparency = 0.7
+                    label.Parent = nameTag
+                end
+            end
+        end)
+    end
+end)
+
+createCheckbox("ESP Linha", 0.8, function(isChecked)
+    if isChecked then
+        game:GetService("RunService").Heartbeat:Connect(function()
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                    -- Criando a linha de ESP
+                    local line = Instance.new("LineHandleAdornment")
+                    line.Adornee = target.Character.HumanoidRootPart
+                    line.Color3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
+                    line.Transparency = 0.5
+                    line.Parent = game.Workspace
+                end
+            end
+        end)
+    end
+end)
+
+createCheckbox("ESP Distância", 0.9, function(isChecked)
+    if isChecked then
+        game:GetService("RunService").Heartbeat:Connect(function()
+            for _, target in pairs(game.Players:GetPlayers()) do
+                if target ~= player and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                    -- Exibir distância
+                    local distance = (player.Character.HumanoidRootPart.Position - target.Character.HumanoidRootPart.Position).Magnitude
+                    local distanceLabel = Instance.new("TextLabel")
+                    distanceLabel.Size = UDim2.new(0, 100, 0, 30)
+                    distanceLabel.Position = UDim2.new(0, 50, 0, 50)
+                    distanceLabel.Text = "Distância: " .. math.floor(distance)
+                    distanceLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    distanceLabel.BackgroundTransparency = 1
+                    distanceLabel.Parent = screenGui
                 end
             end
         end)
@@ -210,4 +270,3 @@ end)
 -- Tornar o cursor visível ao abrir o menu
 menu.Visible = true
 mouse.Icon = "rbxassetid://6031078444"  -- Exibe o cursor padrão ao mostrar o menu
-
