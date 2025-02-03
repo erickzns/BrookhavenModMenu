@@ -1,13 +1,18 @@
-local _a = game.Players.LocalPlayer
-local _b = _a.PlayerGui
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
 
--- Criação do ScreenGui para o Mod Menu
+-- Verificação se o PlayerGui está acessível
+if not playerGui then
+    warn("PlayerGui não encontrado!")
+    return
+end
+
+-- Criando um ScreenGui para o Mod Menu
 local modMenuGui = Instance.new("ScreenGui")
 modMenuGui.Name = "ModMenu"
-modMenuGui.Parent = _b
-modMenuGui.ZIndex = 1000  -- Garantir que o menu esteja acima de outros elementos
+modMenuGui.Parent = playerGui
 
--- Criar um frame para o menu
+-- Criando um frame para o menu
 local menuFrame = Instance.new("Frame")
 menuFrame.Size = UDim2.new(0, 400, 0, 500)  -- Tamanho do menu
 menuFrame.Position = UDim2.new(0.5, -200, 0.5, -250)  -- Posição centralizada
@@ -17,7 +22,7 @@ menuFrame.Parent = modMenuGui
 menuFrame.Active = true  -- Permite que o menu seja clicado
 menuFrame.Draggable = true  -- Permite que o menu seja movido
 
--- Criar um título para o menu
+-- Criando um título para o menu
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 50)  -- Tamanho do título
 title.Position = UDim2.new(0, 0, 0, 0)  -- Posição do título
@@ -28,3 +33,5 @@ title.TextSize = 24
 title.Font = Enum.Font.SourceSans
 title.TextAlign = Enum.TextXAlignment.Center
 title.Parent = menuFrame
+
+print("Menu criado com sucesso!")
