@@ -1,4 +1,3 @@
--- Parte do código do Mod Menu, agora "disfarçado" com variáveis e funções modificadas
 local _a = game.Players.LocalPlayer
 local _b = _a.PlayerGui
 
@@ -57,9 +56,14 @@ _g.MouseButton1Click:Connect(function()
                 -- Atualizando a posição da label
                 game:GetService("RunService").Heartbeat:Connect(function()
                     if _i.Character and _i.Character:FindFirstChild("HumanoidRootPart") then
-                        _j.Position = UDim2.new(0.5, -50, 0, (game.Workspace.CurrentCamera:WorldToScreenPoint(_i.Character.HumanoidRootPart.Position).Y - 100) / game.Workspace.CurrentCamera.ViewportSize.Y)
+                        local screenPos, onScreen = game.Workspace.CurrentCamera:WorldToScreenPoint(_i.Character.HumanoidRootPart.Position)
+                        if onScreen then
+                            _j.Position = UDim2.new(0, screenPos.X - 50, 0, screenPos.Y - 50)
+                        else
+                            _j.Visible = false  -- Se o jogador sair da tela, esconder a label
+                        end
                     else
-                        _j.Visible = false
+                        _j.Visible = false  -- Se o jogador não tiver personagem ou humanoidrootpart, esconder a label
                     end
                 end)
             end
