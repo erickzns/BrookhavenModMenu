@@ -1,30 +1,51 @@
-print("🔵 Iniciando script...")
+-- Cria a janela do menu
+local Window = OrionLib:MakeWindow({
+    Name = "Ana's Mod Menu",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "AnaMod"
+})
 
-local success, err = pcall(function()
-    -- Carrega a UI
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/erickzns/BrookhavenModMenu/refs/heads/main/script.lua"))()
-    print("✅ Rayfield carregado com sucesso!")
+-- Aba Principal (Main)
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-    local Window = Rayfield:CreateWindow({
-        Name = "Ana's Mod Menu",
-        LoadingTitle = "Carregando...",
-        LoadingSubtitle = "By Ana",
-        ConfigurationSaving = { Enabled = false },
-        KeySystem = false
-    })
-
-    local MainTab = Window:CreateTab("Main", 4483345998)
-    MainTab:CreateButton({
-        Name = "Testar Menu",
-        Callback = function()
-            print("🎯 O botão foi pressionado!")
+-- Botão de Alternância (Auto Shake)
+MainTab:AddToggle({
+    Name = "Auto Shake",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            print("Auto Shake Ativado")
+        else
+            print("Auto Shake Desativado")
         end
-    })
+    end
+})
 
-    Rayfield:LoadConfiguration()
-    print("✅ Menu carregado com sucesso!")
-end)
+-- Botão de Alternância (Auto Balance Nuke)
+MainTab:AddToggle({
+    Name = "Auto Balance Nuke",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            print("Auto Balance Nuke Ativado")
+        else
+            print("Auto Balance Nuke Desativado")
+        end
+    end
+})
 
-if not success then
-    warn("❌ Erro ao carregar o script:", err)
-end
+-- Botão Normal (Freeze Character)
+MainTab:AddButton({
+    Name = "Freeze Character",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    end
+})
+
+-- Inicia o Menu
+OrionLib:Init()
