@@ -9,7 +9,7 @@ local function createModMenu()
 
     -- Criando o Frame do Menu
     local menuFrame = Instance.new("Frame")
-    menuFrame.Size = UDim2.new(0, 200, 0, 400)
+    menuFrame.Size = UDim2.new(0, 300, 0, 600)
     menuFrame.Position = UDim2.new(0, 10, 0, 10)
     menuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     menuFrame.BackgroundTransparency = 0.5
@@ -20,103 +20,121 @@ local function createModMenu()
     titleLabel.Size = UDim2.new(1, 0, 0, 50)
     titleLabel.Position = UDim2.new(0, 0, 0, 0)
     titleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    titleLabel.Text = "Mod Menu"
+    titleLabel.Text = "Ghos Menu"
     titleLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
     titleLabel.TextScaled = true
     titleLabel.Parent = menuFrame
 
-    -- Criando o Botão de Speed Hack
-    local speedHackButton = Instance.new("TextButton")
-    speedHackButton.Size = UDim2.new(1, -20, 0, 50)
-    speedHackButton.Position = UDim2.new(0, 10, 0, 60)
-    speedHackButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    speedHackButton.Text = "Ativar Speed Hack"
-    speedHackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    speedHackButton.TextScaled = true
-    speedHackButton.Parent = menuFrame
+    -- Função para criar um botão de alternância
+    local function createToggleButton(parent, position, text, toggleFunction)
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(1, -20, 0, 50)
+        button.Position = position
+        button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        button.Text = text
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.TextScaled = true
+        button.Parent = parent
 
-    -- Variável para controlar o estado do Speed Hack
-    local speedHackActive = false
+        local active = false
 
-    -- Função para ativar/desativar o Speed Hack
-    local function toggleSpeedHack()
-        local player = game.Players.LocalPlayer
-        if speedHackActive then
-            player.Character.Humanoid.WalkSpeed = 16 -- Velocidade padrão
-            speedHackButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-            speedHackButton.Text = "Ativar Speed Hack"
-        else
-            player.Character.Humanoid.WalkSpeed = 50 -- Velocidade aumentada
-            speedHackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-            speedHackButton.Text = "Desativar Speed Hack"
-        end
-        speedHackActive = not speedHackActive
+        button.MouseButton1Click:Connect(function()
+            active = not active
+            if active then
+                button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+                toggleFunction(true)
+            else
+                button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                toggleFunction(false)
+            end
+        end)
+
+        return button
     end
 
-    -- Conectando a função ao clique do botão
-    speedHackButton.MouseButton1Click:Connect(toggleSpeedHack)
+    -- Função para criar um slider
+    local function createSlider(parent, position, min, max, callback)
+        local sliderFrame = Instance.new("Frame")
+        sliderFrame.Size = UDim2.new(1, -20, 0, 50)
+        sliderFrame.Position = position
+        sliderFrame.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+        sliderFrame.Parent = parent
 
-    -- Criando o Botão de Super Salto
-    local superJumpButton = Instance.new("TextButton")
-    superJumpButton.Size = UDim2.new(1, -20, 0, 50)
-    superJumpButton.Position = UDim2.new(0, 10, 0, 120)
-    superJumpButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    superJumpButton.Text = "Ativar Super Salto"
-    superJumpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    superJumpButton.TextScaled = true
-    superJumpButton.Parent = menuFrame
+        local slider = Instance.new("TextButton")
+        slider.Size = UDim2.new(0, 20, 1, 0)
+        slider.Position = UDim2.new(0, 0, 0, 0)
+        slider.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+        slider.Parent = sliderFrame
 
-    -- Variável para controlar o estado do Super Salto
-    local superJumpActive = false
+        local dragging = false
 
-    -- Função para ativar/desativar o Super Salto
-    local function toggleSuperJump()
-        local player = game.Players.LocalPlayer
-        if superJumpActive then
-            player.Character.Humanoid.JumpPower = 50 -- Altura de salto padrão
-            superJumpButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-            superJumpButton.Text = "Ativar Super Salto"
-        else
-            player.Character.Humanoid.JumpPower = 100 -- Altura de salto aumentada
-            superJumpButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-            superJumpButton.Text = "Desativar Super Salto"
-        end
-        superJumpActive = not superJumpActive
+        slider.MouseButton1Down:Connect(function()
+            dragging = true
+        end)
+
+        game:GetService("UserInputService").InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = false
+            end
+        end)
+
+        sliderFrame.MouseMoved:Connect(function(x, y)
+            if dragging then
+                local scale = math.clamp((x - sliderFrame.AbsolutePosition.X) / sliderFrame.AbsoluteSize.X, 0, 1)
+                slider.Position = UDim2.new(scale, 0, 0, 0)
+                local value = min + (max - min) * scale
+                callback(value)
+            end
+        end)
     end
 
-    -- Conectando a função ao clique do botão
-    superJumpButton.MouseButton1Click:Connect(toggleSuperJump)
+    -- Funções de trapaça
+    local player = game.Players.LocalPlayer
 
-    -- Criando o Botão de Gravidade Zero
-    local lowGravityButton = Instance.new("TextButton")
-    lowGravityButton.Size = UDim2.new(1, -20, 0, 50)
-    lowGravityButton.Position = UDim2.new(0, 10, 0, 180)
-    lowGravityButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    lowGravityButton.Text = "Ativar Gravidade Zero"
-    lowGravityButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    lowGravityButton.TextScaled = true
-    lowGravityButton.Parent = menuFrame
-
-    -- Variável para controlar o estado da Gravidade Zero
-    local lowGravityActive = false
-
-    -- Função para ativar/desativar a Gravidade Zero
-    local function toggleLowGravity()
-        local player = game.Players.LocalPlayer
-        if lowGravityActive then
-            game.Workspace.Gravity = 196.2 -- Gravidade padrão
-            lowGravityButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-            lowGravityButton.Text = "Ativar Gravidade Zero"
+    -- Velocidade Extra (Speed Hack)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 60), "Ativar Velocidade", function(active)
+        if active then
+            player.Character.Humanoid.WalkSpeed = 50
         else
-            game.Workspace.Gravity = 50 -- Gravidade reduzida
-            lowGravityButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-            lowGravityButton.Text = "Desativar Gravidade Zero"
+            player.Character.Humanoid.WalkSpeed = 16
         end
-        lowGravityActive = not lowGravityActive
-    end
+    end)
 
-    -- Conectando a função ao clique do botão
-    lowGravityButton.MouseButton1Click:Connect(toggleLowGravity)
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 120), 1, 10, function(value)
+        if player.Character.Humanoid.WalkSpeed > 16 then
+            player.Character.Humanoid.WalkSpeed = 16 * value
+        end
+    end)
+
+    -- Super Salto (Super Jump)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 180), "Ativar Super Salto", function(active)
+        if active then
+            player.Character.Humanoid.JumpPower = 100
+        else
+            player.Character.Humanoid.JumpPower = 50
+        end
+    end)
+
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 240), 1, 10, function(value)
+        if player.Character.Humanoid.JumpPower > 50 then
+            player.Character.Humanoid.JumpPower = 50 * value
+        end
+    end)
+
+    -- Gravidade Zero (Low Gravity)
+    createToggleButton(menuFrame, UDim2.new(0, 10, 0, 300), "Ativar Gravidade Zero", function(active)
+        if active then
+            game.Workspace.Gravity = 50
+        else
+            game.Workspace.Gravity = 196.2
+        end
+    end)
+
+    createSlider(menuFrame, UDim2.new(0, 10, 0, 360), 0, 1, function(value)
+        if game.Workspace.Gravity < 196.2 then
+            game.Workspace.Gravity = 196.2 * (1 - value)
+        end
+    end)
 end
 
 -- Garantir que a função seja executada após o jogador carregar
