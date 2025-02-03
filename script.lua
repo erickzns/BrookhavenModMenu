@@ -1,29 +1,30 @@
--- Confirma se o script carregou
-print("Carregando menu...")
+print("🔵 Iniciando script...")
 
--- Carrega a UI
+local success, err = pcall(function()
+    -- Carrega a UI
 local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/erickzns/BrookhavenModMenu/refs/heads/main/script.lua"))()
+    print("✅ Rayfield carregado com sucesso!")
 
--- Cria a janela
-local Window = Rayfield:CreateWindow({
-    Name = "Ana's Mod Menu",
-    LoadingTitle = "Carregando...",
-    LoadingSubtitle = "By Ana",
-    ConfigurationSaving = { Enabled = false },
-    KeySystem = false
-})
+    local Window = Rayfield:CreateWindow({
+        Name = "Ana's Mod Menu",
+        LoadingTitle = "Carregando...",
+        LoadingSubtitle = "By Ana",
+        ConfigurationSaving = { Enabled = false },
+        KeySystem = false
+    })
 
--- Cria a aba principal
-local MainTab = Window:CreateTab("Main", 4483345998)
+    local MainTab = Window:CreateTab("Main", 4483345998)
+    MainTab:CreateButton({
+        Name = "Testar Menu",
+        Callback = function()
+            print("🎯 O botão foi pressionado!")
+        end
+    })
 
--- Adiciona um botão de teste
-MainTab:CreateButton({
-    Name = "Testar Menu",
-    Callback = function()
-        print("O menu está funcionando!")
-    end
-})
+    Rayfield:LoadConfiguration()
+    print("✅ Menu carregado com sucesso!")
+end)
 
--- Exibe a UI
-Rayfield:LoadConfiguration()
-print("Menu carregado com sucesso!")
+if not success then
+    warn("❌ Erro ao carregar o script:", err)
+end
