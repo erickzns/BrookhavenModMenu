@@ -1,7 +1,7 @@
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = player.PlayerGui
+screenGui.Parent = player.PlayerGui  -- Assegura que o ScreenGui seja adicionado corretamente
 
 -- Criando o menu flutuante
 local menu = Instance.new("Frame")
@@ -52,6 +52,51 @@ local function bypassDetection()
 
     -- Simula uma comunicação segura com o servidor
     game:GetService("ReplicatedStorage").RequestFire:FireServer("safeDataHere")
+end
+
+-- Função para criar uma caixinha de marcação
+local function createCheckbox(labelText, positionY, callback)
+    local checkboxFrame = Instance.new("Frame")
+    checkboxFrame.Size = UDim2.new(1, 0, 0, 30)
+    checkboxFrame.Position = UDim2.new(0, 0, positionY, 0)
+    checkboxFrame.BackgroundTransparency = 1
+    checkboxFrame.Parent = scrollingFrame
+
+    -- Caixinha de marcação
+    local checkbox = Instance.new("TextButton")
+    checkbox.Size = UDim2.new(0, 20, 0, 20)
+    checkbox.Position = UDim2.new(0, 0, 0.5, -10)
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    checkbox.BorderSizePixel = 1
+    checkbox.Text = ""
+    checkbox.Parent = checkboxFrame
+
+    -- Nome da função
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -30, 1, 0)
+    label.Position = UDim2.new(0, 30, 0, 0)
+    label.Text = labelText
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = checkboxFrame
+
+    -- Variável para controlar o estado da caixa de marcação
+    local isChecked = false
+
+    -- Função para lidar com a marcação
+    checkbox.MouseButton1Click:Connect(function()
+        isChecked = not isChecked
+        if isChecked then
+            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Cor verde quando marcado
+            callback(true)
+        else
+            checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)  -- Cor branca quando desmarcado
+            callback(false)
+        end
+    end)
+
+    return checkboxFrame
 end
 
 -- Funções de Trapaça
