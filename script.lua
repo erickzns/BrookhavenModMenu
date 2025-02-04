@@ -102,23 +102,23 @@ local function createCheckbox(parent, position, label, callback)
     checkboxFrame.Position = position
     checkboxFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 
-    local checkbox = Instance.new("TextButton")
-    checkbox.Parent = checkboxFrame
-    checkbox.Size = UDim2.new(0, 30, 0, 30)
-    checkbox.Position = UDim2.new(0, 0, 0, 0)
-    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    checkbox.Text = ""
-    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-
     local labelText = Instance.new("TextLabel")
     labelText.Parent = checkboxFrame
-    labelText.Size = UDim2.new(0, 220, 0, 30)
-    labelText.Position = UDim2.new(0, 35, 0, 0)
+    labelText.Size = UDim2.new(0, 200, 0, 30)
+    labelText.Position = UDim2.new(0, 0, 0, 0)
     labelText.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     labelText.Text = label
     labelText.TextColor3 = Color3.fromRGB(255, 255, 255)
     labelText.Font = Enum.Font.SourceSans
     labelText.TextSize = 18
+
+    local checkbox = Instance.new("TextButton")
+    checkbox.Parent = checkboxFrame
+    checkbox.Size = UDim2.new(0, 30, 0, 30)
+    checkbox.Position = UDim2.new(0, 200, 0, 0)
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    checkbox.Text = ""
+    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
 
     local isChecked = false
     checkbox.MouseButton1Click:Connect(function()
