@@ -92,22 +92,25 @@ local function addCheckboxToMenu(functionName)
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
-    local Checkbox = Instance.new("TextButton")
-    Checkbox.Size = UDim2.new(0, 20, 0, 20)
-    Checkbox.Position = UDim2.new(0, 10, 0.5, -10)
-    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Checkbox.Text = ""
-    Checkbox.Parent = Frame
-    
+    -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
     CheckBoxText.Size = UDim2.new(0, 340, 0, 50)
-    CheckBoxText.Position = UDim2.new(0, 40, 0, 0)
+    CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
     CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
     CheckBoxText.TextSize = 18
+    CheckBoxText.TextXAlignment = Enum.TextXAlignment.Left  -- Alinha o texto à esquerda
     CheckBoxText.Parent = Frame
+    
+    -- Caixa de Seleção (Checkbox)
+    local Checkbox = Instance.new("TextButton")
+    Checkbox.Size = UDim2.new(0, 20, 0, 20)
+    Checkbox.Position = UDim2.new(1, -30, 0.5, -10)  -- Posiciona à direita, um pouco afastado
+    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Checkbox.Text = ""
+    Checkbox.Parent = Frame
     
     -- Função para alternar o checkbox (ativar/desativar)
     local isChecked = false
