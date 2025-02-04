@@ -70,93 +70,133 @@ local function ToggleFrame(frame)
 end
 
 -- Funções de trapaça com execução real
-local cheatStates = {ESP = false, GodMode = false, FlyHack = false, InfiniteJump = false, SpeedBoost = false, Aimbot = false, NoClip = false, AntiKickBan = false}
+local cheatStates = {
+    ESP = false,
+    GodMode = false,
+    FlyHack = false,
+    InfiniteJump = false,
+    SpeedBoost = false,
+    Aimbot = false,
+    NoClip = false,
+    AntiKickBan = false
+}
 
 local function ESP()
-    print(cheatStates.ESP and "ESP ativado" or "ESP desativado")
     cheatStates.ESP = not cheatStates.ESP
-    -- Código real de ESP
+    print(cheatStates.ESP and "ESP ativado" or "ESP desativado")
+    -- Código real de ESP aqui
 end
 
 local function GodMode()
-    print(cheatStates.GodMode and "God Mode ativado" or "God Mode desativado")
     cheatStates.GodMode = not cheatStates.GodMode
+    print(cheatStates.GodMode and "God Mode ativado" or "God Mode desativado")
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.Health = cheatStates.GodMode and math.huge or humanoid.Health
+            if cheatStates.GodMode then
+                humanoid.Health = math.huge -- Ativa o God Mode
+            else
+                humanoid.Health = humanoid.MaxHealth -- Desativa o God Mode e retorna à saúde normal
+            end
         end
     end
 end
 
 local function FlyHack()
-    print(cheatStates.FlyHack and "Fly Hack ativado" or "Fly Hack desativado")
     cheatStates.FlyHack = not cheatStates.FlyHack
+    print(cheatStates.FlyHack and "Fly Hack ativado" or "Fly Hack desativado")
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
+        local bodyVelocity = player.Character:FindFirstChild("BodyVelocity")
         if humanoid then
             if cheatStates.FlyHack then
-                -- Código para ativar o voo
+                -- Ativa o voo
+                if not bodyVelocity then
+                    local bodyVel = Instance.new("BodyVelocity")
+                    bodyVel.MaxForce = Vector3.new(5000, 5000, 5000)
+                    bodyVel.Velocity = Vector3.new(0, 50, 0)
+                    bodyVel.Parent = player.Character.HumanoidRootPart
+                end
             else
-                -- Código para desativar o voo
+                -- Desativa o voo
+                if bodyVelocity then
+                    bodyVelocity:Destroy()
+                end
             end
         end
     end
 end
 
 local function InfiniteJump()
-    print(cheatStates.InfiniteJump and "Infinite Jump ativado" or "Infinite Jump desativado")
     cheatStates.InfiniteJump = not cheatStates.InfiniteJump
+    print(cheatStates.InfiniteJump and "Infinite Jump ativado" or "Infinite Jump desativado")
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.JumpHeight = cheatStates.InfiniteJump and 100 or 50
+            if cheatStates.InfiniteJump then
+                humanoid.JumpHeight = 100
+            else
+                humanoid.JumpHeight = 50 -- Restabelece o pulo normal
+            end
         end
     end
 end
 
 local function SpeedBoost()
-    print(cheatStates.SpeedBoost and "Speed Boost ativado" or "Speed Boost desativado")
     cheatStates.SpeedBoost = not cheatStates.SpeedBoost
+    print(cheatStates.SpeedBoost and "Speed Boost ativado" or "Speed Boost desativado")
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.WalkSpeed = cheatStates.SpeedBoost and 100 or 16
+            if cheatStates.SpeedBoost then
+                humanoid.WalkSpeed = 100
+            else
+                humanoid.WalkSpeed = 16 -- Restabelece a velocidade normal
+            end
         end
     end
 end
 
 local function Aimbot()
-    print(cheatStates.Aimbot and "Aimbot ativado" or "Aimbot desativado")
     cheatStates.Aimbot = not cheatStates.Aimbot
+    print(cheatStates.Aimbot and "Aimbot ativado" or "Aimbot desativado")
     -- Aimbot code here
 end
 
 local function NoClip()
-    print(cheatStates.NoClip and "NoClip ativado" or "NoClip desativado")
     cheatStates.NoClip = not cheatStates.NoClip
+    print(cheatStates.NoClip and "NoClip ativado" or "NoClip desativado")
     local player = game.Players.LocalPlayer
     if player and player.Character then
-        local character = player.Character
-        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-        local bodyPosition = Instance.new("BodyPosition")
-        bodyPosition.MaxForce = Vector3.new(500000, 500000, 500000)
-        bodyPosition.D = 1
-        bodyPosition.P = 5000
-        bodyPosition.Parent = humanoidRootPart
-        if not cheatStates.NoClip then
-            bodyPosition:Destroy() -- Remove a funcionalidade de NoClip
+        local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
+        local bodyPosition = player.Character:FindFirstChild("BodyPosition")
+        if humanoidRootPart then
+            if cheatStates.NoClip then
+                -- Ativa o NoClip
+                if not bodyPosition then
+                    local bodyPos = Instance.new("BodyPosition")
+                    bodyPos.MaxForce = Vector3.new(500000, 500000, 500000)
+                    bodyPos.D = 1
+                    bodyPos.P = 5000
+                    bodyPos.Parent = humanoidRootPart
+                end
+            else
+                -- Desativa o NoClip
+                if bodyPosition then
+                    bodyPosition:Destroy()
+                end
+            end
         end
     end
 end
 
 local function AntiKickBan()
-    print(cheatStates.AntiKickBan and "Anti-Kick/Ban ativado" or "Anti-Kick/Ban desativado")
     cheatStates.AntiKickBan = not cheatStates.AntiKickBan
+    print(cheatStates.AntiKickBan and "Anti-Kick/Ban ativado" or "Anti-Kick/Ban desativado")
     -- Código para impedir kick/ban (emulação)
 end
 
