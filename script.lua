@@ -27,6 +27,9 @@ configuracoesButton.Position = UDim2.new(0, 10, 0, 130)
 configuracoesButton.Text = "Configurações"
 configuracoesButton.Parent = mainMenu
 
+-- Tabela para armazenar submenus
+local submenus = {}
+
 -- Função para criar submenus com checkboxes
 local function createSubMenu(button, options)
     local submenu = Instance.new("Frame")
@@ -35,6 +38,7 @@ local function createSubMenu(button, options)
     submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     submenu.Visible = false
     submenu.Parent = mainMenu
+    submenus[button] = submenu
 
     for i, option in ipairs(options) do
         local optionFrame = Instance.new("Frame")
@@ -77,66 +81,19 @@ local function createSubMenu(button, options)
     end)
 end
 
--- Nova funcionalidade: Invisibilidade
-local function ativarInvisibilidade()
-    local character = game.Players.LocalPlayer.Character
-    for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
-            part.Transparency = 1
+-- Garantir que todos os submenus sejam ocultados quando outro for aberto
+for button, submenu in pairs(submenus) do
+    button.MouseButton1Click:Connect(function()
+        for _, sub in pairs(submenus) do
+            sub.Visible = false
         end
-    end
+        submenu.Visible = true
+    end)
 end
 
-local function desativarInvisibilidade()
-    local character = game.Players.LocalPlayer.Character
-    for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
-            part.Transparency = 0
-        end
-    end
-end
-
-local invisibilidadeButton = Instance.new("TextButton")
-invisibilidadeButton.Size = UDim2.new(0, 100, 0, 50)
-invisibilidadeButton.Position = UDim2.new(0, 10, 0, 310)
-invisibilidadeButton.Text = "Invisibilidade"
-invisibilidadeButton.Parent = mainMenu
-
-createSubMenu(invisibilidadeButton, {
-    {name = "Ativar Invisibilidade", onActivate = ativarInvisibilidade, onDeactivate = desativarInvisibilidade}
+-- Criar os submenus corretamente para cada funcionalidade
+createSubMenu(geralButton, {
+    {name = "Ativar Invisibilidade", onActivate = ativarInvisibilidade, onDeactivate = desativarInvisibilidade},
+    {name = "Ativar Super Velocidade", onActivate = ativarSuperVelocidade, onDeactivate = desativarSuperVelocidade},
+    {name = "Ativar Teleporte Rápido", onActivate = ativarTeleporteRapido, onDeactivate = function() end}
 })
-
--- Nova funcionalidade: Super Velocidade
-local function ativarSuperVelocidade()
-    local character = game.Players.LocalPlayer.Character
-    character.Humanoid.WalkSpeed = 200
-end
-
-local function desativarSuperVelocidade()
-    local character = game.Players.LocalPlayer.Character
-    character.Humanoid.WalkSpeed = 16
-end
-
-local superVelocidadeButton = Instance.new("TextButton")
-superVelocidadeButton.Size = UDim2.new(0, 100, 0, 50)
-superVelocidadeButton.Position = UDim2.new(0, 10, 0, 370)
-superVelocidadeButton.Text = "Super Velocidade"
-superVelocidadeButton.Parent = mainMenu
-
-createSubMenu(superVelocidadeButton, {
-    {name = "Ativar Super Velocidade", onActivate = ativarSuperVelocidade, onDeactivate = desativarSuperVelocidade}
-})
-
--- Nova funcionalidade: Teleporte Rápido
-local function ativarTeleporteRapido()
-    local character = game.Players.LocalPlayer.Character
-    character:SetPrimaryPartCFrame(character.PrimaryPart.CFrame + Vector3.new(0, 10, 0))
-end
-
-local teleporteRapidoButton = Instance.new("TextButton")
-teleporteRapidoButton.Size = UDim2.new(0, 100, 0, 50)
-teleporteRapidoButton.Position = UDim2.new(0, 10, 0, 430)
-teleporteRapidoButton.Text = "Teleporte Rápido"
-teleporteRapidoButton.Parent = mainMenu
-
-teleporteRapidoButton.MouseButton1Click:Connect(ativarTeleporteRapido)
