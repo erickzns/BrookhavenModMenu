@@ -69,7 +69,8 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções adicionais
+-- Funções adicionais antigas
+
 local function ESP()
     print("ESP ativado") -- Adicionar código real aqui
 end
@@ -106,7 +107,7 @@ local function AntiKickBan()
     print("Anti-Kick e Anti-Ban ativado") -- Adicionar código real aqui
 end
 
--- Funções para adicionar os botões de ativação de hacks em cada submenu
+-- Funções para adicionar os botões aos submenus
 local function AddButtonToFrame(frame, text, func)
     local button = Instance.new("TextButton")
     button.Parent = frame
@@ -118,11 +119,16 @@ local function AddButtonToFrame(frame, text, func)
     button.MouseButton1Click:Connect(func)
 end
 
--- Adicionando os botões aos submenus
+-- Adicionando os botões aos submenus com funções antigas
 AddButtonToFrame(GeralFrame, "ESP", ESP)
 AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
 AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
 AddButtonToFrame(ConfigFrame, "Infinite Jump", InfiniteJump)
+AddButtonToFrame(GeralFrame, "Teleport Player", TeleportPlayer)
+AddButtonToFrame(JogadorFrame, "Speed Boost", SpeedBoost)
+AddButtonToFrame(ArmaFrame, "Aimbot", Aimbot)
+AddButtonToFrame(JogadorFrame, "NoClip", NoClip)
+AddButtonToFrame(ConfigFrame, "Anti-Kick/Ban", AntiKickBan)
 
 -- Ações dos botões para abrir os submenus
 GeralButton.MouseButton1Click:Connect(function()
