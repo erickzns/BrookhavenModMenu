@@ -45,108 +45,90 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)  -- Menos espaço entre as funções
 
--- Adiciona um item com checkbox ao submenu
+-- Função para limpar o submenu antes de adicionar novas opções
+local function clearSubMenu()
+    for _, child in pairs(ScrollingFrame:GetChildren()) do
+        if child:IsA("Frame") then
+            child:Destroy()
+        end
+    end
+end
+
+-- Função para adicionar funções ao submenu com checkboxes
 local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(0, 380, 0, 30)  -- Ajuste de altura para dar mais espaço
-    Frame.BackgroundTransparency = 1  -- Removendo o fundo cinza
+    Frame.Size = UDim2.new(0, 380, 0, 30)
+    Frame.BackgroundTransparency = 1
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
-    -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
-    CheckBoxText.Size = UDim2.new(0, 240, 0, 30)  -- Ajustando o tamanho do texto para caber mais à esquerda
+    CheckBoxText.Size = UDim2.new(0, 240, 0, 30)
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
-    CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
     CheckBoxText.TextSize = 18
     CheckBoxText.TextXAlignment = Enum.TextXAlignment.Left
     CheckBoxText.Parent = Frame
 
-    -- Caixa de seleção (checkbox)
     local Checkbox = Instance.new("TextButton")
     Checkbox.Size = UDim2.new(0, 20, 0, 20)
-    Checkbox.Position = UDim2.new(0, 240, 0, 5)  -- Ajustando a posição para mais à esquerda
+    Checkbox.Position = UDim2.new(0, 240, 0, 5)
     Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    -- Função para alternar o checkbox
     local isChecked = false
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
-        if isChecked then
-            Checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
-        else
-            Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho para desativado
-        end
+        Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
 end
 
--- Função para tornar o menu arrastável
-local dragging = false
-local dragInput, dragStart, startPos
-
-MainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = MainFrame.Position
-        input.Consumed = true
-    end
-end)
-
-MainFrame.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-MainFrame.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-end)
-
--- Barra Lateral (SideBar) - SEMI TRANSPARENTE
+-- Barra Lateral (SideBar)
 SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, -50)
 SideBar.Position = UDim2.new(0, 0, 0, 50)
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SideBar.BackgroundTransparency = 0.7  -- Barra lateral semi-transparente (ajustado para 0.7)
+SideBar.BackgroundTransparency = 0.7
 SideBar.BorderSizePixel = 0
 
--- Função para adicionar botões laterais
+-- Função para adicionar botões laterais e carregar funções específicas
+local buttonFunctions = {
+    GERAL = {"AutoClick", "God Mode", "Bypass Anti-Cheat"},
+    ARMA = {"Aimbot", "Hitbox Expander", "No Recoil"},
+    JOGADORES = {"ESP Wallhack", "Teleport", "Speed Hack"},
+    VEICULO = {"Boost Nitro", "Carro Voador", "Anti-Crash"},
+    TROLLS = {"Explodir Jogador", "Loop Kill", "Chat Spammer"},
+    CONFIGURACOES = {"Mudar Tema", "Ativar Modo Stealth", "Personalizar Teclas"}
+}
+
 local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 40)
     Button.Position = UDim2.new(0, 0, 0, yPosition)
     Button.Text = name
     Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
     Button.Font = Enum.Font.SourceSans
     Button.TextSize = 18
     Button.Parent = SideBar
 
     Button.MouseButton1Click:Connect(function()
-        print(name .. " clicado!")
-        -- Aqui você pode adicionar funcionalidades específicas para cada botão
+        clearSubMenu()
+        for _, func in ipairs(buttonFunctions[name] or {}) do
+            addCheckboxToMenu(func)
+        end
     end)
 
-    table.insert(Buttons, Button)  -- Adiciona o botão à lista para referência futura
+    table.insert(Buttons, Button)
 end
 
 -- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
 for i, name in ipairs(buttonNames) do
-    addSideButton(name, (i - 1) * 50)  -- Ajusta a posição dos botões na barra lateral
-end
-
--- Adicionando várias opções ao submenu com checkboxes
-for i = 1, 20 do  -- Ajuste conforme necessário
-    addCheckboxToMenu("Função " .. i)
+    addSideButton(name, (i - 1) * 50)
 end
