@@ -164,21 +164,57 @@ local function desativarVoo()
     end
 end
 
--- Criando submenus para cada botão
-createSubMenu(geralButton, {
-    {name = "Modo Invencível", onActivate = ativarModoInvencivel, onDeactivate = desativarModoInvencivel},
-    {name = "Aumentar Velocidade", onActivate = aumentarVelocidade, onDeactivate = diminuirVelocidade}
+-- Novas funcionalidades adicionadas:
+
+-- Super Salto
+local function ativarSuperSalto()
+    local character = game.Players.LocalPlayer.Character
+    character.Humanoid.JumpPower = 200
+end
+
+local function desativarSuperSalto()
+    local character = game.Players.LocalPlayer.Character
+    character.Humanoid.JumpPower = 50
+end
+
+local superSaltoButton = Instance.new("TextButton")
+superSaltoButton.Size = UDim2.new(0, 100, 0, 50)
+superSaltoButton.Position = UDim2.new(0, 10, 0, 190)
+superSaltoButton.Text = "Super Salto"
+superSaltoButton.Parent = mainMenu
+
+createSubMenu(superSaltoButton, {
+    {name = "Ativar Super Salto", onActivate = ativarSuperSalto, onDeactivate = desativarSuperSalto}
 })
 
-createSubMenu(jogadorButton, {
-    {name = "Teletransportar Jogador", onActivate = ativarTeletransporte, onDeactivate = desativarTeletransporte},
-    {name = "Visão de Raio-X", onActivate = ativarVisaoRaioX, onDeactivate = desativarVisaoRaioX},
-    {name = "Aumentar Tamanho", onActivate = aumentarTamanho, onDeactivate = diminuirTamanho},
-    {name = "Ativar Voo", onActivate = ativarVoo, onDeactivate = desativarVoo}
+-- Modo Fantasma
+local function ativarModoFantasma()
+    local character = game.Players.LocalPlayer.Character
+    for _, part in pairs(character:GetChildren()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = false
+        end
+    end
+end
+
+local function desativarModoFantasma()
+    local character = game.Players.LocalPlayer.Character
+    for _, part in pairs(character:GetChildren()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = true
+        end
+    end
+end
+
+local modoFantasmaButton = Instance.new("TextButton")
+modoFantasmaButton.Size = UDim2.new(0, 100, 0, 50)
+modoFantasmaButton.Position = UDim2.new(0, 10, 0, 250)
+modoFantasmaButton.Text = "Modo Fantasma"
+modoFantasmaButton.Parent = mainMenu
+
+createSubMenu(modoFantasmaButton, {
+    {name = "Ativar Modo Fantasma", onActivate = ativarModoFantasma, onDeactivate = desativarModoFantasma}
 })
 
-createSubMenu(configuracoesButton, {
-    {name = "Ativar Modo Noturno", onActivate = function() game.Lighting.Brightness = 0 end, onDeactivate = function() game.Lighting.Brightness = 2 end},
-    {name = "Ajustar Gravidade", onActivate = function() game.Workspace.Gravity = 50 end, onDeactivate = function() game.Workspace.Gravity = 196.2 end},
-    {name = "Multiplicar Pontos", onActivate = function() print("Pontos Multiplicados") end, onDeactivate = function() print("Pontos Normais") end}
-})
+-- Detecção de Inimigos
+local function ativ
