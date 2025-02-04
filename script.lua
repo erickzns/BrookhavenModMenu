@@ -39,7 +39,7 @@ game:GetService("TweenService"):Create(Title, TweenInfo.new(0.5, Enum.EasingStyl
 
 -- Configuração do ScrollingFrame (para o submenu rolável)
 ScrollingFrame.Parent = MainFrame
-ScrollingFrame.Size = UDim2.new(1, 0, 0, 450)  -- Tamanho do frame para o submenu
+ScrollingFrame.Size = UDim2.new(1, 0, 0, 400)  -- Submenu ocupa 400px de altura
 ScrollingFrame.Position = UDim2.new(0, 0, 0.1, 0)  -- Posicionamento logo abaixo do título
 ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
@@ -84,14 +84,19 @@ MainFrame.InputEnded:Connect(function(input)
     end
 end)
 
--- Testando a rolagem no submenu com vários botões
-for i = 1, 20 do
+-- Função para adicionar funções dinamicamente ao submenu
+local function addFunctionToMenu(functionName)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 380, 0, 50)
-    Button.Text = "Função " .. i
+    Button.Text = functionName
     Button.TextColor3 = Color3.fromRGB(255, 255, 255)
     Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     Button.Font = Enum.Font.SourceSans
     Button.TextSize = 18
     Button.Parent = ScrollingFrame
+end
+
+-- Adicionando várias funções (botões) ao submenu
+for i = 1, 50 do  -- Ajuste o número conforme necessário
+    addFunctionToMenu("Função " .. i)
 end
