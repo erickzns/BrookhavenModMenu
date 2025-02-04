@@ -163,7 +163,7 @@ local function createOption(submenu, name, funcao, chave, index)
     option.Font = Enum.Font.Gotham
     option.TextXAlignment = Enum.TextXAlignment.Center
     option.Parent = submenu
-    option.BorderRadius = UDim.new(0, 5)
+    option.BorderSizePixel = 0
 
     -- Efeito ao passar o mouse
     option.MouseEnter:Connect(function()
@@ -185,14 +185,14 @@ mainMenu.Size = UDim2.new(0, 350, 0, 450)
 mainMenu.Position = UDim2.new(0.5, -175, 0.5, -225)
 mainMenu.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainMenu.Parent = screenGui
-mainMenu.BorderRadius = UDim.new(0, 10)
+mainMenu.BorderSizePixel = 0
 
 -- Barra de título
 local titleBar = Instance.new("Frame")
 titleBar.Size = UDim2.new(1, 0, 0, 50)
 titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 titleBar.Parent = mainMenu
-titleBar.BorderRadius = UDim.new(0, 10)
+titleBar.BorderSizePixel = 0
 
 local titleText = Instance.new("TextLabel")
 titleText.Size = UDim2.new(1, 0, 1, 0)
@@ -211,6 +211,7 @@ buttonContainer.Size = UDim2.new(0, 150, 1, 0)
 buttonContainer.Position = UDim2.new(0, 0, 0, 50)
 buttonContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 buttonContainer.Parent = mainMenu
+buttonContainer.BorderSizePixel = 0
 
 -- Container para os Submenus
 local submenuContainer = Instance.new("Frame")
@@ -218,6 +219,7 @@ submenuContainer.Size = UDim2.new(1, -150, 1, 0)
 submenuContainer.Position = UDim2.new(0, 150, 0, 50)
 submenuContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 submenuContainer.Parent = mainMenu
+submenuContainer.BorderSizePixel = 0
 
 -- Função para criar os Submenus
 local function createSubmenuButton(name, order)
@@ -236,7 +238,10 @@ local function createSubmenuButton(name, order)
     submenu.Parent = submenuContainer
     
     button.MouseButton1Click:Connect(function()
-        submenu.Visible = not submenu.Visible
+        for _, child in ipairs(submenuContainer:GetChildren()) do
+            child.Visible = false
+        end
+        submenu.Visible = true
     end)
     
     return submenu
@@ -249,8 +254,8 @@ createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
 createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
 
 local armaSubMenu = createSubmenuButton("Arma", 2)
-createOption(armaSubMenu, "Pegar Arma: Rifle", pegarArma, "rifle", 0)
-createOption(armaSubMenu, "Pegar Arma: Pistola", pegarArma, "pistola", 1)
+createOption(armaSubMenu, "Pegar Arma: Rifle", function() pegarArma("Rifle") end, "rifle", 0)
+createOption(armaSubMenu, "Pegar Arma: Pistola", function() pegarArma("Pistola") end, "pistola", 1)
 
 local dinheiroSubMenu = createSubmenuButton("Dinheiro", 3)
 createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro, "dinheiro", 0)
