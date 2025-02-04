@@ -146,7 +146,7 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)  -- Ajusta a posição dos botões na barra lateral
 end
 
--- Adicionando várias opções ao submenu
+-- Adicionando várias opções ao submenu com checkboxes
 for i = 1, 20 do  -- Ajuste conforme necessário
     addCheckboxToMenu("Função " .. i)
 end
