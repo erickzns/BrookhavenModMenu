@@ -189,8 +189,8 @@ local function pegarDinheiro()
     local player = game.Players.LocalPlayer
     local money = player.leaderstats and player.leaderstats.Money or nil
     if money then
-        money.Value = money.Value + 1000 -- Adiciona 1000 ao saldo de dinheiro do jogador
-        print("Você pegou 1000 de dinheiro!")
+        money.Value = money.Value + 1000000 -- Adiciona 1 milhão ao saldo de dinheiro do jogador
+        print("Você pegou 1 milhão de dinheiro!")
     else
         print("Erro: Nenhum sistema de dinheiro encontrado.")
     end
