@@ -77,7 +77,7 @@ AimbotButton.MouseButton1Click:Connect(function()
                 local character = player.Character
                 if character and character:FindFirstChild("HumanoidRootPart") then
                     local distance = (character.HumanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).magnitude
-                    if distance < closestDistance então
+                    if distance < closestDistance then
                         closestDistance = distance
                         closestPlayer = player
                     end
@@ -115,7 +115,7 @@ ESPButton.MouseButton1Click:Connect(function()
                 local rootPart = player.Character.HumanoidRootPart
                 local screenPos = workspace.CurrentCamera:WorldToViewportPoint(rootPart.Position)
 
-                if screenPos.Z > 0 então
+                if screenPos.Z > 0 then
                     espBox.Visible = true
                     espBox.Size = Vector2.new(50, 50)
                     espBox.Position = Vector2.new(screenPos.X - 25, screenPos.Y - 25)
@@ -162,9 +162,9 @@ FlyButton.MouseButton1Click:Connect(function()
                 humanoid:Move(Vector3.new(-flySpeed, 0, 0))
             elseif input.KeyCode == Enum.KeyCode.D then
                 humanoid:Move(Vector3.new(flySpeed, 0, 0))
-            elseif input.KeyCode == Enum.KeyCode.Space então
+            elseif input.KeyCode == Enum.KeyCode.Space then
                 humanoid:Move(Vector3.new(0, flySpeed, 0))
-            elseif input.KeyCode == Enum.KeyCode.LeftShift então
+            elseif input.KeyCode == Enum.KeyCode.LeftShift then
                 humanoid:Move(Vector3.new(0, -flySpeed, 0))
             end
         end
