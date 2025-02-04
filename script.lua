@@ -48,14 +48,14 @@ UIListLayout.Padding = UDim.new(0, 10)
 -- Adiciona um item com checkbox ao submenu
 local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(0, 380, 0, 50)
+    Frame.Size = UDim2.new(0, 380, 0, 30)  -- Diminuindo a altura para caber mais funções
     Frame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
     -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
-    CheckBoxText.Size = UDim2.new(0, 300, 0, 50)
+    CheckBoxText.Size = UDim2.new(0, 300, 0, 30)  -- Ajustando o tamanho do texto para caber
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
     CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
