@@ -107,37 +107,130 @@ local buttonFunctions = {
 
 -- Códigos de trapaça para as funções
 local cheatFunctions = {
-    AutoClick = function() print("Ativado AutoClick") end,
-    GodMode = function() print("Ativado God Mode") end,
-    ["Bypass Anti-Cheat"] = function() print("Anti-Cheat Bypass Ativado") end,
-    ["Infinite Jump"] = function() print("Infinite Jump Ativado") end,
-    ["Speed Hack"] = function() print("Speed Hack Ativado") end,
-    ["Chat Spammer"] = function() print("Chat Spammer Ativado") end,
-    ["Fly Mode"] = function() print("Fly Mode Ativado") end,
-    ["Crash Server"] = function() print("Crash Server Ativado") end,
-    NoClip = function() print("NoClip Ativado") end,
-    Aimbot = function() print("Aimbot Ativado") end,
-    ["Hitbox Expander"] = function() print("Hitbox Expander Ativado") end,
-    ["No Recoil"] = function() print("No Recoil Ativado") end,
-    ["Rapid Fire"] = function() print("Rapid Fire Ativado") end,
-    Triggerbot = function() print("Triggerbot Ativado") end,
-    ["ESP Wallhack"] = function() print("ESP Wallhack Ativado") end,
-    Teleport = function() print("Teleport Ativado") end,
-    ["Invisibility"] = function() print("Invisibility Ativado") end,
-    ["NoFallDamage"] = function() print("NoFallDamage Ativado") end,
-    ["Boost Nitro"] = function() print("Boost Nitro Ativado") end,
-    ["Carro Voador"] = function() print("Carro Voador Ativado") end,
-    ["Anti-Crash"] = function() print("Anti-Crash Ativado") end,
-    ["Super Jump"] = function() print("Super Jump Ativado") end,
-    ["Explodir Jogador"] = function() print("Explodir Jogador Ativado") end,
-    ["Loop Kill"] = function() print("Loop Kill Ativado") end,
-    ["No Collision"] = function() print("No Collision Ativado") end,
-    Invisible = function() print("Invisible Ativado") end,
-    ["Fake Ping"] = function() print("Fake Ping Ativado") end,
-    ["Mudar Tema"] = function() print("Tema Alterado") end,
-    ["Ativar Modo Stealth"] = function() print("Modo Stealth Ativado") end,
-    ["Personalizar Teclas"] = function() print("Teclas Personalizadas") end,
-    ["Botão de Debug"] = function() print("Botão de Debug Ativado") end
+    AutoClick = function() 
+        -- Código do AutoClick
+        print("Ativado AutoClick") 
+    end,
+    GodMode = function() 
+        -- Código do GodMode
+        print("Ativado God Mode") 
+    end,
+    ["Bypass Anti-Cheat"] = function() 
+        -- Código do Bypass Anti-Cheat
+        print("Anti-Cheat Bypass Ativado") 
+    end,
+    ["Infinite Jump"] = function() 
+        -- Código do Infinite Jump
+        print("Infinite Jump Ativado") 
+    end,
+    ["Speed Hack"] = function() 
+        -- Código do Speed Hack
+        print("Speed Hack Ativado") 
+    end,
+    ["Chat Spammer"] = function() 
+        -- Código do Chat Spammer
+        print("Chat Spammer Ativado") 
+    end,
+    ["Fly Mode"] = function() 
+        -- Código do Fly Mode
+        print("Fly Mode Ativado") 
+    end,
+    ["Crash Server"] = function() 
+        -- Código do Crash Server
+        print("Crash Server Ativado") 
+    end,
+    NoClip = function() 
+        -- Código do NoClip
+        print("NoClip Ativado") 
+    end,
+    Aimbot = function() 
+        -- Código do Aimbot
+        print("Aimbot Ativado") 
+    end,
+    ["Hitbox Expander"] = function() 
+        -- Código do Hitbox Expander
+        print("Hitbox Expander Ativado") 
+    end,
+    ["No Recoil"] = function() 
+        -- Código do No Recoil
+        print("No Recoil Ativado") 
+    end,
+    ["Rapid Fire"] = function() 
+        -- Código do Rapid Fire
+        print("Rapid Fire Ativado") 
+    end,
+    Triggerbot = function() 
+        -- Código do Triggerbot
+        print("Triggerbot Ativado") 
+    end,
+    ["ESP Wallhack"] = function() 
+        -- Código do ESP Wallhack
+        print("ESP Wallhack Ativado") 
+    end,
+    Teleport = function() 
+        -- Código do Teleport
+        print("Teleport Ativado") 
+    end,
+    ["Invisibility"] = function() 
+        -- Código do Invisibility
+        print("Invisibility Ativado") 
+    end,
+    ["NoFallDamage"] = function() 
+        -- Código do NoFallDamage
+        print("NoFallDamage Ativado") 
+    end,
+    ["Boost Nitro"] = function() 
+        -- Código do Boost Nitro
+        print("Boost Nitro Ativado") 
+    end,
+    ["Carro Voador"] = function() 
+        -- Código do Carro Voador
+        print("Carro Voador Ativado") 
+    end,
+    ["Anti-Crash"] = function() 
+        -- Código do Anti-Crash
+        print("Anti-Crash Ativado") 
+    end,
+    ["Super Jump"] = function() 
+        -- Código do Super Jump
+        print("Super Jump Ativado") 
+    end,
+    ["Explodir Jogador"] = function() 
+        -- Código do Explodir Jogador
+        print("Explodir Jogador Ativado") 
+    end,
+    ["Loop Kill"] = function() 
+        -- Código do Loop Kill
+        print("Loop Kill Ativado") 
+    end,
+    ["No Collision"] = function() 
+        -- Código do No Collision
+        print("No Collision Ativado") 
+    end,
+    Invisible = function() 
+        -- Código do Invisible
+        print("Invisible Ativado") 
+    end,
+    ["Fake Ping"] = function() 
+        -- Código do Fake Ping
+        print("Fake Ping Ativado") 
+    end,
+    ["Mudar Tema"] = function() 
+        -- Código para Mudar Tema
+        print("Tema Alterado") 
+    end,
+    ["Ativar Modo Stealth"] = function() 
+        -- Código do Modo Stealth
+        print("Modo Stealth Ativado") 
+    end,
+    ["Personalizar Teclas"] = function() 
+        -- Código para Personalizar Teclas
+        print("Teclas Personalizadas") 
+    end,
+    ["Botão de Debug"] = function() 
+        -- Código do Botão de Debug
+        print("Botão de Debug Ativado") 
+    end
 }
 
 -- Função para adicionar botões laterais
