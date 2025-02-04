@@ -107,130 +107,97 @@ local buttonFunctions = {
 
 -- Códigos de trapaça para as funções
 local cheatFunctions = {
-    AutoClick = function() 
+    AutoClick = function(isChecked) 
         -- Código do AutoClick
-        print("Ativado AutoClick") 
+        if isChecked then
+            print("Ativado AutoClick")
+            -- Ativar AutoClick aqui
+        else
+            print("Desativado AutoClick")
+            -- Desativar AutoClick aqui
+        end
     end,
-    GodMode = function() 
+    GodMode = function(isChecked) 
         -- Código do GodMode
-        print("Ativado God Mode") 
+        if isChecked then
+            print("Ativado God Mode")
+            -- Ativar God Mode aqui
+        else
+            print("Desativado God Mode")
+            -- Desativar God Mode aqui
+        end
     end,
-    ["Bypass Anti-Cheat"] = function() 
+    ["Bypass Anti-Cheat"] = function(isChecked) 
         -- Código do Bypass Anti-Cheat
-        print("Anti-Cheat Bypass Ativado") 
+        if isChecked then
+            print("Ativado Bypass Anti-Cheat")
+            -- Ativar Bypass Anti-Cheat aqui
+        else
+            print("Desativado Bypass Anti-Cheat")
+            -- Desativar Bypass Anti-Cheat aqui
+        end
     end,
-    ["Infinite Jump"] = function() 
+    ["Infinite Jump"] = function(isChecked) 
         -- Código do Infinite Jump
-        print("Infinite Jump Ativado") 
+        if isChecked then
+            print("Ativado Infinite Jump")
+            -- Ativar Infinite Jump aqui
+        else
+            print("Desativado Infinite Jump")
+            -- Desativar Infinite Jump aqui
+        end
     end,
-    ["Speed Hack"] = function() 
+    ["Speed Hack"] = function(isChecked) 
         -- Código do Speed Hack
-        print("Speed Hack Ativado") 
+        if isChecked then
+            print("Ativado Speed Hack")
+            -- Ativar Speed Hack aqui
+        else
+            print("Desativado Speed Hack")
+            -- Desativar Speed Hack aqui
+        end
     end,
-    ["Chat Spammer"] = function() 
+    ["Chat Spammer"] = function(isChecked) 
         -- Código do Chat Spammer
-        print("Chat Spammer Ativado") 
+        if isChecked then
+            print("Ativado Chat Spammer")
+            -- Ativar Chat Spammer aqui
+        else
+            print("Desativado Chat Spammer")
+            -- Desativar Chat Spammer aqui
+        end
     end,
-    ["Fly Mode"] = function() 
+    ["Fly Mode"] = function(isChecked) 
         -- Código do Fly Mode
-        print("Fly Mode Ativado") 
+        if isChecked then
+            print("Ativado Fly Mode")
+            -- Ativar Fly Mode aqui
+        else
+            print("Desativado Fly Mode")
+            -- Desativar Fly Mode aqui
+        end
     end,
-    ["Crash Server"] = function() 
+    ["Crash Server"] = function(isChecked) 
         -- Código do Crash Server
-        print("Crash Server Ativado") 
+        if isChecked then
+            print("Ativado Crash Server")
+            -- Ativar Crash Server aqui
+        else
+            print("Desativado Crash Server")
+            -- Desativar Crash Server aqui
+        end
     end,
-    NoClip = function() 
+    NoClip = function(isChecked) 
         -- Código do NoClip
-        print("NoClip Ativado") 
+        if isChecked then
+            print("Ativado NoClip")
+            -- Ativar NoClip aqui
+        else
+            print("Desativado NoClip")
+            -- Desativar NoClip aqui
+        end
     end,
-    Aimbot = function() 
-        -- Código do Aimbot
-        print("Aimbot Ativado") 
-    end,
-    ["Hitbox Expander"] = function() 
-        -- Código do Hitbox Expander
-        print("Hitbox Expander Ativado") 
-    end,
-    ["No Recoil"] = function() 
-        -- Código do No Recoil
-        print("No Recoil Ativado") 
-    end,
-    ["Rapid Fire"] = function() 
-        -- Código do Rapid Fire
-        print("Rapid Fire Ativado") 
-    end,
-    Triggerbot = function() 
-        -- Código do Triggerbot
-        print("Triggerbot Ativado") 
-    end,
-    ["ESP Wallhack"] = function() 
-        -- Código do ESP Wallhack
-        print("ESP Wallhack Ativado") 
-    end,
-    Teleport = function() 
-        -- Código do Teleport
-        print("Teleport Ativado") 
-    end,
-    ["Invisibility"] = function() 
-        -- Código do Invisibility
-        print("Invisibility Ativado") 
-    end,
-    ["NoFallDamage"] = function() 
-        -- Código do NoFallDamage
-        print("NoFallDamage Ativado") 
-    end,
-    ["Boost Nitro"] = function() 
-        -- Código do Boost Nitro
-        print("Boost Nitro Ativado") 
-    end,
-    ["Carro Voador"] = function() 
-        -- Código do Carro Voador
-        print("Carro Voador Ativado") 
-    end,
-    ["Anti-Crash"] = function() 
-        -- Código do Anti-Crash
-        print("Anti-Crash Ativado") 
-    end,
-    ["Super Jump"] = function() 
-        -- Código do Super Jump
-        print("Super Jump Ativado") 
-    end,
-    ["Explodir Jogador"] = function() 
-        -- Código do Explodir Jogador
-        print("Explodir Jogador Ativado") 
-    end,
-    ["Loop Kill"] = function() 
-        -- Código do Loop Kill
-        print("Loop Kill Ativado") 
-    end,
-    ["No Collision"] = function() 
-        -- Código do No Collision
-        print("No Collision Ativado") 
-    end,
-    Invisible = function() 
-        -- Código do Invisible
-        print("Invisible Ativado") 
-    end,
-    ["Fake Ping"] = function() 
-        -- Código do Fake Ping
-        print("Fake Ping Ativado") 
-    end,
-    ["Mudar Tema"] = function() 
-        -- Código para Mudar Tema
-        print("Tema Alterado") 
-    end,
-    ["Ativar Modo Stealth"] = function() 
-        -- Código do Modo Stealth
-        print("Modo Stealth Ativado") 
-    end,
-    ["Personalizar Teclas"] = function() 
-        -- Código para Personalizar Teclas
-        print("Teclas Personalizadas") 
-    end,
-    ["Botão de Debug"] = function() 
-        -- Código do Botão de Debug
-        print("Botão de Debug Ativado") 
-    end
+    -- Adicionar outras funções aqui conforme necessário
 }
 
 -- Função para adicionar botões laterais
