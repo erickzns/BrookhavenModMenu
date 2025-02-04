@@ -55,7 +55,7 @@ local function addCheckboxToMenu(functionName)
 
     -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
-    CheckBoxText.Size = UDim2.new(0, 280, 0, 30)  -- Ajustando o tamanho do texto para caber mais à esquerda
+    CheckBoxText.Size = UDim2.new(0, 240, 0, 30)  -- Ajustando o tamanho do texto para caber mais à esquerda
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
     CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
