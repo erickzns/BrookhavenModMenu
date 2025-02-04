@@ -130,7 +130,7 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função para tornar o menu arrastável sem limites e corrigir o bug
+-- Função para tornar o menu arrastável com movimento suave
 local dragging, dragStart, startPos
 MainFrame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -145,11 +145,15 @@ MainFrame.InputChanged:Connect(function(input)
         local delta = input.Position - dragStart
         local newPos = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
         
-        -- Corrige a movimentação para não ultrapassar limites invisíveis
-        if newPos.X.Offset >= 0 and newPos.X.Offset + MainFrame.Size.X.Offset <= game:GetService("Workspace").CurrentCamera.ViewportSize.X then
+        -- Corrige a movimentação para não ultrapassar os limites invisíveis
+        local screenWidth = game:GetService("Workspace").CurrentCamera.ViewportSize.X
+        local screenHeight = game:GetService("Workspace").CurrentCamera.ViewportSize.Y
+
+        -- Limitação de movimento: não deixar o menu sair da tela
+        if newPos.X.Offset >= 0 and newPos.X.Offset + MainFrame.Size.X.Offset <= screenWidth then
             MainFrame.Position = newPos
         end
-        if newPos.Y.Offset >= 0 and newPos.Y.Offset + MainFrame.Size.Y.Offset <= game:GetService("Workspace").CurrentCamera.ViewportSize.Y then
+        if newPos.Y.Offset >= 0 and newPos.Y.Offset + MainFrame.Size.Y.Offset <= screenHeight then
             MainFrame.Position = newPos
         end
     end
