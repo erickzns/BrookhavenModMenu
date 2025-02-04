@@ -17,6 +17,7 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.Draggable = true
+MainFrame.BackgroundTransparency = 0.5  -- Deixando o menu semi-transparente
 
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
@@ -33,6 +34,7 @@ SliderFrame.BackgroundTransparency = 0.6
 SliderFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SliderFrame.Size = UDim2.new(0, 50, 1, 0)
 
+-- Botões Laterais
 GERALButton.Parent = SliderFrame
 GERALButton.Size = UDim2.new(0, 50, 0, 50)
 GERALButton.Position = UDim2.new(0, 0, 0, 0)
@@ -89,31 +91,37 @@ CONFIGURACAOButton.TextSize = 18
 
 -- Funções do submenu (exemplo)
 local function ShowGeralMenu()
+    -- Exemplo: funções gerais do mod
     print("Funções Gerais Ativadas")
     -- Aqui você pode adicionar as funções para o menu Geral
 end
 
 local function ShowArmaMenu()
+    -- Exemplo: funções de arma
     print("Funções de Arma Ativadas")
     -- Aqui você pode adicionar as funções para o menu de Armas
 end
 
 local function ShowJogadorMenu()
+    -- Exemplo: funções de jogadores
     print("Funções de Jogadores Ativadas")
     -- Aqui você pode adicionar as funções para o menu de Jogadores
 end
 
 local function ShowVeiculoMenu()
+    -- Exemplo: funções de veículos
     print("Funções de Veículos Ativadas")
     -- Aqui você pode adicionar as funções para o menu de Veículos
 end
 
 local function ShowTrollsMenu()
+    -- Exemplo: funções de trollagem
     print("Funções de Trolls Ativadas")
     -- Aqui você pode adicionar as funções para o menu de Trolls
 end
 
 local function ShowConfiguracoesMenu()
+    -- Exemplo: funções de configurações
     print("Funções de Configuração Ativadas")
     -- Aqui você pode adicionar as funções para o menu de Configurações
 end
