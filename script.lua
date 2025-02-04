@@ -1,4 +1,3 @@
--- Criando a interface do mod menu
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
@@ -7,53 +6,135 @@ local UIListLayout = Instance.new("UIListLayout")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
 
--- Configuração da interface
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
-
--- Configuração do menu principal
 MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-MainFrame.BackgroundTransparency = 0.5  -- Fundo semi-transparente
+MainFrame.BackgroundTransparency = 0.5
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
-MainFrame.BorderSizePixel = 2
-MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
 
--- Título do Menu
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Title.Text = "Ghost Menu V1"
-Title.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
 Title.Font = Enum.Font.Gotham
 Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
 Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Configuração do ScrollingFrame (sub-menu rolável)
 ScrollingFrame.Parent = MainFrame
 ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
 ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
 ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
 
--- Layout do ScrollingFrame
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
--- Função para limpar o submenu antes de adicionar novas opções
-local function clearSubMenu()
-    for _, child in pairs(ScrollingFrame:GetChildren()) do
-        if child:IsA("Frame") then
-            child:Destroy()
-        end
-    end
-end
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
 
--- Função para adicionar funções ao submenu com checkboxes
+local buttonFunctions = {
+    GERAL = {"AutoClick", "God Mode", "Bypass Anti-Cheat", "Infinite Jump", "Speed Hack", "Chat Spammer", "Fly Mode", "Crash Server", "NoClip"},
+    ARMA = {"Aimbot", "Hitbox Expander", "No Recoil", "Rapid Fire", "Triggerbot"},
+    JOGADORES = {"ESP Wallhack", "Teleport", "Speed Hack", "Aimbot", "Wallhack", "Player Info", "Invisibility", "NoFallDamage"},
+    VEICULO = {"Boost Nitro", "Carro Voador", "Anti-Crash", "Super Jump"},
+    TROLLS = {"Explodir Jogador", "Loop Kill", "Chat Spammer", "No Collision", "Invisible", "Fake Ping"},
+    CONFIGURACOES = {"Mudar Tema", "Ativar Modo Stealth", "Personalizar Teclas", "Botão de Debug"}
+}
+
+local cheatFunctions = {
+    AutoClick = function(isChecked) 
+        if isChecked then
+            print("Ativado AutoClick")
+            -- Ativar AutoClick aqui
+        else
+            print("Desativado AutoClick")
+            -- Desativar AutoClick aqui
+        end
+    end,
+    GodMode = function(isChecked) 
+        if isChecked then
+            print("Ativado God Mode")
+            -- Ativar God Mode aqui
+        else
+            print("Desativado God Mode")
+            -- Desativar God Mode aqui
+        end
+    end,
+    ["Bypass Anti-Cheat"] = function(isChecked) 
+        if isChecked then
+            print("Ativado Bypass Anti-Cheat")
+            -- Ativar Bypass Anti-Cheat aqui
+        else
+            print("Desativado Bypass Anti-Cheat")
+            -- Desativar Bypass Anti-Cheat aqui
+        end
+    end,
+    ["Infinite Jump"] = function(isChecked) 
+        if isChecked then
+            print("Ativado Infinite Jump")
+            -- Ativar Infinite Jump aqui
+        else
+            print("Desativado Infinite Jump")
+            -- Desativar Infinite Jump aqui
+        end
+    end,
+    ["Speed Hack"] = function(isChecked) 
+        if isChecked then
+            print("Ativado Speed Hack")
+            -- Ativar Speed Hack aqui
+        else
+            print("Desativado Speed Hack")
+            -- Desativar Speed Hack aqui
+        end
+    end,
+    ["Chat Spammer"] = function(isChecked) 
+        if isChecked then
+            print("Ativado Chat Spammer")
+            -- Ativar Chat Spammer aqui
+        else
+            print("Desativado Chat Spammer")
+            -- Desativar Chat Spammer aqui
+        end
+    end,
+    ["Fly Mode"] = function(isChecked) 
+        if isChecked then
+            print("Ativado Fly Mode")
+            -- Ativar Fly Mode aqui
+        else
+            print("Desativado Fly Mode")
+            -- Desativar Fly Mode aqui
+        end
+    end,
+    ["Crash Server"] = function(isChecked) 
+        if isChecked then
+            print("Ativado Crash Server")
+            -- Ativar Crash Server aqui
+        else
+            print("Desativado Crash Server")
+            -- Desativar Crash Server aqui
+        end
+    end,
+    NoClip = function(isChecked) 
+        if isChecked then
+            print("Ativado NoClip")
+            -- Ativar NoClip aqui
+        else
+            print("Desativado NoClip")
+            -- Desativar NoClip aqui
+        end
+    end,
+}
+
 local function addCheckboxToMenu(functionName, callback)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
@@ -82,125 +163,18 @@ local function addCheckboxToMenu(functionName, callback)
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-        print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
         callback(isChecked)
     end)
 end
 
--- Barra Lateral (SideBar)
-SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, -50)
-SideBar.Position = UDim2.new(0, 0, 0, 50)
-SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SideBar.BackgroundTransparency = 0.7
-SideBar.BorderSizePixel = 0
+local function clearSubMenu()
+    for _, child in pairs(ScrollingFrame:GetChildren()) do
+        if child:IsA("Frame") then
+            child:Destroy()
+        end
+    end
+end
 
--- Função para adicionar botões laterais e carregar funções específicas
-local buttonFunctions = {
-    GERAL = {"AutoClick", "God Mode", "Bypass Anti-Cheat", "Infinite Jump", "Speed Hack", "Chat Spammer", "Fly Mode", "Crash Server", "NoClip"},
-    ARMA = {"Aimbot", "Hitbox Expander", "No Recoil", "Rapid Fire", "Triggerbot"},
-    JOGADORES = {"ESP Wallhack", "Teleport", "Speed Hack", "Aimbot", "Wallhack", "Player Info", "Invisibility", "NoFallDamage"},
-    VEICULO = {"Boost Nitro", "Carro Voador", "Anti-Crash", "Super Jump"},
-    TROLLS = {"Explodir Jogador", "Loop Kill", "Chat Spammer", "No Collision", "Invisible", "Fake Ping"},
-    CONFIGURACOES = {"Mudar Tema", "Ativar Modo Stealth", "Personalizar Teclas", "Botão de Debug"}
-}
-
--- Códigos de trapaça para as funções
-local cheatFunctions = {
-    AutoClick = function(isChecked) 
-        -- Código do AutoClick
-        if isChecked then
-            print("Ativado AutoClick")
-            -- Ativar AutoClick aqui
-        else
-            print("Desativado AutoClick")
-            -- Desativar AutoClick aqui
-        end
-    end,
-    GodMode = function(isChecked) 
-        -- Código do GodMode
-        if isChecked then
-            print("Ativado God Mode")
-            -- Ativar God Mode aqui
-        else
-            print("Desativado God Mode")
-            -- Desativar God Mode aqui
-        end
-    end,
-    ["Bypass Anti-Cheat"] = function(isChecked) 
-        -- Código do Bypass Anti-Cheat
-        if isChecked then
-            print("Ativado Bypass Anti-Cheat")
-            -- Ativar Bypass Anti-Cheat aqui
-        else
-            print("Desativado Bypass Anti-Cheat")
-            -- Desativar Bypass Anti-Cheat aqui
-        end
-    end,
-    ["Infinite Jump"] = function(isChecked) 
-        -- Código do Infinite Jump
-        if isChecked then
-            print("Ativado Infinite Jump")
-            -- Ativar Infinite Jump aqui
-        else
-            print("Desativado Infinite Jump")
-            -- Desativar Infinite Jump aqui
-        end
-    end,
-    ["Speed Hack"] = function(isChecked) 
-        -- Código do Speed Hack
-        if isChecked then
-            print("Ativado Speed Hack")
-            -- Ativar Speed Hack aqui
-        else
-            print("Desativado Speed Hack")
-            -- Desativar Speed Hack aqui
-        end
-    end,
-    ["Chat Spammer"] = function(isChecked) 
-        -- Código do Chat Spammer
-        if isChecked then
-            print("Ativado Chat Spammer")
-            -- Ativar Chat Spammer aqui
-        else
-            print("Desativado Chat Spammer")
-            -- Desativar Chat Spammer aqui
-        end
-    end,
-    ["Fly Mode"] = function(isChecked) 
-        -- Código do Fly Mode
-        if isChecked then
-            print("Ativado Fly Mode")
-            -- Ativar Fly Mode aqui
-        else
-            print("Desativado Fly Mode")
-            -- Desativar Fly Mode aqui
-        end
-    end,
-    ["Crash Server"] = function(isChecked) 
-        -- Código do Crash Server
-        if isChecked then
-            print("Ativado Crash Server")
-            -- Ativar Crash Server aqui
-        else
-            print("Desativado Crash Server")
-            -- Desativar Crash Server aqui
-        end
-    end,
-    NoClip = function(isChecked) 
-        -- Código do NoClip
-        if isChecked then
-            print("Ativado NoClip")
-            -- Ativar NoClip aqui
-        else
-            print("Desativado NoClip")
-            -- Desativar NoClip aqui
-        end
-    end,
-    -- Adicionar outras funções aqui conforme necessário
-}
-
--- Função para adicionar botões laterais
 local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 40)
@@ -222,13 +196,12 @@ local function addSideButton(name, yPosition)
     table.insert(Buttons, Button)
 end
 
--- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função para tornar o menu arrastável de forma leve e sem limitações
+-- Movimentação do menu
 local dragging, dragStart, startPos
 MainFrame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
