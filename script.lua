@@ -239,4 +239,3 @@ createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) en
 
 -- Outras funções de configurações
 -- Crie mais funções, submenus e opções conforme necessário
-
