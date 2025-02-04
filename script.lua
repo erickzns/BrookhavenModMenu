@@ -106,10 +106,12 @@ createSubMenu(geralButton, {
 
 createSubMenu(jogadorButton, {
     {name = "Teletransportar Jogador", onActivate = function() print("Teletransporte Ativado") end, onDeactivate = function() print("Teletransporte Desativado") end},
-    {name = "Visão de Raio-X", onActivate = function() print("Visão de Raio-X Ativada") end, onDeactivate = function() print("Visão de Raio-X Desativada") end}
+    {name = "Visão de Raio-X", onActivate = function() print("Visão de Raio-X Ativada") end, onDeactivate = function() print("Visão de Raio-X Desativada") end},
+    {name = "Aumentar Tamanho", onActivate = function() print("Tamanho Aumentado") end, onDeactivate = function() print("Tamanho Reduzido") end}
 })
 
 createSubMenu(configuracoesButton, {
     {name = "Ativar Modo Noturno", onActivate = function() print("Modo Noturno Ativado") end, onDeactivate = function() print("Modo Noturno Desativado") end},
-    {name = "Ajustar Gravidade", onActivate = function() print("Gravidade Ajustada") end, onDeactivate = function() print("Gravidade Padrão") end}
+    {name = "Ajustar Gravidade", onActivate = function() print("Gravidade Ajustada") end, onDeactivate = function() print("Gravidade Padrão") end},
+    {name = "Multiplicar Pontos", onActivate = function() print("Pontos Multiplicados") end, onDeactivate = function() print("Pontos Normais") end}
 })
