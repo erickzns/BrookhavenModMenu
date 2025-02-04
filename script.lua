@@ -4,9 +4,37 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local mainMenu = Instance.new("Frame")
 mainMenu.Size = UDim2.new(0, 300, 0, 400)
-mainMenu.Position = UDim2.new(0, 10, 0.5, -200)  -- Posição ajustada para o canto esquerdo da tela
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Parent = screenGui
+
+-- Função para permitir mover o menu
+local isDragging = false
+local dragStart = nil
+local startPos = nil
+
+-- Função que inicia o arraste
+mainMenu.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isDragging = true
+        dragStart = input.Position
+        startPos = mainMenu.Position
+    end
+end)
+
+-- Função que move o menu durante o arraste
+mainMenu.InputChanged:Connect(function(input)
+    if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        mainMenu.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+-- Função que finaliza o arraste
+mainMenu.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isDragging = false
+    end
+end)
 
 -- Criação dos Botões Laterais
 local buttons = {
