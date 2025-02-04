@@ -62,7 +62,13 @@ mainMenu.InputEnded:Connect(function(input)
     end
 end)
 
--- Botões Laterais (Agora na posição centralizada)
+-- Botões Laterais
+local sideMenu = Instance.new("Frame")
+sideMenu.Size = UDim2.new(0, 100, 0, 400)
+sideMenu.Position = UDim2.new(0, -100, 0, 0)
+sideMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+sideMenu.Parent = screenGui
+
 local buttons = {
     {name = "Geral", position = 10},
     {name = "Arma", position = 70},
@@ -76,10 +82,10 @@ local submenus = {}
 
 for _, btn in ipairs(buttons) do
     local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0, 100, 0, 50)
+    button.Size = UDim2.new(0, 80, 0, 50)
     button.Position = UDim2.new(0, 10, 0, btn.position)
     button.Text = btn.name
-    button.Parent = mainMenu
+    button.Parent = sideMenu
     
     local submenu = Instance.new("Frame")
     submenu.Size = UDim2.new(0, 180, 0, 300)
