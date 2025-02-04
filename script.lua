@@ -33,6 +33,22 @@ mainMenu.InputEnded:Connect(function(input)
     end
 end)
 
+-- Barra titular
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(0, 300, 0, 40)
+titleBar.Position = UDim2.new(0, 0, 0, 0)
+titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+titleBar.Parent = mainMenu
+
+local titleText = Instance.new("TextLabel")
+titleText.Size = UDim2.new(1, 0, 1, 0)
+titleText.Text = "Ghost Menu V1"
+titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleText.BackgroundTransparency = 1
+titleText.TextSize = 20
+titleText.TextXAlignment = Enum.TextXAlignment.Center
+titleText.Parent = titleBar
+
 -- Criação dos Botões Laterais
 local buttons = {
     {name = "Geral", position = 10},
