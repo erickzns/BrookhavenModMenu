@@ -49,7 +49,7 @@ UIListLayout.Padding = UDim.new(0, 5)  -- Menos espaço entre as funções
 local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(0, 380, 0, 25)  -- Diminuindo a altura das funções
-    Frame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    Frame.BackgroundTransparency = 1  -- Removendo o fundo cinza
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
