@@ -150,7 +150,7 @@ end
 
 -- Configuração da SideBar (barra lateral com botões)
 SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, 0)
+SideBar.Size = UDim2.new(0, 120, 1, 0)  -- A largura foi corrigida para 120px
 SideBar.Position = UDim2.new(0, -120, 0, 0)  -- Barra lateral à esquerda
 
 -- Adicionando os botões laterais
