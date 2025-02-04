@@ -19,19 +19,23 @@ local buttons = {
 
 local submenus = {}
 
+-- Criando os botões laterais e submenus
 for _, btn in ipairs(buttons) do
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(0, 100, 0, 50)
     button.Position = UDim2.new(0, 10, 0, btn.position)
     button.Text = btn.name
     button.Parent = mainMenu
-    
+
+    -- Criando o submenu
     local submenu = Instance.new("Frame")
     submenu.Size = UDim2.new(0, 180, 0, 300)
     submenu.Position = UDim2.new(0, 120, 0, 10)
     submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    submenu.Visible = false
+    submenu.Visible = false  -- Começa invisível
     submenu.Parent = mainMenu
+
+    -- Salvar o submenu para controle
     submenus[button] = submenu
 end
 
