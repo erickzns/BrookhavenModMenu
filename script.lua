@@ -51,12 +51,24 @@ local function ativarInvisibilidade()
     print("Invisibilidade ativada!")
 end
 
+local function desativarInvisibilidade()
+    print("Invisibilidade desativada!")
+end
+
 local function ativarSuperVelocidade()
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
 end
 
+local function desativarSuperVelocidade()
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+end
+
 local function ativarTeleporteRapido()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 50, 0))
+end
+
+local function desativarTeleporteRapido()
+    print("Função de teleporte rápido desativada.")
 end
 
 local function ativarVidaInfinita()
@@ -64,14 +76,41 @@ local function ativarVidaInfinita()
     game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
 end
 
-local function ativarTeleporteAleatorio()
-    local randomPos = Vector3.new(math.random(-500, 500), 50, math.random(-500, 500))
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
+local function desativarVidaInfinita()
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+    game.Players.LocalPlayer.Character.Humanoid.Health = 100
 end
 
-local function ajustarDano(multiplier)
-    local humanoid = game.Players.LocalPlayer.Character.Humanoid
-    humanoid.Damage = humanoid.Damage * multiplier
+local function ativarAimbot()
+    print("Aimbot ativado!")
+end
+
+local function desativarAimbot()
+    print("Aimbot desativado!")
+end
+
+local function ativarESP()
+    print("ESP ativado!")
+end
+
+local function desativarESP()
+    print("ESP desativado!")
+end
+
+local function ativarESPAvancado()
+    print("ESP Avançado ativado!")
+end
+
+local function desativarESPAvancado()
+    print("ESP Avançado desativado!")
+end
+
+local function personalizarCorESP(cor)
+    print("Cor do ESP alterada para " .. cor)
+end
+
+local function ativarAimbotComSensibilidade(sensibilidade)
+    print("Aimbot ativado com sensibilidade de " .. sensibilidade)
 end
 
 local function habilitarWallhack()
@@ -92,27 +131,6 @@ local function desabilitarWallhack()
     end
 end
 
--- Funções de Aimbot e ESP
-local function ativarAimbot()
-    print("Aimbot ativado!")
-end
-
-local function ativarESP()
-    print("ESP ativado!")
-end
-
-local function ativarESPAvancado()
-    print("ESP Avançado ativado!")
-end
-
-local function personalizarCorESP(cor)
-    print("Cor do ESP alterada para " .. cor)
-end
-
-local function ativarAimbotComSensibilidade(sensibilidade)
-    print("Aimbot ativado com sensibilidade de " .. sensibilidade)
-end
-
 -- Funções para customização do modmenu
 local function mudarCorMenu(cor)
     mainMenu.BackgroundColor3 = cor
@@ -122,38 +140,53 @@ local function mudarTamanhoMenu(tamanho)
     mainMenu.Size = UDim2.new(0, tamanho, 0, 400)
 end
 
--- Função para adicionar opções no submenu
-local function createOption(submenu, name, activateFunc, tooltip)
-    local option = Instance.new("TextButton")
-    option.Size = UDim2.new(0, 160, 0, 40)
-    option.Position = UDim2.new(0, 10, 0, #submenu:GetChildren() * 50)
-    option.Text = name
-    option.Parent = submenu
-    option.MouseButton1Click:Connect(activateFunc)
+-- Função para adicionar opções no submenu com caixas de seleção
+local function createCheckbox(submenu, name, onCheckedFunc, onUncheckedFunc)
+    local checkbox = Instance.new("Frame")
+    checkbox.Size = UDim2.new(0, 160, 0, 40)
+    checkbox.Position = UDim2.new(0, 10, 0, #submenu:GetChildren() * 50)
+    checkbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    checkbox.Parent = submenu
     
-    -- Adicionar tooltip
-    if tooltip then
-        option.MouseEnter:Connect(function()
-            -- Mostrar tooltip (exemplo básico)
-            print(tooltip)
-        end)
-    end
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.Text = name
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.Parent = checkbox
+    
+    local checkBoxBtn = Instance.new("TextButton")
+    checkBoxBtn.Size = UDim2.new(0, 20, 0, 20)
+    checkBoxBtn.Position = UDim2.new(1, -30, 0.5, -10)
+    checkBoxBtn.Text = "☐"
+    checkBoxBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    checkBoxBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    checkBoxBtn.Parent = checkbox
+    
+    local checked = false
+
+    -- Funcionalidade de marcar/desmarcar
+    checkBoxBtn.MouseButton1Click:Connect(function()
+        checked = not checked
+        if checked then
+            checkBoxBtn.Text = "☑"
+            onCheckedFunc()
+        else
+            checkBoxBtn.Text = "☐"
+            onUncheckedFunc()
+        end
+    end)
 end
 
--- Adicionando as novas opções aos submenus
-createOption(submenus["Geral"], "Ativar Invisibilidade", ativarInvisibilidade, "Ativa a invisibilidade.")
-createOption(submenus["Geral"], "Ativar Super Velocidade", ativarSuperVelocidade, "Aumenta a velocidade do jogador.")
-createOption(submenus["Geral"], "Ativar Teleporte Rápido", ativarTeleporteRapido, "Teleporta rapidamente para uma posição.")
-createOption(submenus["Geral"], "Vida Infinita", ativarVidaInfinita, "Ativa vida infinita para o jogador.")
-createOption(submenus["Arma"], "Ativar Aimbot", ativarAimbot, "Ativa o aimbot.")
-createOption(submenus["Arma"], "Ativar ESP", ativarESP, "Ativa o ESP simples.")
-createOption(submenus["Arma"], "Ativar ESP Avançado", ativarESPAvancado, "Ativa o ESP avançado com mais recursos.")
-createOption(submenus["Arma"], "Cor do ESP", function() personalizarCorESP("red") end, "Altera a cor do ESP para vermelho.")
-createOption(submenus["Jogador"], "Teleporte Aleatório", ativarTeleporteAleatorio, "Teleporta para uma posição aleatória.")
-createOption(submenus["Jogador"], "Ajustar Dano", function() ajustarDano(2) end, "Aumenta o dano em 2x.")
-createOption(submenus["Jogador"], "Habilitar Wallhack", habilitarWallhack, "Deixa todos os objetos sem colidir e sem opacidade.")
-createOption(submenus["Jogador"], "Desabilitar Wallhack", desabilitarWallhack, "Restaura o Wallhack.")
-createOption(submenus["Configurações"], "Alterar Cor do Menu", function() mudarCorMenu(Color3.fromRGB(100, 100, 255)) end, "Muda a cor de fundo do menu.")
-createOption(submenus["Configurações"], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(500) end, "Muda o tamanho do menu.")
-createOption(submenus["Avançado"], "Aimbot com Sensibilidade", function() ativarAimbotComSensibilidade(5) end, "Ativa o aimbot com sensibilidade ajustada.")
-createOption(submenus["Avançado"], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(600) end, "Aumenta o tamanho do menu.")
+-- Adicionando as novas opções aos submenus com caixas de seleção
+createCheckbox(submenus["Geral"], "Invisibilidade", ativarInvisibilidade, desativarInvisibilidade)
+createCheckbox(submenus["Geral"], "Super Velocidade", ativarSuperVelocidade, desativarSuperVelocidade)
+createCheckbox(submenus["Geral"], "Teleporte Rápido", ativarTeleporteRapido, desativarTeleporteRapido)
+createCheckbox(submenus["Geral"], "Vida Infinita", ativarVidaInfinita, desativarVidaInfinita)
+createCheckbox(submenus["Arma"], "Aimbot", ativarAimbot, desativarAimbot)
+createCheckbox(submenus["Arma"], "ESP", ativarESP, desativarESP)
+createCheckbox(submenus["Arma"], "ESP Avançado", ativarESPAvancado, desativarESPAvancado)
+createCheckbox(submenus["Jogador"], "Wallhack", habilitarWallhack, desabilitarWallhack)
+createCheckbox(submenus["Configurações"], "Alterar Cor do Menu", function() mudarCorMenu(Color3.fromRGB(100, 100, 255)) end, function() mudarCorMenu(Color3.fromRGB(50, 50, 50)) end)
+createCheckbox(submenus["Configurações"], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(500) end, function() mudarTamanhoMenu(300) end)
+createCheckbox(submenus["Avançado"], "Aimbot com Sensibilidade", function() ativarAimbotComSensibilidade(5) end, function() print("Desabilitado Aimbot com Sensibilidade.") end)
