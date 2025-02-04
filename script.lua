@@ -5,12 +5,28 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 local mainMenu = Instance.new("Frame")
 mainMenu.Size = UDim2.new(0, 300, 0, 400)
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+mainMenu.Position = UDim2.new(0, 0, 0, 0)
 mainMenu.Parent = screenGui
+
+-- Barra de título
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+titleBar.Parent = mainMenu
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 1, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Ghost Menu V1"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextSize = 20
+titleLabel.TextAlign = Enum.TextAnchor.MiddleCenter
+titleLabel.Parent = titleBar
 
 -- Criação da barra de rolagem
 local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0, 300, 0, 400)
-scrollFrame.Position = UDim2.new(0, 0, 0, 0)
+scrollFrame.Size = UDim2.new(0, 300, 0, 370)
+scrollFrame.Position = UDim2.new(0, 0, 0, 30) -- Ajuste para que comece após a barra de título
 scrollFrame.Parent = mainMenu
 scrollFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 scrollFrame.ScrollBarThickness = 10
@@ -25,7 +41,7 @@ local isDragging = false
 local dragStart = nil
 local startPos = nil
 
-mainMenu.InputBegan:Connect(function(input)
+titleBar.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         isDragging = true
         dragStart = input.Position
@@ -219,10 +235,6 @@ createOption(geralSubMenu, "Modo Voo", ativarModoVoo)
 createOption(geralSubMenu, "Aumentar Tamanho", aumentarTamanho)
 createOption(armaSubMenu, "Ativar Aimbot", ativarAimbot)
 createOption(jogadorSubMenu, "Ativar ESP", ativarESP)
-createOption(jogadorSubMenu, "Teletransportar Outro Jogador", teleportarOutroJogador)
-createOption(avancadoSubMenu, "Invocar Objeto", invocarObjeto)
-createOption(avancadoSubMenu, "Crashar Jogadores", crasharJogadoresIndetectavel)
 createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro)
 
--- Função de inicialização e conclusão
-print("ModMenu iniciado com sucesso!")
+print("Ghost Menu V1 Carregado com Sucesso!")
