@@ -91,9 +91,48 @@ for button, submenu in pairs(submenus) do
     end)
 end
 
--- Criar os submenus corretamente para cada funcionalidade
+-- Adicionar os códigos de trapaça ao submenu de "Geral"
 createSubMenu(geralButton, {
     {name = "Ativar Invisibilidade", onActivate = ativarInvisibilidade, onDeactivate = desativarInvisibilidade},
     {name = "Ativar Super Velocidade", onActivate = ativarSuperVelocidade, onDeactivate = desativarSuperVelocidade},
-    {name = "Ativar Teleporte Rápido", onActivate = ativarTeleporteRapido, onDeactivate = function() end}
+    {name = "Ativar Teleporte Rápido", onActivate = ativarTeleporteRapido, onDeactivate = function() end},
+    {name = "Vida Infinita", onActivate = ativarVidaInfinita, onDeactivate = desativarVidaInfinita},
+    {name = "Munição Infinita", onActivate = ativarMunicaoInfinita, onDeactivate = desativarMunicaoInfinita}
 })
+
+-- Exemplo de funções que seriam usadas para ativar/desativar trapaças
+function ativarInvisibilidade()
+    -- código para ativar invisibilidade
+end
+
+function desativarInvisibilidade()
+    -- código para desativar invisibilidade
+end
+
+function ativarSuperVelocidade()
+    -- código para ativar super velocidade
+end
+
+function desativarSuperVelocidade()
+    -- código para desativar super velocidade
+end
+
+function ativarTeleporteRapido()
+    -- código para ativar teleporte rápido
+end
+
+function ativarVidaInfinita()
+    -- código para ativar vida infinita
+end
+
+function desativarVidaInfinita()
+    -- código para desativar vida infinita
+end
+
+function ativarMunicaoInfinita()
+    -- código para ativar munição infinita
+end
+
+function desativarMunicaoInfinita()
+    -- código para desativar munição infinita
+end
