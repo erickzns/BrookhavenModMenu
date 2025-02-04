@@ -1,4 +1,4 @@
--- Configuração inicial do ModMenu
+-- Criação do ScreenGui e Menu Principal
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -8,7 +8,7 @@ mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200)
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Parent = screenGui
 
--- Botões Laterais
+-- Criação dos Botões Laterais
 local buttons = {
     {name = "Geral", position = 10},
     {name = "Arma", position = 70},
@@ -19,45 +19,69 @@ local buttons = {
 
 local submenus = {}
 
--- Criando os botões laterais e submenus
-for _, btn in ipairs(buttons) do
+-- Função para criar um submenu
+local function createSubMenu(name, buttonPosition)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(0, 100, 0, 50)
-    button.Position = UDim2.new(0, 10, 0, btn.position)
-    button.Text = btn.name
+    button.Position = UDim2.new(0, 10, 0, buttonPosition)
+    button.Text = name
     button.Parent = mainMenu
+    button.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-    -- Criando o submenu
     local submenu = Instance.new("Frame")
     submenu.Size = UDim2.new(0, 180, 0, 300)
     submenu.Position = UDim2.new(0, 120, 0, 10)
     submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    submenu.Visible = false  -- Começa invisível
+    submenu.Visible = false
     submenu.Parent = mainMenu
 
-    -- Salvar o submenu para controle
     submenus[button] = submenu
+
+    -- Toggle submenu visibility
+    button.MouseButton1Click:Connect(function()
+        -- Fecha todos os submenus
+        for _, sm in pairs(submenus) do
+            sm.Visible = false
+        end
+        -- Exibe o submenu selecionado
+        submenu.Visible = true
+    end)
+
+    return submenu
 end
 
--- Funções de trapaça
+-- Criando todos os submenus
+local geralSubMenu = createSubMenu("Geral", 10)
+local armaSubMenu = createSubMenu("Arma", 70)
+local jogadorSubMenu = createSubMenu("Jogador", 130)
+local configuracoesSubMenu = createSubMenu("Configurações", 190)
+local avancadoSubMenu = createSubMenu("Avançado", 250)
+
+-- Funções de Trapaça
 local function ativarInvisibilidade()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 1
     print("Invisibilidade ativada!")
 end
 
 local function ativarSuperVelocidade()
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+    print("Super velocidade ativada!")
 end
 
 local function ativarTeleporteRapido()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 50, 0))
+    print("Teleporte rápido ativado!")
 end
 
 local function ativarVidaInfinita()
     game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
     game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
+    print("Vida infinita ativada!")
 end
 
--- Funções de Aimbot e ESP
+-- Funções de Aimbot e ESP (apenas exemplo básico de implementação)
 local function ativarAimbot()
     print("Aimbot ativado!")
 end
@@ -66,51 +90,38 @@ local function ativarESP()
     print("ESP ativado!")
 end
 
--- Função de Crashar Jogadores (Simulação Indetectável de Trapaça)
+-- Função para crashar jogadores (com efeito indetectável)
 local function crasharJogadoresIndetectavel()
-    -- Vamos esconder as ações e tornar o processo invisível
-    -- Nada será mostrado no console ou interface para não levantar suspeitas
-    
-    local success, err = pcall(function()
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if player ~= game.Players.LocalPlayer then
-                -- A simulação de desconexão ocorre de maneira invisível
-                player:Kick("Erro fatal! O servidor falhou devido a um erro crítico de rede.")
-            end
+    -- Simulação de desconexão
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer then
+            -- Simula a desconexão de forma indetectável
+            player:Kick("Erro fatal no servidor!")
         end
-    end)
-
-    -- A função não exibirá nada no console, nem alterará qualquer interface
-    -- Apenas simula o efeito de "crashar" sem deixar rastro
+    end
+    print("Jogadores crashados!")
 end
 
--- Criar opções no submenu
+-- Função para adicionar opções dentro dos submenus
 local function createOption(submenu, name, activateFunc)
     local option = Instance.new("TextButton")
     option.Size = UDim2.new(0, 160, 0, 40)
     option.Position = UDim2.new(0, 10, 0, #submenu:GetChildren() * 50)
     option.Text = name
     option.Parent = submenu
+    option.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    option.TextColor3 = Color3.fromRGB(255, 255, 255)
     option.MouseButton1Click:Connect(activateFunc)
 end
 
--- Adicionando opções aos submenus
-createOption(submenus[buttons[1]], "Ativar Invisibilidade", ativarInvisibilidade)
-createOption(submenus[buttons[1]], "Ativar Super Velocidade", ativarSuperVelocidade)
-createOption(submenus[buttons[1]], "Ativar Teleporte Rápido", ativarTeleporteRapido)
-createOption(submenus[buttons[1]], "Vida Infinita", ativarVidaInfinita)
-createOption(submenus[buttons[2]], "Ativar Aimbot", ativarAimbot)
-createOption(submenus[buttons[3]], "Ativar ESP", ativarESP)
-createOption(submenus[buttons[4]], "Ativar Crashar Jogadores", crasharJogadoresIndetectavel)
+-- Adicionando as opções nos submenus
+createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade)
+createOption(geralSubMenu, "Ativar Super Velocidade", ativarSuperVelocidade)
+createOption(geralSubMenu, "Ativar Teleporte Rápido", ativarTeleporteRapido)
+createOption(geralSubMenu, "Vida Infinita", ativarVidaInfinita)
+createOption(armaSubMenu, "Ativar Aimbot", ativarAimbot)
+createOption(jogadorSubMenu, "Ativar ESP", ativarESP)
+createOption(avancadoSubMenu, "Crashar Jogadores", crasharJogadoresIndetectavel)
 
--- Exibe o submenu ao clicar no botão lateral
-for button, submenu in pairs(submenus) do
-    button.MouseButton1Click:Connect(function()
-        -- Oculta todos os submenus
-        for _, sm in pairs(submenus) do
-            sm.Visible = false
-        end
-        -- Exibe o submenu correspondente ao botão
-        submenu.Visible = true
-    end)
-end
+-- Função de inicialização e conclusão
+print("ModMenu iniciado com sucesso!")
