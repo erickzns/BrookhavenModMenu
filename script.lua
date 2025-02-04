@@ -148,62 +148,6 @@ local function addSideButton(name, yPosition)
     table.insert(Buttons, Button)  -- Adiciona o botão à lista para referência futura
 end
 
--- Função para adicionar um slider
-local function addSliderToMenu()
-    -- Slider Container
-    local SliderFrame = Instance.new("Frame")
-    SliderFrame.Size = UDim2.new(0, 380, 0, 50)
-    SliderFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    SliderFrame.BorderSizePixel = 0
-    SliderFrame.Parent = MainFrame
-    SliderFrame.Position = UDim2.new(0, 10, 0, 60)  -- Coloca o slider logo abaixo do título
-
-    -- Texto do Slider
-    local SliderText = Instance.new("TextLabel")
-    SliderText.Size = UDim2.new(0, 300, 0, 50)
-    SliderText.Position = UDim2.new(0, 10, 0, 0)
-    SliderText.Text = "Slider Exemplo"
-    SliderText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    SliderText.BackgroundTransparency = 1
-    SliderText.Font = Enum.Font.SourceSans
-    SliderText.TextSize = 18
-    SliderText.TextXAlignment = Enum.TextXAlignment.Left
-    SliderText.Parent = SliderFrame
-
-    -- Slider
-    local Slider = Instance.new("Frame")
-    Slider.Size = UDim2.new(0, 300, 0, 10)
-    Slider.Position = UDim2.new(0, 10, 0, 30)
-    Slider.BackgroundColor3 = Color3.fromRGB(90, 90, 90)
-    Slider.Parent = SliderFrame
-
-    local SliderButton = Instance.new("Frame")
-    SliderButton.Size = UDim2.new(0, 50, 1, 0)
-    SliderButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    SliderButton.Parent = Slider
-
-    -- Lógica do Slider
-    local draggingSlider = false
-    SliderButton.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            draggingSlider = true
-        end
-    end)
-
-    SliderButton.InputChanged:Connect(function(input)
-        if draggingSlider and input.UserInputType == Enum.UserInputType.MouseMovement then
-            local newX = math.clamp(input.Position.X - Slider.AbsolutePosition.X, 0, Slider.AbsoluteSize.X - SliderButton.AbsoluteSize.X)
-            SliderButton.Position = UDim2.new(0, newX, 0, 0)
-        end
-    end)
-
-    SliderButton.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            draggingSlider = false
-        end
-    end)
-end
-
 -- Configuração da SideBar (barra lateral com botões)
 SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, 0)  -- A largura foi corrigida para 120px
@@ -216,9 +160,6 @@ local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGU
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)  -- Ajuste o espaçamento entre os botões
 end
-
--- Adicionando o Slider à parte superior do menu
-addSliderToMenu()
 
 -- Adicionando várias opções com checkbox ao submenu
 for i = 1, 50 do  -- Ajuste o número conforme necessário
