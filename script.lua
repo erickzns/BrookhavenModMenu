@@ -69,41 +69,73 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções de exemplo para os botões
+-- Funções com códigos de trapaças
+
 local function ESP()
-    print("ESP ativado") -- Aqui você adiciona o código real do ESP
+    -- Código de ESP (Exemplo)
+    print("ESP ativado: Mostrando Players através das paredes.")
 end
 
 local function GodMode()
-    print("God Mode ativado") -- Aqui você adiciona o código real do God Mode
+    -- Código de God Mode (Exemplo)
+    print("God Mode ativado: Você é invencível!")
 end
 
 local function FlyHack()
-    print("Fly Hack ativado") -- Aqui você adiciona o código real do Fly Hack
+    -- Código de Fly Hack (Exemplo)
+    print("Fly Hack ativado: Voando pelo mapa!")
 end
 
 local function InfiniteJump()
-    print("Infinite Jump ativado") -- Aqui você adiciona o código real do Infinite Jump
+    -- Código de Infinite Jump (Exemplo)
+    print("Infinite Jump ativado: Você pode pular infinitamente!")
 end
 
 local function TeleportPlayer()
-    print("Teleport para Player ativado") -- Aqui você adiciona o código real do Teleport
+    -- Código de Teleporte para Player (Exemplo)
+    print("Teleportando para o Player alvo!")
 end
 
 local function SpeedBoost()
-    print("Speed Boost ativado") -- Aqui você adiciona o código real do Speed Boost
+    -- Código de Speed Boost (Exemplo)
+    print("Speed Boost ativado: Correndo mais rápido!")
 end
 
 local function Aimbot()
-    print("Aimbot ativado") -- Aqui você adiciona o código real do Aimbot
+    -- Código de Aimbot (Exemplo)
+    print("Aimbot ativado: Mira automática nos inimigos!")
 end
 
 local function NoClip()
-    print("NoClip ativado") -- Aqui você adiciona o código real do NoClip
+    -- Código de NoClip (Exemplo)
+    print("NoClip ativado: Você pode atravessar paredes!")
 end
 
 local function AntiKickBan()
-    print("Anti-Kick e Anti-Ban ativado") -- Aqui você adiciona o código real do Anti-Kick/Ban
+    -- Código de Anti-Kick/Ban (Exemplo)
+    print("Anti-Kick/Ban ativado: Você não será expulso do jogo!")
+end
+
+-- Funções novas com códigos de trapaças
+
+local function SuperJump()
+    -- Código de Super Jump (Exemplo)
+    print("Super Jump ativado: Você pula super alto!")
+end
+
+local function WallHack()
+    -- Código de Wall Hack (Exemplo)
+    print("Wall Hack ativado: Veja através das paredes!")
+end
+
+local function SpeedHack()
+    -- Código de Speed Hack (Exemplo)
+    print("Speed Hack ativado: Acelera sua movimentação de forma extrema!")
+end
+
+local function TeleportToCoords()
+    -- Código de Teleporte para Coordenadas (Exemplo)
+    print("Teleportando para as coordenadas X:100 Y:50 Z:200")
 end
 
 -- Função para adicionar os botões aos submenus
@@ -118,7 +150,7 @@ local function AddButtonToFrame(frame, text, func)
     button.MouseButton1Click:Connect(func)
 end
 
--- Adicionando os botões aos submenus com as funções
+-- Adicionando os botões aos submenus com as funções antigas e novas
 AddButtonToFrame(GeralFrame, "ESP", ESP)
 AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
 AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
@@ -128,6 +160,12 @@ AddButtonToFrame(JogadorFrame, "Speed Boost", SpeedBoost)
 AddButtonToFrame(ArmaFrame, "Aimbot", Aimbot)
 AddButtonToFrame(JogadorFrame, "NoClip", NoClip)
 AddButtonToFrame(ConfigFrame, "Anti-Kick/Ban", AntiKickBan)
+
+-- Funções novas
+AddButtonToFrame(GeralFrame, "Super Jump", SuperJump)
+AddButtonToFrame(ArmaFrame, "Wall Hack", WallHack)
+AddButtonToFrame(JogadorFrame, "Speed Hack", SpeedHack)
+AddButtonToFrame(ConfigFrame, "Teleport To Coords", TeleportToCoords)
 
 -- Ações dos botões para abrir os submenus
 GeralButton.MouseButton1Click:Connect(function()
