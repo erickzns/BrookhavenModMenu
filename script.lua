@@ -1,40 +1,67 @@
--- Layout Básico do Mod Menu Flutuante para Roblox
+-- Configuração inicial no Roblox Studio
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Função principal
-local function createModMenu()
-    -- Criando a ScreenGui
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "CheatMenu"
-    screenGui.Parent = game.CoreGui
+local mainMenu = Instance.new("Frame")
+mainMenu.Size = UDim2.new(0, 300, 0, 400)
+mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200)
+mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+mainMenu.Parent = screenGui
 
-    -- Criando o Frame do Menu
-    local menuFrame = Instance.new("Frame")
-    menuFrame.Size = UDim2.new(0, 300, 0, 600)
-    menuFrame.Position = UDim2.new(0, 10, 0, 10)
-    menuFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    menuFrame.BackgroundTransparency = 0.5
-    menuFrame.BorderSizePixel = 0
-    menuFrame.Parent = screenGui
+-- Botões Laterais
+local geralButton = Instance.new("TextButton")
+geralButton.Size = UDim2.new(0, 100, 0, 50)
+geralButton.Position = UDim2.new(0, 10, 0, 10)
+geralButton.Text = "Geral"
+geralButton.Parent = mainMenu
 
-    -- Criando o Título do Menu
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Size = UDim2.new(1, 0, 0, 40)
-    titleLabel.Position = UDim2.new(0, 0, 0, 0)
-    titleLabel.BackgroundColor3 = Color3.fromRGB(0, 122, 204)
-    titleLabel.Text = "Ghost Menu"
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    titleLabel.TextScaled = true
-    titleLabel.Parent = menuFrame
-end
+local jogadorButton = Instance.new("TextButton")
+jogadorButton.Size = UDim2.new(0, 100, 0, 50)
+jogadorButton.Position = UDim2.new(0, 10, 0, 70)
+jogadorButton.Text = "Jogador"
+jogadorButton.Parent = mainMenu
 
--- Garantir que a função seja executada após o jogador carregar
-game.Players.PlayerAdded:Connect(function(player)
-    if player == game.Players.LocalPlayer then
-        player.CharacterAdded:Connect(createModMenu)
+local inventarioButton = Instance.new("TextButton")
+inventarioButton.Size = UDim2.new(0, 100, 0, 50)
+inventarioButton.Position = UDim2.new(0, 10, 0, 130)
+inventarioButton.Text = "Inventário"
+inventarioButton.Parent = mainMenu
+
+local configuracoesButton = Instance.new("TextButton")
+configuracoesButton.Size = UDim2.new(0, 100, 0, 50)
+configuracoesButton.Position = UDim2.new(0, 10, 0, 190)
+configuracoesButton.Text = "Configurações"
+configuracoesButton.Parent = mainMenu
+
+-- Função para criar submenus
+local function createSubMenu(button, options)
+    local submenu = Instance.new("Frame")
+    submenu.Size = UDim2.new(0, 180, 0, 300)
+    submenu.Position = UDim2.new(0, 120, 0, 10)
+    submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    submenu.Visible = false
+    submenu.Parent = mainMenu
+
+    for i, option in ipairs(options) do
+        local optionButton = Instance.new("TextButton")
+        optionButton.Size = UDim2.new(0, 160, 0, 40)
+        optionButton.Position = UDim2.new(0, 10, 0, (i-1) * 50)
+        optionButton.Text = option
+        optionButton.Parent = submenu
+
+        -- Exemplo de funcionalidade fictícia para cada botão
+        optionButton.MouseButton1Click:Connect(function()
+            print("Função " .. option .. " ativada")
+        end)
     end
-end)
 
--- Executar a função se o jogador já estiver no jogo
-if game.Players.LocalPlayer then
-    createModMenu()
+    button.MouseButton1Click:Connect(function()
+        submenu.Visible = not submenu.Visible
+    end)
 end
+
+-- Criando submenus para cada botão
+createSubMenu(geralButton, {"Função Geral 1", "Função Geral 2", "Função Geral 3"})
+createSubMenu(jogadorButton, {"Função Jogador 1", "Função Jogador 2"})
+createSubMenu(inventarioButton, {"Adicionar Item", "Remover Item", "Ver Inventário"})
+createSubMenu(configuracoesButton, {"Opção 1", "Opção 2", "Opção 3"})
