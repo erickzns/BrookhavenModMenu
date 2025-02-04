@@ -79,26 +79,31 @@ end
 
 -- Funções simuladas para ativar/desativar
 local function ativarModoInvencivel()
-    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
-    game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
+    local character = game.Players.LocalPlayer.Character
+    character.Humanoid.MaxHealth = math.huge
+    character.Humanoid.Health = math.huge
 end
 
 local function desativarModoInvencivel()
-    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
-    game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    local character = game.Players.LocalPlayer.Character
+    character.Humanoid.MaxHealth = 100
+    character.Humanoid.Health = 100
 end
 
 local function aumentarVelocidade()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+    local character = game.Players.LocalPlayer.Character
+    character.Humanoid.WalkSpeed = 100
 end
 
 local function diminuirVelocidade()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+    local character = game.Players.LocalPlayer.Character
+    character.Humanoid.WalkSpeed = 16
 end
 
 local function ativarTeletransporte()
     local targetPosition = Vector3.new(0, 100, 0) -- Posição alvo fictícia
-    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+    local character = game.Players.LocalPlayer.Character
+    character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
 end
 
 local function desativarTeletransporte()
@@ -123,20 +128,20 @@ end
 
 local function aumentarTamanho()
     local character = game.Players.LocalPlayer.Character
-    character.HumanoidRootPart.Size = character.HumanoidRootPart.Size * 2
     for _, part in pairs(character:GetChildren()) do
         if part:IsA("BasePart") then
             part.Size = part.Size * 2
+            part:BreakJoints() -- Evita sobreposição
         end
     end
 end
 
 local function diminuirTamanho()
     local character = game.Players.LocalPlayer.Character
-    character.HumanoidRootPart.Size = character.HumanoidRootPart.Size / 2
     for _, part in pairs(character:GetChildren()) do
         if part:IsA("BasePart") then
             part.Size = part.Size / 2
+            part:BreakJoints() -- Evita sobreposição
         end
     end
 end
