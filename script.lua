@@ -145,8 +145,13 @@ MainFrame.InputChanged:Connect(function(input)
         local delta = input.Position - dragStart
         local newPos = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
         
-        -- Atualização da posição sem limites
-        MainFrame.Position = newPos
+        -- Corrige a movimentação para não ultrapassar limites invisíveis
+        if newPos.X.Offset >= 0 and newPos.X.Offset + MainFrame.Size.X.Offset <= game:GetService("Workspace").CurrentCamera.ViewportSize.X then
+            MainFrame.Position = newPos
+        end
+        if newPos.Y.Offset >= 0 and newPos.Y.Offset + MainFrame.Size.Y.Offset <= game:GetService("Workspace").CurrentCamera.ViewportSize.Y then
+            MainFrame.Position = newPos
+        end
     end
 end)
 
