@@ -1,135 +1,128 @@
--- Configuração da Interface
+-- Criando a interface do mod menu
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
-local GERALButton = Instance.new("TextButton")
-local ARMAButton = Instance.new("TextButton")
-local JOGADORButton = Instance.new("TextButton")
-local VEICULOButton = Instance.new("TextButton")
-local TROLLSButton = Instance.new("TextButton")
-local CONFIGURACAOButton = Instance.new("TextButton")
-local SliderFrame = Instance.new("Frame")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIListLayout = Instance.new("UIListLayout")
+local SideBar = Instance.new("Frame")
+local Buttons = {}
 
--- Configuração do layout principal
+-- Configuração da interface
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+
+-- Configuração do menu principal
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.5
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
-MainFrame.Draggable = true
-MainFrame.BackgroundTransparency = 0.5  -- Deixando o menu semi-transparente
+MainFrame.BorderSizePixel = 2
+MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
 
+-- Título do Menu
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Title.Text = "Ghost Menu V1"
 Title.TextColor3 = Color3.fromRGB(255, 0, 0)
-Title.Font = Enum.Font.SourceSans
-Title.TextSize = 24
+Title.Font = Enum.Font.Gotham
+Title.TextSize = 28
+Title.TextStrokeTransparency = 0.5
+Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Configuração da barra lateral dos botões
-SliderFrame.Parent = MainFrame
-SliderFrame.BackgroundTransparency = 0.6
-SliderFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-SliderFrame.Size = UDim2.new(0, 50, 1, 0)
+-- Configuração do ScrollingFrame (sub-menu rolável)
+ScrollingFrame.Parent = MainFrame
+ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
+ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.ScrollBarThickness = 10
 
--- Botões Laterais
-GERALButton.Parent = SliderFrame
-GERALButton.Size = UDim2.new(0, 50, 0, 50)
-GERALButton.Position = UDim2.new(0, 0, 0, 0)
-GERALButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-GERALButton.Text = "GERAL"
-GERALButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-GERALButton.Font = Enum.Font.SourceSans
-GERALButton.TextSize = 18
+-- Layout do ScrollingFrame
+UIListLayout.Parent = ScrollingFrame
+UIListLayout.FillDirection = Enum.FillDirection.Vertical
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
 
-ARMAButton.Parent = SliderFrame
-ARMAButton.Size = UDim2.new(0, 50, 0, 50)
-ARMAButton.Position = UDim2.new(0, 0, 0.2, 0)
-ARMAButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-ARMAButton.Text = "ARMA"
-ARMAButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ARMAButton.Font = Enum.Font.SourceSans
-ARMAButton.TextSize = 18
+-- Função para adicionar checkboxes ao submenu
+local function addCheckboxToMenu(functionName)
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 380, 0, 30)
+    Frame.BackgroundTransparency = 1
+    Frame.BorderSizePixel = 0
+    Frame.Parent = ScrollingFrame
 
-JOGADORButton.Parent = SliderFrame
-JOGADORButton.Size = UDim2.new(0, 50, 0, 50)
-JOGADORButton.Position = UDim2.new(0, 0, 0.4, 0)
-JOGADORButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-JOGADORButton.Text = "JOGADOR"
-JOGADORButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-JOGADORButton.Font = Enum.Font.SourceSans
-JOGADORButton.TextSize = 18
+    local CheckBoxText = Instance.new("TextLabel")
+    CheckBoxText.Size = UDim2.new(0, 240, 0, 30)
+    CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
+    CheckBoxText.Text = functionName
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)
+    CheckBoxText.BackgroundTransparency = 1
+    CheckBoxText.Font = Enum.Font.SourceSans
+    CheckBoxText.TextSize = 18
+    CheckBoxText.TextXAlignment = Enum.TextXAlignment.Left
+    CheckBoxText.Parent = Frame
 
-VEICULOButton.Parent = SliderFrame
-VEICULOButton.Size = UDim2.new(0, 50, 0, 50)
-VEICULOButton.Position = UDim2.new(0, 0, 0.6, 0)
-VEICULOButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-VEICULOButton.Text = "VEÍCULO"
-VEICULOButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-VEICULOButton.Font = Enum.Font.SourceSans
-VEICULOButton.TextSize = 18
+    local Checkbox = Instance.new("TextButton")
+    Checkbox.Size = UDim2.new(0, 20, 0, 20)
+    Checkbox.Position = UDim2.new(0, 240, 0, 5)
+    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Checkbox.Text = ""
+    Checkbox.Parent = Frame
 
-TROLLSButton.Parent = SliderFrame
-TROLLSButton.Size = UDim2.new(0, 50, 0, 50)
-TROLLSButton.Position = UDim2.new(0, 0, 0.8, 0)
-TROLLSButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-TROLLSButton.Text = "TROLLS"
-TROLLSButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TROLLSButton.Font = Enum.Font.SourceSans
-TROLLSButton.TextSize = 18
-
-CONFIGURACAOButton.Parent = SliderFrame
-CONFIGURACAOButton.Size = UDim2.new(0, 50, 0, 50)
-CONFIGURACAOButton.Position = UDim2.new(0, 0, 1, 0)
-CONFIGURACAOButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-CONFIGURACAOButton.Text = "CONFIG"
-CONFIGURACAOButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CONFIGURACAOButton.Font = Enum.Font.SourceSans
-CONFIGURACAOButton.TextSize = 18
-
--- Funções do submenu (exemplo)
-local function ShowGeralMenu()
-    -- Exemplo: funções gerais do mod
-    print("Funções Gerais Ativadas")
-    -- Aqui você pode adicionar as funções para o menu Geral
+    local isChecked = false
+    Checkbox.MouseButton1Click:Connect(function()
+        isChecked = not isChecked
+        Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
+    end)
 end
 
-local function ShowArmaMenu()
-    -- Exemplo: funções de arma
-    print("Funções de Arma Ativadas")
-    -- Aqui você pode adicionar as funções para o menu de Armas
+-- Barra Lateral
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
+
+-- Função para alternar entre menus
+local function showCategory(category)
+    for _, v in pairs(ScrollingFrame:GetChildren()) do
+        if v:IsA("Frame") then v:Destroy() end
+    end
+
+    local functionsPerCategory = {
+        GERAL = {"No Recoil", "Auto Reload", "God Mode"},
+        ARMA = {"Aimbot", "Silent Aim", "Wallbang"},
+        JOGADORES = {"Speed Hack", "Fly", "NoClip"},
+        VEICULO = {"Car Boost", "Infinite Nitro", "No Collision"},
+        TROLLS = {"Chat Spammer", "Crash Server", "Fake Lag"},
+        CONFIGURACOES = {"Mudar Cor", "Reset Menu", "Ativar Stealth"}
+    }
+
+    for _, funcName in ipairs(functionsPerCategory[category]) do
+        addCheckboxToMenu(funcName)
+    end
 end
 
-local function ShowJogadorMenu()
-    -- Exemplo: funções de jogadores
-    print("Funções de Jogadores Ativadas")
-    -- Aqui você pode adicionar as funções para o menu de Jogadores
+-- Função para adicionar botões laterais
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
+for i, name in ipairs(buttonNames) do
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 120, 0, 40)
+    Button.Position = UDim2.new(0, 0, 0, (i - 1) * 50)
+    Button.Text = name
+    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 18
+    Button.Parent = SideBar
+
+    Button.MouseButton1Click:Connect(function()
+        showCategory(name)
+    end)
 end
 
-local function ShowVeiculoMenu()
-    -- Exemplo: funções de veículos
-    print("Funções de Veículos Ativadas")
-    -- Aqui você pode adicionar as funções para o menu de Veículos
-end
-
-local function ShowTrollsMenu()
-    -- Exemplo: funções de trollagem
-    print("Funções de Trolls Ativadas")
-    -- Aqui você pode adicionar as funções para o menu de Trolls
-end
-
-local function ShowConfiguracoesMenu()
-    -- Exemplo: funções de configurações
-    print("Funções de Configuração Ativadas")
-    -- Aqui você pode adicionar as funções para o menu de Configurações
-end
-
--- Conectar os botões com as funções
-GERALButton.MouseButton1Click:Connect(ShowGeralMenu)
-ARMAButton.MouseButton1Click:Connect(ShowArmaMenu)
-JOGADORButton.MouseButton1Click:Connect(ShowJogadorMenu)
-VEICULOButton.MouseButton1Click:Connect(ShowVeiculoMenu)
-TROLLSButton.MouseButton1Click:Connect(ShowTrollsMenu)
-CONFIGURACAOButton.MouseButton1Click:Connect(ShowConfiguracoesMenu)
+-- Inicializa a primeira categoria
+showCategory("GERAL")
