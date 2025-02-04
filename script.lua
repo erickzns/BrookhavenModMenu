@@ -131,9 +131,9 @@ local function aumentarTamanho()
     for _, part in pairs(character:GetChildren()) do
         if part:IsA("BasePart") then
             part.Size = part.Size * 2
-            part:BreakJoints() -- Evita sobreposição
         end
     end
+    character.HumanoidRootPart.CFrame = character.HumanoidRootPart.CFrame * CFrame.Angles(0, 0, 0) -- Evita sobreposição
 end
 
 local function diminuirTamanho()
@@ -141,7 +141,25 @@ local function diminuirTamanho()
     for _, part in pairs(character:GetChildren()) do
         if part:IsA("BasePart") then
             part.Size = part.Size / 2
-            part:BreakJoints() -- Evita sobreposição
+        end
+    end
+    character.HumanoidRootPart.CFrame = character.HumanoidRootPart.CFrame * CFrame.Angles(0, 0, 0) -- Evita sobreposição
+end
+
+local function ativarVoo()
+    local character = game.Players.LocalPlayer.Character
+    local bp = Instance.new("BodyPosition", character.HumanoidRootPart)
+    bp.D = 1000
+    bp.P = 10000
+    bp.MaxForce = Vector3.new(0, math.huge, 0)
+    bp.Position = character.HumanoidRootPart.Position + Vector3.new(0, 50, 0)
+end
+
+local function desativarVoo()
+    local character = game.Players.LocalPlayer.Character
+    for _, obj in pairs(character.HumanoidRootPart:GetChildren()) do
+        if obj:IsA("BodyPosition") then
+            obj:Destroy()
         end
     end
 end
@@ -155,7 +173,8 @@ createSubMenu(geralButton, {
 createSubMenu(jogadorButton, {
     {name = "Teletransportar Jogador", onActivate = ativarTeletransporte, onDeactivate = desativarTeletransporte},
     {name = "Visão de Raio-X", onActivate = ativarVisaoRaioX, onDeactivate = desativarVisaoRaioX},
-    {name = "Aumentar Tamanho", onActivate = aumentarTamanho, onDeactivate = diminuirTamanho}
+    {name = "Aumentar Tamanho", onActivate = aumentarTamanho, onDeactivate = diminuirTamanho},
+    {name = "Ativar Voo", onActivate = ativarVoo, onDeactivate = desativarVoo}
 })
 
 createSubMenu(configuracoesButton, {
