@@ -150,8 +150,8 @@ end
 
 -- Configuração da SideBar (barra lateral com botões)
 SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, 0)  -- A largura foi corrigida para 120px
-SideBar.Position = UDim2.new(0, -120, 0, 90)  -- Barra lateral agora um pouco mais para baixo
+SideBar.Size = UDim2.new(0, 120, 1, 0)  -- Largura da barra lateral agora é fixa em 120px
+SideBar.Position = UDim2.new(0, -120, 0, 50)  -- Barra lateral posicionada corretamente
 SideBar.BackgroundTransparency = 0.5  -- Torna a barra lateral semi-transparente
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 
