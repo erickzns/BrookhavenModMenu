@@ -4,6 +4,7 @@ local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
+local UIPadding = Instance.new("UIPadding")
 
 -- Configuração do Menu Flutuante
 ScreenGui.Parent = game.CoreGui
@@ -50,6 +51,10 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 10)  -- Espaçamento entre os botões
 
+-- Adicionando padding para o conteúdo no ScrollingFrame
+UIPadding.Parent = ScrollingFrame
+UIPadding.PaddingTop = UDim.new(0, 10)
+
 -- Função para tornar o menu arrastável
 local dragging = false
 local dragInput, dragStart, startPos
@@ -79,4 +84,14 @@ MainFrame.InputEnded:Connect(function(input)
     end
 end)
 
--- Agora, adicionei a rolagem no submenu sem adicionar funções extras como Aimbot, etc.
+-- Testando a rolagem no submenu com vários botões
+for i = 1, 20 do
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 380, 0, 50)
+    Button.Text = "Função " .. i
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 18
+    Button.Parent = ScrollingFrame
+end
