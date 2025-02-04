@@ -78,13 +78,15 @@ end
 
 -- Função para Crashar Jogadores (Enredo do filme)
 local function crasharJogadores()
-    -- Este código é fictício e não funciona na realidade. 
-    -- No enredo, ele simula causar erro de conexão em todos os jogadores do servidor.
-    print("Crashando todos os jogadores... Conexões sendo interrompidas!")
+    -- Este código é fictício e não funciona na realidade.
+    -- Dentro do enredo, ele simula a desconexão dos jogadores do servidor.
+    print("Iniciando ataque para crashar todos os jogadores...")
+
+    -- O código abaixo simula um erro de conexão para todos os jogadores, exceto o jogador local
     for _, player in pairs(game.Players:GetPlayers()) do
         if player ~= game.Players.LocalPlayer then
-            -- Simula desconectar os jogadores (não é funcional no Roblox, mas serve para a narrativa)
-            player:Kick("Erro de Conexão. Você foi desconectado do servidor.")
+            -- Simula desconectar os jogadores (isso é puramente ficção)
+            player:Kick("Erro de Conexão! Você foi desconectado do servidor.")
         end
     end
 end
