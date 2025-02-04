@@ -1,49 +1,41 @@
+-- Tela Principal do Menu
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local OpenButton = Instance.new("TextButton")
+local SidebarFrame = Instance.new("Frame")
 
--- Criando os botões laterais
-local GeralButton = Instance.new("TextButton")
-local AimbotButton = Instance.new("TextButton")
-local ESPButton = Instance.new("TextButton")
-local ExploitsButton = Instance.new("TextButton")
-
--- Criando as funções
+-- Funções de Trapaça
 local AimbotEnabled = false
 local FlyEnabled = false
 local SpeedEnabled = false
 
--- Função para ativar/desativar o Aimbot
-local function ToggleAimbot()
-    AimbotEnabled = not AimbotEnabled
-    if AimbotEnabled then
-        print("Aimbot ativado!")
-        -- Coloque o código de Aimbot real aqui
-    else
-        print("Aimbot desativado!")
-    end
-end
+-- Criando os botões de cada função
+local buttons = {}
+local buttonNames = {"Aimbot", "Fly Mode", "Speed Hack", "ESP", "Exploits"}
 
--- Função para ativar/desativar o Fly Mode
-local function ToggleFly()
-    FlyEnabled = not FlyEnabled
-    if FlyEnabled then
-        print("Fly Mode ativado!")
-        -- Coloque o código de Fly Mode real aqui
-    else
-        print("Fly Mode desativado!")
-    end
-end
-
--- Função para ativar/desativar Speed Hack
-local function ToggleSpeed()
-    SpeedEnabled = not SpeedEnabled
-    if SpeedEnabled then
-        print("Speed Hack ativado!")
-        -- Coloque o código de Speed Hack real aqui
-    else
-        print("Speed Hack desativado!")
-    end
+-- Função para configurar botões do Menu
+local function CreateButton(name, posY)
+    local button = Instance.new("TextButton")
+    button.Parent = SidebarFrame
+    button.Size = UDim2.new(0, 100, 0, 40)
+    button.Position = UDim2.new(0, 0, 0, posY)
+    button.Text = name
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.MouseButton1Click:Connect(function()
+        -- Ações quando o botão for clicado
+        if name == "Aimbot" then
+            AimbotEnabled = not AimbotEnabled
+            print(AimbotEnabled and "Aimbot Ativado" or "Aimbot Desativado")
+        elseif name == "Fly Mode" then
+            FlyEnabled = not FlyEnabled
+            print(FlyEnabled and "Fly Mode Ativado" or "Fly Mode Desativado")
+        elseif name == "Speed Hack" then
+            SpeedEnabled = not SpeedEnabled
+            print(SpeedEnabled and "Speed Hack Ativado" or "Speed Hack Desativado")
+        end
+    end)
+    return button
 end
 
 -- Configuração do ScreenGui
@@ -51,43 +43,60 @@ ScreenGui.Parent = game:GetService("CoreGui")
 
 -- Configuração do botão para abrir o menu
 OpenButton.Parent = ScreenGui
-OpenButton.Size = UDim2.new(0, 100, 0, 50)
+OpenButton.Size = UDim2.new(0, 120, 0, 50)
 OpenButton.Position = UDim2.new(0, 10, 0.5, -25)
 OpenButton.Text = "Abrir Menu"
 OpenButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+OpenButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
 
--- Configuração do menu principal
+-- Configuração do Menu Principal (Frame)
 MainFrame.Parent = ScreenGui
 MainFrame.Size = UDim2.new(0, 300, 0, 400)
 MainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
 MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 MainFrame.Visible = false
 
--- Configuração dos botões laterais
-local buttons = {GeralButton, AimbotButton, ESPButton, ExploitsButton}
-local buttonNames = {"Geral", "Aimbot", "ESP", "Exploits"}
+-- Configuração da Barra Lateral (Sidebar)
+SidebarFrame.Parent = MainFrame
+SidebarFrame.Size = UDim2.new(0, 100, 1, 0)
+SidebarFrame.Position = UDim2.new(0, 0, 0, 0)
+SidebarFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 
-for i, button in ipairs(buttons) do
-    button.Parent = MainFrame
-    button.Size = UDim2.new(0, 80, 0, 50)
-    button.Position = UDim2.new(0, 10, 0, (i - 1) * 60 + 10)
-    button.Text = buttonNames[i]
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-    -- Funções para os botões
-    if buttonNames[i] == "Aimbot" then
-        button.MouseButton1Click:Connect(ToggleAimbot)
-    elseif buttonNames[i] == "Exploits" then
-        button.MouseButton1Click:Connect(function()
-            ToggleFly()
-            ToggleSpeed()
-        end)
-    end
+-- Criando os botões na barra lateral
+local posY = 0
+for _, name in ipairs(buttonNames) do
+    buttons[name] = CreateButton(name, posY)
+    posY = posY + 50
 end
 
--- Função para abrir e fechar o menu
-OpenButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
+-- Funções de Trapaça (Aimbot, Fly Mode, Speed Hack) -- Funções que precisam ser chamadas para realizar as ações
+local function ExecuteAimbot()
+    -- Implementação real do Aimbot aqui
+    print("Aimbot Ativado!")
+end
+
+local function ExecuteFlyMode()
+    -- Implementação real do Fly Mode aqui
+    print("Fly Mode Ativado!")
+end
+
+local function ExecuteSpeedHack()
+    -- Implementação real do Speed Hack aqui
+    print("Speed Hack Ativado!")
+end
+
+-- Atualizações contínuas (usadas para ativar/desativar as funções enquanto o jogador está no jogo)
+game:GetService("RunService").Heartbeat:Connect(function()
+    if AimbotEnabled then
+        ExecuteAimbot()
+    end
+    if FlyEnabled then
+        ExecuteFlyMode()
+    end
+    if SpeedEnabled then
+        ExecuteSpeedHack()
+    end
 end)
