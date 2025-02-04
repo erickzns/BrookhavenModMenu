@@ -130,39 +130,129 @@ end
 
 -- Funções para ativar/desativar as opções (representadas por checkboxes)
 local function activateAimbot(isChecked)
-    print("Aimbot " .. (isChecked and "Ativado" or "Desativado"))
+    if isChecked then
+        print("Aimbot Ativado")
+        -- Coloque o código do Aimbot aqui
+    else
+        print("Aimbot Desativado")
+    end
 end
 
 local function activateESP(isChecked)
-    print("ESP " .. (isChecked and "Ativado" or "Desativado"))
+    if isChecked then
+        print("ESP Ativado")
+        -- Coloque o código do ESP aqui
+    else
+        print("ESP Desativado")
+    end
 end
 
 local function activateFly(isChecked)
-    print("Fly Mode " .. (isChecked and "Ativado" or "Desativado"))
-end
-
-local function activateGodMode(isChecked)
-    print("God Mode " .. (isChecked and "Ativado" or "Desativado"))
+    if isChecked then
+        print("Fly Mode Ativado")
+        -- Coloque o código de Fly Mode aqui
+    else
+        print("Fly Mode Desativado")
+    end
 end
 
 local function activateSpeedBoost(isChecked)
-    print("Speed Boost " .. (isChecked and "Ativado" or "Desativado"))
+    if isChecked then
+        print("Speed Boost Ativado")
+        -- Coloque o código de Speed Boost aqui
+    else
+        print("Speed Boost Desativado")
+    end
 end
 
 local function activateNoClip(isChecked)
-    print("NoClip " .. (isChecked and "Ativado" or "Desativado"))
+    if isChecked then
+        print("NoClip Ativado")
+        -- Coloque o código de NoClip aqui
+    else
+        print("NoClip Desativado")
+    end
 end
 
-local function activateTeleportToPlayer(isChecked)
-    print("Teleport para Player " .. (isChecked and "Ativado" or "Desativado"))
+local function activateGodMode(isChecked)
+    if isChecked then
+        print("God Mode Ativado")
+        -- Coloque o código de God Mode aqui
+    else
+        print("God Mode Desativado")
+    end
+end
+
+local function activateInfiniteJump(isChecked)
+    if isChecked then
+        print("Infinite Jump Ativado")
+        -- Coloque o código de Infinite Jump aqui
+    else
+        print("Infinite Jump Desativado")
+    end
+end
+
+local function activateTeleport(isChecked)
+    if isChecked then
+        print("Teleport Ativado")
+        -- Coloque o código de Teleport aqui
+    else
+        print("Teleport Desativado")
+    end
+end
+
+local function activateWallHack(isChecked)
+    if isChecked then
+        print("WallHack Ativado")
+        -- Coloque o código de WallHack aqui
+    else
+        print("WallHack Desativado")
+    end
+end
+
+local function activateChams(isChecked)
+    if isChecked then
+        print("Chams Ativado")
+        -- Coloque o código de Chams aqui
+    else
+        print("Chams Desativado")
+    end
+end
+
+local function activateAntiKick(isChecked)
+    if isChecked then
+        print("Anti-Kick Ativado")
+        -- Coloque o código de Anti-Kick aqui
+    else
+        print("Anti-Kick Desativado")
+    end
+end
+
+local function activateAntiBan(isChecked)
+    if isChecked then
+        print("Anti-Ban Ativado")
+        -- Coloque o código de Anti-Ban aqui
+    else
+        print("Anti-Ban Desativado")
+    end
 end
 
 local function activateTroll(isChecked)
-    print("Trolls " .. (isChecked and "Ativado" or "Desativado"))
+    if isChecked then
+        print("Trolls Ativado")
+        -- Coloque o código de Trolls aqui
+    else
+        print("Trolls Desativado")
+    end
 end
 
 local function applyConfigurations(isChecked)
-    print("Configurações " .. (isChecked and "Aplicadas" or "Desfeitas"))
+    if isChecked then
+        print("Configurações Aplicadas")
+        -- Coloque o código de Configurações aqui
+    else
+        print("Configurações Desfeitas")
+    end
 end
 
 -- Submenu "Geral" com caixinhas de seleção
@@ -171,14 +261,17 @@ createCheckbox(SubMenus["Geral"], UDim2.new(0, 50, 0, 100), "ESP", activateESP)
 
 -- Submenu "Arma" com caixinhas de seleção
 createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 50), "Fly Mode", activateFly)
-createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 100), "God Mode", activateGodMode)
+createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 100), "Speed Boost", activateSpeedBoost)
+createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 150), "NoClip", activateNoClip)
+createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 200), "God Mode", activateGodMode)
 
 -- Submenu "Jogador" com caixinhas de seleção
-createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 50), "Speed Boost", activateSpeedBoost)
-createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 100), "NoClip", activateNoClip)
+createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 50), "Infinite Jump", activateInfiniteJump)
+createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 100), "Teleport", activateTeleport)
+createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 150), "WallHack", activateWallHack)
 
 -- Submenu "Veículos" com caixinhas de seleção
-createCheckbox(SubMenus["Veículos"], UDim2.new(0, 50, 0, 50), "Teleport para Player", activateTeleportToPlayer)
+createCheckbox(SubMenus["Veículos"], UDim2.new(0, 50, 0, 50), "Chams", activateChams)
 
 -- Submenu "Trolls" com caixinhas de seleção
 createCheckbox(SubMenus["Trolls"], UDim2.new(0, 50, 0, 50), "Ativar Trolls", activateTroll)
