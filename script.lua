@@ -75,7 +75,7 @@ local function createSubMenu(name)
     frame.Size = UDim2.new(0, 300, 0, 400)
     frame.Position = UDim2.new(0, 100, 0, 50)
     frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    frame.Visible = false
+    frame.Visible = false  -- Inicialmente invisível
     SubMenus[name] = frame
 end
 
@@ -131,47 +131,38 @@ end
 -- Funções para ativar/desativar as opções (representadas por checkboxes)
 local function activateAimbot(isChecked)
     print("Aimbot " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de Aimbot aqui
 end
 
 local function activateESP(isChecked)
     print("ESP " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de ESP aqui
 end
 
 local function activateFly(isChecked)
     print("Fly Mode " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de Fly aqui
 end
 
 local function activateGodMode(isChecked)
     print("God Mode " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de God Mode aqui
 end
 
 local function activateSpeedBoost(isChecked)
     print("Speed Boost " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de Speed Boost aqui
 end
 
 local function activateNoClip(isChecked)
     print("NoClip " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de NoClip aqui
 end
 
 local function activateTeleportToPlayer(isChecked)
     print("Teleport para Player " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de Teleport aqui
 end
 
 local function activateTroll(isChecked)
     print("Trolls " .. (isChecked and "Ativado" or "Desativado"))
-    -- Implementar a lógica de Trolls aqui
 end
 
 local function applyConfigurations(isChecked)
     print("Configurações " .. (isChecked and "Aplicadas" or "Desfeitas"))
-    -- Implementar a lógica de Configurações aqui
 end
 
 -- Submenu "Geral" com caixinhas de seleção
