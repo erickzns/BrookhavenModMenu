@@ -34,8 +34,13 @@ for _, btn in ipairs(buttons) do
     submenu.Parent = mainMenu
     submenus[button] = submenu
     
+    -- Exibe o submenu ao clicar no botão lateral
     button.MouseButton1Click:Connect(function()
-        for _, sm in pairs(submenus) do sm.Visible = false end
+        -- Oculta todos os submenus
+        for _, sm in pairs(submenus) do
+            sm.Visible = false
+        end
+        -- Exibe o submenu correspondente ao botão
         submenu.Visible = true
     end)
 end
