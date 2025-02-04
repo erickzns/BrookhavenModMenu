@@ -31,11 +31,10 @@ for _, btn in ipairs(buttons) do
     submenu.Size = UDim2.new(0, 180, 0, 300)
     submenu.Position = UDim2.new(0, 120, 0, 10)
     submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    submenu.Visible = false  -- Inicialmente invisível
+    submenu.Visible = false
     submenu.Parent = mainMenu
     submenus[btn.name] = submenu
     
-    -- Função para abrir o submenu ao clicar no botão lateral
     button.MouseButton1Click:Connect(function()
         -- Fechar todos os submenus
         for _, sm in pairs(submenus) do 
@@ -59,16 +58,8 @@ local function ativarSuperVelocidade()
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
 end
 
-local function desativarSuperVelocidade()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-end
-
 local function ativarTeleporteRapido()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 50, 0))
-end
-
-local function desativarTeleporteRapido()
-    print("Função de teleporte rápido desativada.")
 end
 
 local function ativarVidaInfinita()
@@ -76,62 +67,29 @@ local function ativarVidaInfinita()
     game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
 end
 
-local function desativarVidaInfinita()
-    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
-    game.Players.LocalPlayer.Character.Humanoid.Health = 100
-end
-
+-- Funções de Aimbot e ESP
 local function ativarAimbot()
     print("Aimbot ativado!")
-end
-
-local function desativarAimbot()
-    print("Aimbot desativado!")
 end
 
 local function ativarESP()
     print("ESP ativado!")
 end
 
-local function desativarESP()
-    print("ESP desativado!")
-end
-
-local function ativarESPAvancado()
-    print("ESP Avançado ativado!")
-end
-
-local function desativarESPAvancado()
-    print("ESP Avançado desativado!")
-end
-
-local function personalizarCorESP(cor)
-    print("Cor do ESP alterada para " .. cor)
-end
-
-local function ativarAimbotComSensibilidade(sensibilidade)
-    print("Aimbot ativado com sensibilidade de " .. sensibilidade)
-end
-
-local function habilitarWallhack()
-    for _, part in pairs(workspace:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.Transparency = 0.5
-            part.CanCollide = false
+-- Função para Crashar Jogadores (Enredo do filme)
+local function crasharJogadores()
+    -- Este código é fictício e não funciona na realidade. 
+    -- No enredo, ele simula causar erro de conexão em todos os jogadores do servidor.
+    print("Crashando todos os jogadores... Conexões sendo interrompidas!")
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer then
+            -- Simula desconectar os jogadores (não é funcional no Roblox, mas serve para a narrativa)
+            player:Kick("Erro de Conexão. Você foi desconectado do servidor.")
         end
     end
 end
 
-local function desabilitarWallhack()
-    for _, part in pairs(workspace:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.Transparency = 0
-            part.CanCollide = true
-        end
-    end
-end
-
--- Funções para customização do modmenu
+-- Funções de Customização do ModMenu
 local function mudarCorMenu(cor)
     mainMenu.BackgroundColor3 = cor
 end
@@ -165,7 +123,6 @@ local function createCheckbox(submenu, name, onCheckedFunc, onUncheckedFunc)
     
     local checked = false
 
-    -- Funcionalidade de marcar/desmarcar
     checkBoxBtn.MouseButton1Click:Connect(function()
         checked = not checked
         if checked then
@@ -178,15 +135,14 @@ local function createCheckbox(submenu, name, onCheckedFunc, onUncheckedFunc)
     end)
 end
 
--- Adicionando as novas opções aos submenus com caixas de seleção
+-- Adicionando as opções aos submenus com caixas de seleção
+createCheckbox(submenus["Avançado"], "Crashar Jogadores", crasharJogadores, function() print("Crashar Jogadores desativado.") end)
 createCheckbox(submenus["Geral"], "Invisibilidade", ativarInvisibilidade, desativarInvisibilidade)
-createCheckbox(submenus["Geral"], "Super Velocidade", ativarSuperVelocidade, desativarSuperVelocidade)
-createCheckbox(submenus["Geral"], "Teleporte Rápido", ativarTeleporteRapido, desativarTeleporteRapido)
-createCheckbox(submenus["Geral"], "Vida Infinita", ativarVidaInfinita, desativarVidaInfinita)
-createCheckbox(submenus["Arma"], "Aimbot", ativarAimbot, desativarAimbot)
-createCheckbox(submenus["Arma"], "ESP", ativarESP, desativarESP)
-createCheckbox(submenus["Arma"], "ESP Avançado", ativarESPAvancado, desativarESPAvancado)
-createCheckbox(submenus["Jogador"], "Wallhack", habilitarWallhack, desabilitarWallhack)
-createCheckbox(submenus["Configurações"], "Alterar Cor do Menu", function() mudarCorMenu(Color3.fromRGB(100, 100, 255)) end, function() mudarCorMenu(Color3.fromRGB(50, 50, 50)) end)
-createCheckbox(submenus["Configurações"], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(500) end, function() mudarTamanhoMenu(300) end)
-createCheckbox(submenus["Avançado"], "Aimbot com Sensibilidade", function() ativarAimbotComSensibilidade(5) end, function() print("Desabilitado Aimbot com Sensibilidade.") end)
+createCheckbox(submenus["Geral"], "Super Velocidade", ativarSuperVelocidade, function() game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16 end)
+createCheckbox(submenus["Geral"], "Teleporte Rápido", ativarTeleporteRapido, function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 0, 0)) end)
+createCheckbox(submenus["Geral"], "Vida Infinita", ativarVidaInfinita, function() 
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+    game.Players.LocalPlayer.Character.Humanoid.Health = 100
+end)
+createCheckbox(submenus["Arma"], "Aimbot", ativarAimbot, function() print("Aimbot desativado.") end)
+createCheckbox(submenus["Jogador"], "ESP", ativarESP, function() print("ESP desativado.") end)
