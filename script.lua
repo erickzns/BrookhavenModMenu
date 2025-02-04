@@ -33,16 +33,6 @@ for _, btn in ipairs(buttons) do
     submenu.Visible = false
     submenu.Parent = mainMenu
     submenus[button] = submenu
-    
-    -- Exibe o submenu ao clicar no botão lateral
-    button.MouseButton1Click:Connect(function()
-        -- Oculta todos os submenus
-        for _, sm in pairs(submenus) do
-            sm.Visible = false
-        end
-        -- Exibe o submenu correspondente ao botão
-        submenu.Visible = true
-    end)
 end
 
 -- Funções de trapaça
@@ -108,3 +98,15 @@ createOption(submenus[buttons[1]], "Vida Infinita", ativarVidaInfinita)
 createOption(submenus[buttons[2]], "Ativar Aimbot", ativarAimbot)
 createOption(submenus[buttons[3]], "Ativar ESP", ativarESP)
 createOption(submenus[buttons[4]], "Ativar Crashar Jogadores", crasharJogadoresIndetectavel)
+
+-- Exibe o submenu ao clicar no botão lateral
+for button, submenu in pairs(submenus) do
+    button.MouseButton1Click:Connect(function()
+        -- Oculta todos os submenus
+        for _, sm in pairs(submenus) do
+            sm.Visible = false
+        end
+        -- Exibe o submenu correspondente ao botão
+        submenu.Visible = true
+    end)
+end
