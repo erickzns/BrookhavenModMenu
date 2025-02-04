@@ -43,19 +43,19 @@ ScrollingFrame.ScrollBarThickness = 10
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 10)
+UIListLayout.Padding = UDim.new(0, 5)  -- Menos espaço entre as funções
 
 -- Adiciona um item com checkbox ao submenu
 local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(0, 380, 0, 30)  -- Diminuindo a altura para caber mais funções
+    Frame.Size = UDim2.new(0, 380, 0, 25)  -- Diminuindo a altura das funções
     Frame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
     -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
-    CheckBoxText.Size = UDim2.new(0, 300, 0, 30)  -- Ajustando o tamanho do texto para caber
+    CheckBoxText.Size = UDim2.new(0, 300, 0, 25)  -- Ajustando o tamanho do texto para caber
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
     CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
