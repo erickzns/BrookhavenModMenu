@@ -5,6 +5,8 @@ local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local UIPadding = Instance.new("UIPadding")
+local SideBar = Instance.new("Frame")
+local Buttons = {}
 
 -- Configuração do Menu Flutuante
 ScreenGui.Parent = game.CoreGui
@@ -23,7 +25,7 @@ Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Title.Text = "Ghost Menu V1"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.Gotham
 Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
@@ -123,6 +125,38 @@ local function addCheckboxToMenu(functionName)
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
+end
+
+-- Função para adicionar botões laterais
+local function addSideButton(name, yPosition)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 120, 0, 40)
+    Button.Position = UDim2.new(0, 0, 0, yPosition)
+    Button.Text = name
+    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 18
+    Button.Parent = SideBar
+
+    Button.MouseButton1Click:Connect(function()
+        print(name .. " clicado!")
+        -- Aqui você pode adicionar funcionalidades específicas para cada botão
+        -- Por exemplo, exibir submenus ou filtrar funções do menu
+    end)
+    
+    table.insert(Buttons, Button)  -- Adiciona o botão à lista para referência futura
+end
+
+-- Configuração da SideBar (barra lateral com botões)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, 0)
+SideBar.Position = UDim2.new(0, -120, 0, 0)  -- Barra lateral à esquerda
+
+-- Adicionando os botões laterais
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)  -- Ajuste o espaçamento entre os botões
 end
 
 -- Adicionando várias opções com checkbox ao submenu
