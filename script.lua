@@ -60,7 +60,7 @@ local function createSubMenu(button, options)
 
         -- Conectar função de ativar/desativar
         optionCheckbox.MouseButton1Click:Connect(function()
-            if optionCheckbox.Text == "Off" then
+            if optionCheckbox.Text == "Off" então
                 optionCheckbox.Text = "On"
                 optionCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
                 option.onActivate()
@@ -112,7 +112,7 @@ end
 
 local function ativarVisaoRaioX()
     for _, obj in pairs(game.Workspace:GetDescendants()) do
-        if obj:IsA("BasePart") then
+        if obj:IsA("BasePart") então
             obj.Transparency = 0.5
         end
     end
@@ -120,7 +120,7 @@ end
 
 local function desativarVisaoRaioX()
     for _, obj in pairs(game.Workspace:GetDescendants()) do
-        if obj:IsA("BasePart") then
+        if obj:IsA("BasePart") então
             obj.Transparency = 0
         end
     end
@@ -129,7 +129,7 @@ end
 local function aumentarTamanho()
     local character = game.Players.LocalPlayer.Character
     for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
+        if part:IsA("BasePart") então
             part.Size = part.Size * 2
         end
     end
@@ -139,7 +139,7 @@ end
 local function diminuirTamanho()
     local character = game.Players.LocalPlayer.Character
     for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
+        if part:IsA("BasePart") então
             part.Size = part.Size / 2
         end
     end
@@ -158,7 +158,7 @@ end
 local function desativarVoo()
     local character = game.Players.LocalPlayer.Character
     for _, obj in pairs(character.HumanoidRootPart:GetChildren()) do
-        if obj:IsA("BodyPosition") then
+        if obj:IsA("BodyPosition") então
             obj:Destroy()
         end
     end
@@ -189,7 +189,7 @@ createSubMenu(superSaltoButton, {
 local function ativarModoFantasma()
     local character = game.Players.LocalPlayer.Character
     for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
+        if part:IsA("BasePart") então
             part.CanCollide = false
         end
     end
@@ -198,7 +198,7 @@ end
 local function desativarModoFantasma()
     local character = game.Players.LocalPlayer.Character
     for _, part in pairs(character:GetChildren()) do
-        if part:IsA("BasePart") then
+        if part:IsA("BasePart") então
             part.CanCollide = true
         end
     end
@@ -213,6 +213,3 @@ modoFantasmaButton.Parent = mainMenu
 createSubMenu(modoFantasmaButton, {
     {name = "Ativar Modo Fantasma", onActivate = ativarModoFantasma, onDeactivate = desativarModoFantasma}
 })
-
--- Detecção de Inimigos
-local function ativarDeteccao
