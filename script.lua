@@ -35,8 +35,13 @@ for _, btn in ipairs(buttons) do
     submenu.Parent = mainMenu
     submenus[button] = submenu
     
+    -- Função para abrir o submenu ao clicar no botão lateral
     button.MouseButton1Click:Connect(function()
-        for _, sm in pairs(submenus) do sm.Visible = false end
+        -- Fechar todos os submenus
+        for _, sm in pairs(submenus) do 
+            sm.Visible = false 
+        end
+        -- Abrir o submenu específico
         submenu.Visible = true
     end)
 end
@@ -117,7 +122,7 @@ local function mudarTamanhoMenu(tamanho)
     mainMenu.Size = UDim2.new(0, tamanho, 0, 400)
 end
 
--- Atualizar a função createOption para mais personalizações
+-- Função para adicionar opções no submenu
 local function createOption(submenu, name, activateFunc, tooltip)
     local option = Instance.new("TextButton")
     option.Size = UDim2.new(0, 160, 0, 40)
