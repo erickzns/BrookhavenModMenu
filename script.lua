@@ -4,7 +4,6 @@ local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
-local UIPadding = Instance.new("UIPadding")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
 
@@ -34,8 +33,8 @@ Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
 -- Configuração do ScrollingFrame (sub-menu rolável)
 ScrollingFrame.Parent = MainFrame
-ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)  -- Ajuste a altura do submenu
-ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)  -- Posiciona à direita da barra lateral
+ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
+ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
 ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
 
@@ -43,7 +42,7 @@ ScrollingFrame.ScrollBarThickness = 10
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 5)  -- Menos espaço entre as funções
+UIListLayout.Padding = UDim.new(0, 5)
 
 -- Função para limpar o submenu antes de adicionar novas opções
 local function clearSubMenu()
@@ -57,16 +56,15 @@ end
 -- Função para adicionar funções ao submenu com checkboxes
 local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(0, 380, 0, 30)
+    Frame.Size = UDim2.new(1, 0, 0, 30)
     Frame.BackgroundTransparency = 1
-    Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
     local CheckBoxText = Instance.new("TextLabel")
-    CheckBoxText.Size = UDim2.new(0, 240, 0, 30)
+    CheckBoxText.Size = UDim2.new(1, -40, 1, 0)
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
-    CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
     CheckBoxText.TextSize = 18
@@ -75,8 +73,8 @@ local function addCheckboxToMenu(functionName)
 
     local Checkbox = Instance.new("TextButton")
     Checkbox.Size = UDim2.new(0, 20, 0, 20)
-    Checkbox.Position = UDim2.new(0, 240, 0, 5)
-    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Checkbox.Position = UDim2.new(1, -30, 0.5, -10)
+    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
