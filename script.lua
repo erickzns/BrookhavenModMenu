@@ -5,7 +5,24 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 local mainMenu = Instance.new("Frame")
 mainMenu.Size = UDim2.new(0, 300, 0, 400)
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Centralizando o menu
 mainMenu.Parent = screenGui
+
+-- Barra titular
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 40) -- Barra de título ocupa toda a largura
+titleBar.Position = UDim2.new(0, 0, 0, 0)
+titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+titleBar.Parent = mainMenu
+
+local titleText = Instance.new("TextLabel")
+titleText.Size = UDim2.new(1, 0, 1, 0)
+titleText.Text = "Ghost Menu V1"
+titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleText.BackgroundTransparency = 1
+titleText.TextSize = 20
+titleText.TextXAlignment = Enum.TextXAlignment.Center
+titleText.Parent = titleBar
 
 -- Função para permitir mover o menu
 local isDragging = false
@@ -33,30 +50,14 @@ mainMenu.InputEnded:Connect(function(input)
     end
 end)
 
--- Barra titular
-local titleBar = Instance.new("Frame")
-titleBar.Size = UDim2.new(0, 300, 0, 40)
-titleBar.Position = UDim2.new(0, 0, 0, 0)
-titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-titleBar.Parent = mainMenu
-
-local titleText = Instance.new("TextLabel")
-titleText.Size = UDim2.new(1, 0, 1, 0)
-titleText.Text = "Ghost Menu V1"
-titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleText.BackgroundTransparency = 1
-titleText.TextSize = 20
-titleText.TextXAlignment = Enum.TextXAlignment.Center
-titleText.Parent = titleBar
-
 -- Criação dos Botões Laterais
 local buttons = {
-    {name = "Geral", position = 10},
-    {name = "Arma", position = 70},
-    {name = "Jogador", position = 130},
-    {name = "Configurações", position = 190},
-    {name = "Avançado", position = 250},
-    {name = "Dinheiro", position = 310}
+    {name = "Geral", position = 60},
+    {name = "Arma", position = 120},
+    {name = "Jogador", position = 180},
+    {name = "Configurações", position = 240},
+    {name = "Avançado", position = 300},
+    {name = "Dinheiro", position = 360}
 }
 
 local submenus = {}
@@ -68,7 +69,7 @@ local function createSubMenu(name, buttonPosition)
     button.Position = UDim2.new(0, 10, 0, buttonPosition)
     button.Text = name
     button.Parent = mainMenu
-    button.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
 
     local submenu = Instance.new("Frame")
@@ -94,12 +95,12 @@ local function createSubMenu(name, buttonPosition)
 end
 
 -- Criando todos os submenus
-local geralSubMenu = createSubMenu("Geral", 10)
-local armaSubMenu = createSubMenu("Arma", 70)
-local jogadorSubMenu = createSubMenu("Jogador", 130)
-local configuracoesSubMenu = createSubMenu("Configurações", 190)
-local avancadoSubMenu = createSubMenu("Avançado", 250)
-local dinheiroSubMenu = createSubMenu("Dinheiro", 310)
+local geralSubMenu = createSubMenu("Geral", 60)
+local armaSubMenu = createSubMenu("Arma", 120)
+local jogadorSubMenu = createSubMenu("Jogador", 180)
+local configuracoesSubMenu = createSubMenu("Configurações", 240)
+local avancadoSubMenu = createSubMenu("Avançado", 300)
+local dinheiroSubMenu = createSubMenu("Dinheiro", 360)
 
 -- Funções de Trapaça
 local function ativarInvisibilidade()
