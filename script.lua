@@ -8,67 +8,7 @@ mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200)
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Parent = screenGui
 
--- Barra de título
-local titleBar = Instance.new("Frame")
-titleBar.Size = UDim2.new(1, 0, 0, 30)
-titleBar.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-titleBar.Parent = mainMenu
-
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 1, 0)
-titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "Ghost Menu V1"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.TextSize = 20
-titleLabel.TextAlign = Enum.TextAnchor.MiddleCenter
-titleLabel.Parent = titleBar
-
--- Barra de rolagem
-local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0, 300, 0, 370)
-scrollFrame.Position = UDim2.new(0, 0, 0, 30) -- Ajuste para que comece após a barra de título
-scrollFrame.Parent = mainMenu
-scrollFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-scrollFrame.ScrollBarThickness = 10
-
-local uiListLayout = Instance.new("UIListLayout")
-uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-uiListLayout.Padding = UDim.new(0, 10)
-uiListLayout.Parent = scrollFrame
-
--- Movimentação do menu
-local isDragging = false
-local dragStart = nil
-local startPos = nil
-
-titleBar.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        isDragging = true
-        dragStart = input.Position
-        startPos = mainMenu.Position
-    end
-end)
-
-mainMenu.InputChanged:Connect(function(input)
-    if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        mainMenu.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-mainMenu.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        isDragging = false
-    end
-end)
-
 -- Botões Laterais
-local sideMenu = Instance.new("Frame")
-sideMenu.Size = UDim2.new(0, 100, 0, 400)
-sideMenu.Position = UDim2.new(0, -100, 0, 0)
-sideMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-sideMenu.Parent = screenGui
-
 local buttons = {
     {name = "Geral", position = 10},
     {name = "Arma", position = 70},
@@ -85,7 +25,7 @@ for _, btn in ipairs(buttons) do
     button.Size = UDim2.new(0, 80, 0, 50)
     button.Position = UDim2.new(0, 10, 0, btn.position)
     button.Text = btn.name
-    button.Parent = sideMenu
+    button.Parent = mainMenu
     
     local submenu = Instance.new("Frame")
     submenu.Size = UDim2.new(0, 180, 0, 300)
@@ -101,7 +41,7 @@ for _, btn in ipairs(buttons) do
     end)
 end
 
--- Funções de Trapaça
+-- Funções de trapaça
 local function ativarInvisibilidade()
     print("Invisibilidade ativada!")
 end
@@ -150,7 +90,7 @@ local function pegarDinheiro()
     end
 end
 
--- Função para adicionar opções dentro dos submenus
+-- Criar opções no submenu
 local function createOption(submenu, name, activateFunc)
     local option = Instance.new("TextButton")
     option.Size = UDim2.new(0, 160, 0, 40)
@@ -162,7 +102,7 @@ local function createOption(submenu, name, activateFunc)
     option.MouseButton1Click:Connect(activateFunc)
 end
 
--- Criando as opções dentro dos submenus
+-- Adicionando opções aos submenus
 createOption(submenus[buttons[1]], "Ativar Invisibilidade", ativarInvisibilidade)
 createOption(submenus[buttons[1]], "Ativar Super Velocidade", ativarSuperVelocidade)
 createOption(submenus[buttons[1]], "Ativar Teleporte Rápido", ativarTeleporteRapido)
