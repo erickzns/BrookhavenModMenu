@@ -4,7 +4,7 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local mainMenu = Instance.new("Frame")
 mainMenu.Size = UDim2.new(0, 300, 0, 400)
-mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200)
+mainMenu.Position = UDim2.new(0, 10, 0.5, -200)  -- Posição ajustada para o canto esquerdo da tela
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Parent = screenGui
 
