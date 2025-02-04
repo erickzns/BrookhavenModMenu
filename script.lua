@@ -1,148 +1,73 @@
--- Criação do ScreenGui e Menu Principal
+-- Variáveis globais
 local player = game.Players.LocalPlayer
+local playerCharacter = player.Character
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
-local mainMenu = Instance.new("Frame")
-mainMenu.Size = UDim2.new(0, 300, 0, 400)
-mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Centralizando o menu
-mainMenu.Visible = true  -- Tornando o menu visível
-mainMenu.Parent = screenGui
+-- Funções globais para ativar/desativar
+local ativado = {}
 
--- Barra titular
-local titleBar = Instance.new("Frame")
-titleBar.Size = UDim2.new(1, 0, 0, 40) -- Barra de título ocupa toda a largura
-titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-titleBar.Parent = mainMenu
-
-local titleText = Instance.new("TextLabel")
-titleText.Size = UDim2.new(1, 0, 1, 0)
-titleText.Text = "Ghost Menu V1"
-titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleText.BackgroundTransparency = 1
-titleText.TextSize = 20
-titleText.TextXAlignment = Enum.TextXAlignment.Center
-titleText.Parent = titleBar
-
--- Função para permitir mover o menu
-local isDragging = false
-local dragStart = nil
-local startPos = nil
-
-mainMenu.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        isDragging = true
-        dragStart = input.Position
-        startPos = mainMenu.Position
+local function ativarDesativar(funcao, chave)
+    if ativado[chave] then
+        funcao(false)
+        ativado[chave] = false
+    else
+        funcao(true)
+        ativado[chave] = true
     end
-end)
-
-mainMenu.InputChanged:Connect(function(input)
-    if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        mainMenu.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-mainMenu.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        isDragging = false
-    end
-end)
-
--- Container para botões laterais
-local buttonContainer = Instance.new("Frame")
-buttonContainer.Size = UDim2.new(0, 110, 1, -40)
-buttonContainer.Position = UDim2.new(0, 0, 0, 40)
-buttonContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-buttonContainer.Parent = mainMenu
-
--- Container para submenus
-local submenuContainer = Instance.new("Frame")
-submenuContainer.Size = UDim2.new(1, -110, 1, -40)
-submenuContainer.Position = UDim2.new(0, 110, 0, 40)
-submenuContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-submenuContainer.Parent = mainMenu
-
-local submenus = {}
-local activeSubmenu = nil
-
--- Função para criar um botão lateral e seu submenu correspondente
-local function createSidebarButton(name, order)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, -10, 0, 50)
-    button.Position = UDim2.new(0, 5, 0, (order - 1) * 55 + 5)
-    button.Text = name
-    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Parent = buttonContainer
-    
-    local submenu = Instance.new("Frame")
-    submenu.Size = UDim2.new(1, 0, 1, 0)
-    submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    submenu.Visible = false
-    submenu.Parent = submenuContainer
-    
-    submenus[button] = submenu
-    
-    button.MouseButton1Click:Connect(function()
-        if activeSubmenu then
-            activeSubmenu.Visible = false
-        end
-        submenu.Visible = true
-        activeSubmenu = submenu
-    end)
-    
-    return submenu
 end
 
--- Criando submenus organizados
-local geralSubMenu = createSidebarButton("Geral", 1)
-local armaSubMenu = createSidebarButton("Arma", 2)
-local jogadorSubMenu = createSidebarButton("Jogador", 3)
-local configuracoesSubMenu = createSidebarButton("Configurações", 4)
-local avancadoSubMenu = createSidebarButton("Avançado", 5)
-local dinheiroSubMenu = createSidebarButton("Dinheiro", 6)
-
--- Funções de trapaça
-local function ativarInvisibilidade()
-    local player = game.Players.LocalPlayer
-    if player and player.Character then
-        player.Character.HumanoidRootPart.Transparency = 1
-        player.Character.HumanoidRootPart.CanCollide = false
-        for _, part in pairs(player.Character:GetChildren()) do
-            if part:IsA("BasePart") then
-                part.Transparency = 1
+-- Funções de trapaça (com ativação/desativação)
+local function ativarInvisibilidade(ativar)
+    local character = game.Players.LocalPlayer.Character
+    if ativar then
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            character.HumanoidRootPart.Transparency = 1
+            character.HumanoidRootPart.CanCollide = false
+            for _, part in pairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = 1
+                end
             end
         end
-    end
-    print("Invisibilidade ativada!")
-end
-
-local function ativarAimbot()
-    -- Código de Aimbot funcional
-    print("Aimbot ativado!")
-end
-
-local function ativarESP()
-    for _, player in pairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer then
-            local highlight = Instance.new("Highlight", player.Character)
-            highlight.FillColor = Color3.fromRGB(255, 0, 0)
-            highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+        print("Invisibilidade ativada!")
+    else
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            character.HumanoidRootPart.Transparency = 0
+            character.HumanoidRootPart.CanCollide = true
+            for _, part in pairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = 0
+                end
+            end
         end
+        print("Invisibilidade desativada!")
     end
-    print("ESP ativado!")
 end
 
-local function pegarDinheiro()
-    for _, money in pairs(workspace:GetChildren()) do
-        if money:IsA("Part") and money.Name == "Money" then
-            money.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-        end
+local function ativarAimbot(ativar)
+    -- Implemente a ativação e desativação do aimbot aqui
+    if ativar then
+        print("Aimbot ativado!")
+    else
+        print("Aimbot desativado!")
     end
-    print("Dinheiro coletado!")
+end
+
+local function ativarESP(ativar)
+    if ativar then
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                local highlight = Instance.new("Highlight", player.Character)
+                highlight.FillColor = Color3.fromRGB(255, 0, 0)
+                highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+            end
+        end
+        print("ESP ativado!")
+    else
+        -- Desativar ESP aqui
+        print("ESP desativado!")
+    end
 end
 
 local function pegarArma(armaNome)
@@ -156,47 +81,162 @@ local function pegarArma(armaNome)
     end
 end
 
-local function ativarSuperForca()
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-    player.Character.Humanoid.Health = player.Character.Humanoid.Health + 500
-    print("Super força ativada!")
+local function pegarDinheiro(ativar)
+    if ativar then
+        for _, money in pairs(workspace:GetChildren()) do
+            if money:IsA("Part") and money.Name == "Money" then
+                money.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+            end
+        end
+        print("Dinheiro coletado!")
+    else
+        print("Dinheiro desativado!")
+    end
 end
 
-local function ativarSuperSalto()
+local function ativarModoDeus(ativar)
     local player = game.Players.LocalPlayer
-    player.Character.Humanoid.JumpHeight = 100
-    print("Super salto ativado!")
+    if ativar then
+        player.Character.Humanoid.Health = math.huge
+        player.Character.Humanoid.MaxHealth = math.huge
+        print("Modo Deus ativado!")
+    else
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+        print("Modo Deus desativado!")
+    end
 end
 
-local function ativarSuperVelocidade()
+-- Funções adicionais de configurações
+local function mudarTamanhoJogador(ativar)
     local player = game.Players.LocalPlayer
-    player.Character.Humanoid.WalkSpeed = 100
-    print("Super velocidade ativada!")
+    if ativar then
+        player.Character.HumanoidRootPart.Size = Vector3.new(10, 10, 10)
+        print("Tamanho alterado para Grande")
+    else
+        player.Character.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+        print("Tamanho restaurado")
+    end
 end
 
--- Função para criar opções dentro dos submenus
-local function createOption(submenu, name, activateFunc, index)
+local function teleporteParaSpawn(ativar)
+    if ativar then
+        local spawn = game.Workspace:FindFirstChild("SpawnLocation")
+        if spawn then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = spawn.CFrame
+            print("Teletransportado para o spawn!")
+        else
+            print("Spawn não encontrado!")
+        end
+    else
+        print("Teleporte desativado!")
+    end
+end
+
+local function mudarGravidade(valor)
+    workspace.Gravity = valor
+    print("Gravidade alterada para: " .. valor)
+end
+
+local function ativarDanoInfinito(ativar)
+    local player = game.Players.LocalPlayer
+    local humanoid = player.Character:FindFirstChild("Humanoid")
+    if humanoid then
+        if ativar then
+            humanoid.HealthChanged:Connect(function()
+                humanoid.Health = humanoid.MaxHealth
+            end)
+            print("Dano infinito ativado!")
+        else
+            print("Dano infinito desativado!")
+        end
+    end
+end
+
+-- Função para criar as opções no menu
+local function createOption(submenu, name, funcao, chave, index)
     local option = Instance.new("TextButton")
-    option.Size = UDim2.new(1, -20, 0, 40)
-    option.Position = UDim2.new(0, 10, 0, index * 45)
+    option.Size = UDim2.new(1, -20, 0, 45)
+    option.Position = UDim2.new(0, 10, 0, index * 50)
     option.Text = name
-    option.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    option.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
     option.TextColor3 = Color3.fromRGB(255, 255, 255)
+    option.TextSize = 18
+    option.Font = Enum.Font.Gotham
+    option.TextXAlignment = Enum.TextXAlignment.Center
     option.Parent = submenu
-    option.MouseButton1Click:Connect(activateFunc)
+    option.BorderRadius = UDim.new(0, 5)
+
+    -- Efeito ao passar o mouse
+    option.MouseEnter:Connect(function()
+        option.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+    end)
+
+    option.MouseLeave:Connect(function()
+        option.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end)
+
+    option.MouseButton1Click:Connect(function()
+        ativarDesativar(funcao, chave)
+    end)
 end
 
--- Adicionando opções organizadas
-createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, 0)
-createOption(geralSubMenu, "Ativar Super Velocidade", ativarSuperVelocidade, 1)
-createOption(geralSubMenu, "Ativar Super Força", ativarSuperForca, 2)
-createOption(geralSubMenu, "Ativar Super Salto", ativarSuperSalto, 3)
-createOption(armaSubMenu, "Pegar Arma Pistol", function() pegarArma("Pistol") end, 0)
-createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, 1)
-createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, 2)
-createOption(jogadorSubMenu, "Ativar Aimbot", ativarAimbot, 0)
-createOption(jogadorSubMenu, "Ativar ESP", ativarESP, 1)
-createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro, 0)
+-- Criar o menu e opções
+local mainMenu = Instance.new("Frame")
+mainMenu.Size = UDim2.new(0, 350, 0, 450)
+mainMenu.Position = UDim2.new(0.5, -175, 0.5, -225)
+mainMenu.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mainMenu.Parent = screenGui
+mainMenu.BorderRadius = UDim.new(0, 10)
 
-print("ModMenu atualizado e funcional!")
+-- Barra de título
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 50)
+titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+titleBar.Parent = mainMenu
+titleBar.BorderRadius = UDim.new(0, 10)
+
+local titleText = Instance.new("TextLabel")
+titleText.Size = UDim2.new(1, 0, 1, 0)
+titleText.Text = "Ghost Menu V1"
+titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleText.BackgroundTransparency = 1
+titleText.TextSize = 24
+titleText.Font = Enum.Font.GothamBold
+titleText.TextXAlignment = Enum.TextXAlignment.Center
+titleText.TextYAlignment = Enum.TextYAlignment.Center
+titleText.Parent = titleBar
+
+-- Criar submenus e suas opções
+local geralSubMenu = Instance.new("Frame")
+geralSubMenu.Size = UDim2.new(1, 0, 1, 0)
+geralSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+geralSubMenu.Parent = mainMenu
+
+createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, "invisibilidade", 0)
+createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
+createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
+createOption(geralSubMenu, "Coletar Dinheiro", pegarDinheiro, "dinheiro", 3)
+
+-- Criar mais opções de armas
+local armaSubMenu = Instance.new("Frame")
+armaSubMenu.Size = UDim2.new(1, 0, 1, 0)
+armaSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+armaSubMenu.Parent = mainMenu
+
+createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, "rifle", 0)
+createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, "shotgun", 1)
+
+-- Criar mais opções de modo
+local modoSubMenu = Instance.new("Frame")
+modoSubMenu.Size = UDim2.new(1, 0, 1, 0)
+modoSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+modoSubMenu.Parent = mainMenu
+
+createOption(modoSubMenu, "Ativar Modo Deus", ativarModoDeus, "modoDeus", 0)
+createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "tamanho", 1)
+createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
+createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
+
+-- Outras funções de configurações
+-- Crie mais funções, submenus e opções conforme necessário
+
