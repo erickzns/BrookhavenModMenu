@@ -12,20 +12,21 @@ local Buttons = {}
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
 
--- Configuração do MainFrame (Menu Principal)
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+-- Configuração do MainFrame (Menu Principal) com transparência
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.5  -- Tornando o fundo semi-transparente
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
 
--- Título do Menu
+-- Título do Menu com texto vermelho
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Title.Text = "Ghost Menu V1"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
 Title.Font = Enum.Font.Gotham
 Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
@@ -33,7 +34,7 @@ Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
 -- Configuração do ScrollingFrame (Submenu Rolável)
 ScrollingFrame.Parent = MainFrame
-ScrollingFrame.Size = UDim2.new(1, -120, 0, 400)  -- Submenu ocupa a largura total, exceto a barra lateral
+ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)  -- Ajuste o tamanho para dar mais espaço ao conteúdo
 ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)  -- Posicionamento do submenu à direita da barra lateral
 ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
@@ -57,12 +58,12 @@ local function addCheckboxToMenu(functionName)
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
-    -- Texto da função
+    -- Texto da função com cor vermelha
     local CheckBoxText = Instance.new("TextLabel")
     CheckBoxText.Size = UDim2.new(0, 300, 0, 50)
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
-    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
     CheckBoxText.TextSize = 18
@@ -123,7 +124,7 @@ local function addSideButton(name, yPosition)
     Button.Position = UDim2.new(0, 0, 0, yPosition)
     Button.Text = name
     Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho nos botões laterais
     Button.Font = Enum.Font.SourceSans
     Button.TextSize = 18
     Button.Parent = SideBar
@@ -138,7 +139,7 @@ end
 
 -- Configuração da barra lateral (SideBar)
 SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, -50)  -- A altura da barra lateral é a mesma do submenu (400px)
+SideBar.Size = UDim2.new(0, 120, 1, -50)  -- A altura da barra lateral é a mesma do submenu (420px)
 SideBar.Position = UDim2.new(0, 0, 0, 50)  -- Alinha a barra lateral à esquerda do menu
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor sólida para a barra lateral
 SideBar.BorderSizePixel = 0  -- Remove qualquer borda indesejada
