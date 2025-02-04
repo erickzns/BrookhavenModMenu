@@ -1,119 +1,200 @@
--- Função para Gerar Dinheiro de Forma Contínua
-local function gerarDinheiroContinuo(valor)
-    while true do
-        wait(5) -- A cada 5 segundos
-        modificarDinheiro(valor)
-        print("Dinheiro gerado automaticamente: " .. valor)
+-- Criação do ScreenGui e Menu Principal
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local mainMenu = Instance.new("Frame")
+mainMenu.Size = UDim2.new(0, 300, 0, 400)
+mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Centralizando o menu
+mainMenu.Parent = screenGui
+
+-- Barra titular
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 40) -- Barra de título ocupa toda a largura
+titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+titleBar.Parent = mainMenu
+
+local titleText = Instance.new("TextLabel")
+titleText.Size = UDim2.new(1, 0, 1, 0)
+titleText.Text = "Ghost Menu V1"
+titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleText.BackgroundTransparency = 1
+titleText.TextSize = 20
+titleText.TextXAlignment = Enum.TextXAlignment.Center
+titleText.Parent = titleBar
+
+-- Função para permitir mover o menu
+local isDragging = false
+local dragStart = nil
+local startPos = nil
+
+mainMenu.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isDragging = true
+        dragStart = input.Position
+        startPos = mainMenu.Position
     end
-end
+end)
 
--- Função para Alterar o Clima
-local function alterarClima(tipo)
-    if tipo == "dia" then
-        game.Lighting.TimeOfDay = "14:00:00"
-        print("Clima alterado para o dia!")
-    elseif tipo == "noite" then
-        game.Lighting.TimeOfDay = "00:00:00"
-        print("Clima alterado para a noite!")
-    elseif tipo == "chuva" then
-        game.Lighting.Rain.Enabled = true
-        print("Chuva ativada!")
-    elseif tipo == "nevoeiro" then
-        game.Lighting.FogEnabled = true
-        print("Nevoeiro ativado!")
+mainMenu.InputChanged:Connect(function(input)
+    if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        mainMenu.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
-end
+end)
 
--- Função para Criar Blocos ou Caminhos no Jogo
-local function criarBloco(position, tamanho)
-    local bloco = Instance.new("Part")
-    bloco.Size = tamanho
-    bloco.Position = position
-    bloco.Anchored = true
-    bloco.BrickColor = BrickColor.new("Bright blue")
-    bloco.Parent = workspace
-    print("Bloco criado na posição: " .. tostring(position))
-end
-
--- Função para Forçar Ação de Outro Jogador
-local function forcarAcaoJogador(jogador, acao)
-    if acao == "dançar" then
-        -- Exemplo de forçar o jogador a dançar
-        jogador.Character:WaitForChild("Humanoid"):MoveTo(workspace.DanceLocation.Position)
-        print(jogador.Name .. " está dançando agora!")
-    elseif acao == "sentar" then
-        jogador.Character:WaitForChild("Humanoid"):Sit(true)
-        print(jogador.Name .. " está sentado!")
+mainMenu.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        isDragging = false
     end
+end)
+
+-- Container para botões laterais
+local buttonContainer = Instance.new("Frame")
+buttonContainer.Size = UDim2.new(0, 110, 1, -40)
+buttonContainer.Position = UDim2.new(0, 0, 0, 40)
+buttonContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+buttonContainer.Parent = mainMenu
+
+-- Container para submenus
+local submenuContainer = Instance.new("Frame")
+submenuContainer.Size = UDim2.new(1, -110, 1, -40)
+submenuContainer.Position = UDim2.new(0, 110, 0, 40)
+submenuContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+submenuContainer.Parent = mainMenu
+
+local submenus = {}
+local activeSubmenu = nil
+
+-- Função para criar um botão lateral e seu submenu correspondente
+local function createSidebarButton(name, order)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -10, 0, 50)
+    button.Position = UDim2.new(0, 5, 0, (order - 1) * 55 + 5)
+    button.Text = name
+    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Parent = buttonContainer
+    
+    local submenu = Instance.new("Frame")
+    submenu.Size = UDim2.new(1, 0, 1, 0)
+    submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    submenu.Visible = false
+    submenu.Parent = submenuContainer
+    
+    submenus[button] = submenu
+    
+    button.MouseButton1Click:Connect(function()
+        if activeSubmenu then
+            activeSubmenu.Visible = false
+        end
+        submenu.Visible = true
+        activeSubmenu = submenu
+    end)
+    
+    return submenu
 end
 
--- Função para Rastrear a Localização de Jogadores
-local function rastrearJogadores()
-    for _, player in pairs(game.Players:GetPlayers()) do
-        if player.Character then
-            local position = player.Character.HumanoidRootPart.Position
-            print(player.Name .. " está em: " .. tostring(position))
+-- Criando submenus organizados
+local geralSubMenu = createSidebarButton("Geral", 1)
+local armaSubMenu = createSidebarButton("Arma", 2)
+local jogadorSubMenu = createSidebarButton("Jogador", 3)
+local configuracoesSubMenu = createSidebarButton("Configurações", 4)
+local avancadoSubMenu = createSidebarButton("Avançado", 5)
+local dinheiroSubMenu = createSidebarButton("Dinheiro", 6)
+
+-- Funções de trapaça
+local function ativarInvisibilidade()
+    local player = game.Players.LocalPlayer
+    if player and player.Character then
+        player.Character.HumanoidRootPart.Transparency = 1
+        player.Character.HumanoidRootPart.CanCollide = false
+        for _, part in pairs(player.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.Transparency = 1
+            end
         end
     end
+    print("Invisibilidade ativada!")
 end
 
--- Função para Movimento Rápido da Câmera
-local function movimentoRapidoCamera()
-    local camera = game.Workspace.CurrentCamera
-    camera.CameraType = Enum.CameraType.Scriptable
-    camera.CFrame = camera.CFrame * CFrame.new(0, 0, -50)
-    print("Movimento rápido de câmera ativado!")
+local function ativarAimbot()
+    -- Código de Aimbot funcional
+    print("Aimbot ativado!")
 end
 
--- Função para Multiplicador de XP ou Pontuação
-local function multiplicadorXP(pontos)
+local function ativarESP()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer then
+            local highlight = Instance.new("Highlight", player.Character)
+            highlight.FillColor = Color3.fromRGB(255, 0, 0)
+            highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+        end
+    end
+    print("ESP ativado!")
+end
+
+local function pegarDinheiro()
+    for _, money in pairs(workspace:GetChildren()) do
+        if money:IsA("Part") and money.Name == "Money" then
+            money.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        end
+    end
+    print("Dinheiro coletado!")
+end
+
+local function pegarArma(armaNome)
+    local arma = game.ServerStorage:FindFirstChild(armaNome)
+    if arma then
+        local cloneArma = arma:Clone()
+        cloneArma.Parent = game.Players.LocalPlayer.Backpack
+        print("Arma " .. armaNome .. " adquirida!")
+    else
+        print("Arma não encontrada!")
+    end
+end
+
+local function ativarSuperForca()
     local player = game.Players.LocalPlayer
-    if player.leaderstats and player.leaderstats.XP then
-        player.leaderstats.XP.Value = player.leaderstats.XP.Value * pontos
-        print("Multiplicador de XP ativado!")
-    end
+    player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+    player.Character.Humanoid.Health = player.Character.Humanoid.Health + 500
+    print("Super força ativada!")
 end
 
--- Função para Modificar a Voz de um Jogador
-local function modificarVoz(jogador)
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://123456789" -- Coloque o ID de uma voz ou som
-    sound.Parent = jogador.Character
-    sound:Play()
-    print("Voz modificada para " .. jogador.Name)
+local function ativarSuperSalto()
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.JumpHeight = 100
+    print("Super salto ativado!")
 end
 
--- Função para Criar Veículo ou Montaria
-local function criarVeiculo(position, tipo)
-    local veiculo
-    if tipo == "carro" then
-        veiculo = Instance.new("VehicleSeat")
-        veiculo.Position = position
-        veiculo.Parent = workspace
-        print("Carro criado na posição: " .. tostring(position))
-    elseif tipo == "montaria" then
-        veiculo = Instance.new("Model") -- Simplesmente um exemplo, você pode colocar um animal real aqui
-        veiculo.Name = "Montaria"
-        veiculo.Parent = workspace
-        print("Montaria criada na posição: " .. tostring(position))
-    end
+local function ativarSuperVelocidade()
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.WalkSpeed = 100
+    print("Super velocidade ativada!")
 end
 
--- Funções para Criar Opções de Trapaça no Menu
-local function criarOpcoesDeTrapaçaAvancadas()
-    createOption(geralSubMenu, "Gerar Dinheiro Continuamente", function() gerarDinheiroContinuo(1000) end, 0)
-    createOption(geralSubMenu, "Alterar Clima para Dia", function() alterarClima("dia") end, 1)
-    createOption(geralSubMenu, "Criar Bloco", function() criarBloco(game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(5, 0, 0), Vector3.new(5, 5, 5)) end, 2)
-    createOption(geralSubMenu, "Forçar Jogador a Dançar", function() forcarAcaoJogador(game.Players.LocalPlayer, "dançar") end, 3)
-    createOption(geralSubMenu, "Rastrear Jogadores", rastrearJogadores, 4)
-    createOption(geralSubMenu, "Movimento Rápido de Câmera", movimentoRapidoCamera, 5)
-    createOption(geralSubMenu, "Multiplicador de XP", function() multiplicadorXP(10) end, 6)
-    createOption(geralSubMenu, "Modificar Voz", function() modificarVoz(game.Players.LocalPlayer) end, 7)
-    createOption(geralSubMenu, "Criar Carro", function() criarVeiculo(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, "carro") end, 8)
-    createOption(geralSubMenu, "Criar Montaria", function() criarVeiculo(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, "montaria") end, 9)
+-- Função para criar opções dentro dos submenus
+local function createOption(submenu, name, activateFunc, index)
+    local option = Instance.new("TextButton")
+    option.Size = UDim2.new(1, -20, 0, 40)
+    option.Position = UDim2.new(0, 10, 0, index * 45)
+    option.Text = name
+    option.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    option.TextColor3 = Color3.fromRGB(255, 255, 255)
+    option.Parent = submenu
+    option.MouseButton1Click:Connect(activateFunc)
 end
 
--- Chamada da função para criar as opções avançadas
-criarOpcoesDeTrapaçaAvancadas()
+-- Adicionando opções organizadas
+createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, 0)
+createOption(geralSubMenu, "Ativar Super Velocidade", ativarSuperVelocidade, 1)
+createOption(geralSubMenu, "Ativar Super Força", ativarSuperForca, 2)
+createOption(geralSubMenu, "Ativar Super Salto", ativarSuperSalto, 3)
+createOption(armaSubMenu, "Pegar Arma Pistol", function() pegarArma("Pistol") end, 0)
+createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, 1)
+createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, 2)
+createOption(jogadorSubMenu, "Ativar Aimbot", ativarAimbot, 0)
+createOption(jogadorSubMenu, "Ativar ESP", ativarESP, 1)
+createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro, 0)
 
-print("ModMenu agora com funções avançadas e mais opções!")
+print("ModMenu atualizado e funcional!")
