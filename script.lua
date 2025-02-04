@@ -69,44 +69,44 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções antigas e novas
+-- Funções de exemplo para os botões
 local function ESP()
-    print("ESP ativado")
+    print("ESP ativado") -- Aqui você adiciona o código real do ESP
 end
 
 local function GodMode()
-    print("God Mode ativado")
+    print("God Mode ativado") -- Aqui você adiciona o código real do God Mode
 end
 
 local function FlyHack()
-    print("Fly Hack ativado")
+    print("Fly Hack ativado") -- Aqui você adiciona o código real do Fly Hack
 end
 
 local function InfiniteJump()
-    print("Infinite Jump ativado")
+    print("Infinite Jump ativado") -- Aqui você adiciona o código real do Infinite Jump
 end
 
 local function TeleportPlayer()
-    print("Teleport para Player ativado")
+    print("Teleport para Player ativado") -- Aqui você adiciona o código real do Teleport
 end
 
 local function SpeedBoost()
-    print("Speed Boost ativado")
+    print("Speed Boost ativado") -- Aqui você adiciona o código real do Speed Boost
 end
 
 local function Aimbot()
-    print("Aimbot ativado")
+    print("Aimbot ativado") -- Aqui você adiciona o código real do Aimbot
 end
 
 local function NoClip()
-    print("NoClip ativado")
+    print("NoClip ativado") -- Aqui você adiciona o código real do NoClip
 end
 
 local function AntiKickBan()
-    print("Anti-Kick e Anti-Ban ativado")
+    print("Anti-Kick e Anti-Ban ativado") -- Aqui você adiciona o código real do Anti-Kick/Ban
 end
 
--- Funções para adicionar os botões aos submenus
+-- Função para adicionar os botões aos submenus
 local function AddButtonToFrame(frame, text, func)
     local button = Instance.new("TextButton")
     button.Parent = frame
@@ -118,7 +118,7 @@ local function AddButtonToFrame(frame, text, func)
     button.MouseButton1Click:Connect(func)
 end
 
--- Adicionando os botões aos submenus com as funções antigas e novas
+-- Adicionando os botões aos submenus com as funções
 AddButtonToFrame(GeralFrame, "ESP", ESP)
 AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
 AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
