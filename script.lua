@@ -140,8 +140,10 @@ end
 SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, 0)  -- Barra lateral com largura fixa de 120px
 SideBar.Position = UDim2.new(0, 0, 0, 50)  -- Alinha a barra lateral à esquerda do menu
-SideBar.BackgroundTransparency = 0  -- Removendo a transparência da barra lateral
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor sólida para a barra lateral
+
+-- Removendo qualquer barra extra de transparência
+SideBar.BackgroundTransparency = 0  -- Garantir que não há nenhuma transparência indesejada
 
 -- Adicionando os botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
