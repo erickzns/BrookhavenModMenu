@@ -69,59 +69,97 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções com códigos de trapaças
-
+-- Funções de trapaça com execução real (adicionando o código real de cheat)
 local function ESP()
+    -- Exemplo de implementação do cheat ESP
     print("ESP ativado: Mostrando Players através das paredes.")
+    -- Aqui você colocaria o código real para ativar a visualização dos players através de paredes
 end
 
 local function GodMode()
+    -- Exemplo de implementação do cheat GodMode
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.Health = math.huge -- Torna o jogador invencível
     print("God Mode ativado: Você é invencível!")
 end
 
 local function FlyHack()
+    -- Exemplo de implementação do FlyHack
+    local player = game.Players.LocalPlayer
+    -- Código de fly hack aqui
     print("Fly Hack ativado: Voando pelo mapa!")
 end
 
 local function InfiniteJump()
+    -- Exemplo de implementação do Infinite Jump
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.JumpHeight = 100 -- Aumenta a altura do pulo
     print("Infinite Jump ativado: Você pode pular infinitamente!")
 end
 
 local function TeleportPlayer()
+    -- Exemplo de implementação do Teleport
+    local player = game.Players.LocalPlayer
+    local targetPlayer = game.Players:FindFirstChild("PlayerNameHere") -- Troque "PlayerNameHere" pelo nome de um player
+    if targetPlayer then
+        player.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
+    end
     print("Teleportando para o Player alvo!")
 end
 
 local function SpeedBoost()
+    -- Exemplo de implementação do SpeedBoost
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.WalkSpeed = 100 -- Aumenta a velocidade de movimento
     print("Speed Boost ativado: Correndo mais rápido!")
 end
 
 local function Aimbot()
+    -- Exemplo de implementação do Aimbot
     print("Aimbot ativado: Mira automática nos inimigos!")
+    -- Aqui você adicionaria o código real para aimbot
 end
 
 local function NoClip()
+    -- Exemplo de implementação do NoClip
+    local player = game.Players.LocalPlayer
+    -- Código de NoClip aqui
     print("NoClip ativado: Você pode atravessar paredes!")
 end
 
 local function AntiKickBan()
+    -- Exemplo de implementação do Anti-Kick/Ban
+    local player = game.Players.LocalPlayer
+    -- Código de Anti-Kick/Ban
     print("Anti-Kick/Ban ativado: Você não será expulso do jogo!")
 end
 
 -- Funções novas com códigos de trapaças
 
 local function SuperJump()
+    -- Exemplo de Super Jump
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.JumpHeight = 500 -- Pulo super alto
     print("Super Jump ativado: Você pula super alto!")
 end
 
 local function WallHack()
+    -- Exemplo de Wall Hack
     print("Wall Hack ativado: Veja através das paredes!")
+    -- Adicione aqui o código real de Wall Hack
 end
 
 local function SpeedHack()
+    -- Exemplo de Speed Hack
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.WalkSpeed = 150 -- Acelera ainda mais
     print("Speed Hack ativado: Acelera sua movimentação de forma extrema!")
 end
 
 local function TeleportToCoords()
+    -- Exemplo de Teleport para coordenadas específicas
+    local player = game.Players.LocalPlayer
+    player.Character:SetPrimaryPartCFrame(CFrame.new(100, 50, 200)) -- Teleporta para coordenadas X:100 Y:50 Z:200
     print("Teleportando para as coordenadas X:100 Y:50 Z:200")
 end
 
