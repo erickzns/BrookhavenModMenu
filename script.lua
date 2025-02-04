@@ -164,8 +164,6 @@ local function desativarVoo()
     end
 end
 
--- Novas funcionalidades adicionadas:
-
 -- Super Salto
 local function ativarSuperSalto()
     local character = game.Players.LocalPlayer.Character
@@ -217,4 +215,4 @@ createSubMenu(modoFantasmaButton, {
 })
 
 -- Detecção de Inimigos
-local function ativ
+local function ativarDeteccao
