@@ -1,4 +1,4 @@
--- Configuração inicial no Roblox Studio
+-- Configuração inicial do ModMenu
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -9,29 +9,24 @@ mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Parent = screenGui
 
 -- Botões Laterais
-local geralButton = Instance.new("TextButton")
-geralButton.Size = UDim2.new(0, 100, 0, 50)
-geralButton.Position = UDim2.new(0, 10, 0, 10)
-geralButton.Text = "Geral"
-geralButton.Parent = mainMenu
+local buttons = {
+    {name = "Geral", position = 10},
+    {name = "Arma", position = 70},
+    {name = "Jogador", position = 130},
+    {name = "Configurações", position = 190},
+    {name = "Trapaças", position = 250},
+    {name = "Avançado", position = 310}
+}
 
-local jogadorButton = Instance.new("TextButton")
-jogadorButton.Size = UDim2.new(0, 100, 0, 50)
-jogadorButton.Position = UDim2.new(0, 10, 0, 70)
-jogadorButton.Text = "Jogador"
-jogadorButton.Parent = mainMenu
-
-local configuracoesButton = Instance.new("TextButton")
-configuracoesButton.Size = UDim2.new(0, 100, 0, 50)
-configuracoesButton.Position = UDim2.new(0, 10, 0, 130)
-configuracoesButton.Text = "Configurações"
-configuracoesButton.Parent = mainMenu
-
--- Tabela para armazenar submenus
 local submenus = {}
 
--- Função para criar submenus com checkboxes
-local function createSubMenu(button, options)
+for _, btn in ipairs(buttons) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 100, 0, 50)
+    button.Position = UDim2.new(0, 10, 0, btn.position)
+    button.Text = btn.name
+    button.Parent = mainMenu
+    
     local submenu = Instance.new("Frame")
     submenu.Size = UDim2.new(0, 180, 0, 300)
     submenu.Position = UDim2.new(0, 120, 0, 10)
@@ -39,102 +34,121 @@ local function createSubMenu(button, options)
     submenu.Visible = false
     submenu.Parent = mainMenu
     submenus[button] = submenu
-
-    for i, option in ipairs(options) do
-        local optionFrame = Instance.new("Frame")
-        optionFrame.Size = UDim2.new(0, 160, 0, 40)
-        optionFrame.Position = UDim2.new(0, 10, 0, (i-1) * 50)
-        optionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        optionFrame.Parent = submenu
-
-        local optionText = Instance.new("TextLabel")
-        optionText.Size = UDim2.new(0, 120, 0, 40)
-        optionText.Position = UDim2.new(0, 10, 0, 0)
-        optionText.Text = option.name
-        optionText.TextColor3 = Color3.fromRGB(255, 255, 255)
-        optionText.BackgroundTransparency = 1
-        optionText.Parent = optionFrame
-
-        local optionCheckbox = Instance.new("TextButton")
-        optionCheckbox.Size = UDim2.new(0, 20, 0, 20)
-        optionCheckbox.Position = UDim2.new(1, -30, 0.5, -10)
-        optionCheckbox.Text = "Off"
-        optionCheckbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-        optionCheckbox.Parent = optionFrame
-
-        -- Conectar função de ativar/desativar
-        optionCheckbox.MouseButton1Click:Connect(function()
-            if optionCheckbox.Text == "Off" then
-                optionCheckbox.Text = "On"
-                optionCheckbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-                option.onActivate()
-            else
-                optionCheckbox.Text = "Off"
-                optionCheckbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-                option.onDeactivate()
-            end
-        end)
-    end
-
+    
     button.MouseButton1Click:Connect(function()
-        submenu.Visible = not submenu.Visible
-    end)
-end
-
--- Garantir que todos os submenus sejam ocultados quando outro for aberto
-local function hideAllSubmenus()
-    for _, submenu in pairs(submenus) do
-        submenu.Visible = false
-    end
-end
-
-for button, submenu in pairs(submenus) do
-    button.MouseButton1Click:Connect(function()
-        hideAllSubmenus()
+        for _, sm in pairs(submenus) do sm.Visible = false end
         submenu.Visible = true
     end)
 end
 
--- Funções de trapaça para "Geral"
+-- Funções de Trapaça
 local function ativarInvisibilidade()
-    -- Código para ativar invisibilidade
     print("Invisibilidade ativada!")
 end
 
-local function desativarInvisibilidade()
-    -- Código para desativar invisibilidade
-    print("Invisibilidade desativada!")
-end
-
 local function ativarSuperVelocidade()
-    -- Código para ativar super velocidade
-    print("Super velocidade ativada!")
-end
-
-local function desativarSuperVelocidade()
-    -- Código para desativar super velocidade
-    print("Super velocidade desativada!")
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
 end
 
 local function ativarTeleporteRapido()
-    -- Código para ativar teleporte rápido
-    print("Teleporte rápido ativado!")
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 50, 0))
 end
 
 local function ativarVidaInfinita()
-    -- Código para ativar vida infinita
-    print("Vida infinita ativada!")
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+    game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
 end
 
-local function desativarVidaInfinita()
-    -- Código para desativar vida infinita
-    print("Vida infinita desativada!")
+local function ativarTeleporteAleatorio()
+    local randomPos = Vector3.new(math.random(-500, 500), 50, math.random(-500, 500))
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
 end
 
--- Adicionar os códigos de trapaça ao submenu de "Geral"
-createSubMenu(geralButton, {
-    {name = "Ativar Invisibilidade", onActivate = ativarInvisibilidade, onDeactivate = desativarInvisibilidade},
-    {name = "Ativar Super Velocidade", onActivate = ativarSuperVelocidade, onDeactivate = desativarSuperVelocidade},
-    {name = "Ativar Teleporte Rápido", onActivate = ativarTeleporteRapido, onDeactivate = function() end},
-    {name = "Vida Infinita", onActivate = ativarVidaInfinita, onDeactivate = desativarVidaInfinita}
-})
+local function ajustarDano(multiplier)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+    humanoid.Damage = humanoid.Damage * multiplier
+end
+
+local function habilitarWallhack()
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.Transparency = 0.5
+            part.CanCollide = false
+        end
+    end
+end
+
+local function desabilitarWallhack()
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.Transparency = 0
+            part.CanCollide = true
+        end
+    end
+end
+
+-- Funções de Aimbot e ESP
+local function ativarAimbot()
+    print("Aimbot ativado!")
+end
+
+local function ativarESP()
+    print("ESP ativado!")
+end
+
+local function ativarESPAvancado()
+    print("ESP Avançado ativado!")
+end
+
+local function personalizarCorESP(cor)
+    print("Cor do ESP alterada para " .. cor)
+end
+
+local function ativarAimbotComSensibilidade(sensibilidade)
+    print("Aimbot ativado com sensibilidade de " .. sensibilidade)
+end
+
+-- Funções para customização do modmenu
+local function mudarCorMenu(cor)
+    mainMenu.BackgroundColor3 = cor
+end
+
+local function mudarTamanhoMenu(tamanho)
+    mainMenu.Size = UDim2.new(0, tamanho, 0, 400)
+end
+
+-- Atualizar a função createOption para mais personalizações
+local function createOption(submenu, name, activateFunc, tooltip)
+    local option = Instance.new("TextButton")
+    option.Size = UDim2.new(0, 160, 0, 40)
+    option.Position = UDim2.new(0, 10, 0, #submenu:GetChildren() * 50)
+    option.Text = name
+    option.Parent = submenu
+    option.MouseButton1Click:Connect(activateFunc)
+    
+    -- Adicionar tooltip
+    if tooltip then
+        option.MouseEnter:Connect(function()
+            -- Mostrar tooltip (exemplo básico)
+            print(tooltip)
+        end)
+    end
+end
+
+-- Adicionando as novas opções aos submenus
+createOption(submenus[buttons[1]], "Ativar Invisibilidade", ativarInvisibilidade, "Ativa a invisibilidade.")
+createOption(submenus[buttons[1]], "Ativar Super Velocidade", ativarSuperVelocidade, "Aumenta a velocidade do jogador.")
+createOption(submenus[buttons[1]], "Ativar Teleporte Rápido", ativarTeleporteRapido, "Teleporta rapidamente para uma posição.")
+createOption(submenus[buttons[1]], "Vida Infinita", ativarVidaInfinita, "Ativa vida infinita para o jogador.")
+createOption(submenus[buttons[2]], "Ativar Aimbot", ativarAimbot, "Ativa o aimbot.")
+createOption(submenus[buttons[2]], "Ativar ESP", ativarESP, "Ativa o ESP simples.")
+createOption(submenus[buttons[2]], "Ativar ESP Avançado", ativarESPAvancado, "Ativa o ESP avançado com mais recursos.")
+createOption(submenus[buttons[2]], "Cor do ESP", function() personalizarCorESP("red") end, "Altera a cor do ESP para vermelho.")
+createOption(submenus[buttons[3]], "Teleporte Aleatório", ativarTeleporteAleatorio, "Teleporta para uma posição aleatória.")
+createOption(submenus[buttons[3]], "Ajustar Dano", function() ajustarDano(2) end, "Aumenta o dano em 2x.")
+createOption(submenus[buttons[3]], "Habilitar Wallhack", habilitarWallhack, "Deixa todos os objetos sem colidir e sem opacidade.")
+createOption(submenus[buttons[3]], "Desabilitar Wallhack", desabilitarWallhack, "Restaura o Wallhack.")
+createOption(submenus[buttons[4]], "Alterar Cor do Menu", function() mudarCorMenu(Color3.fromRGB(100, 100, 255)) end, "Muda a cor de fundo do menu.")
+createOption(submenus[buttons[4]], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(500) end, "Muda o tamanho do menu.")
+createOption(submenus[buttons[5]], "Aimbot com Sensibilidade", function() ativarAimbotComSensibilidade(5) end, "Ativa o aimbot com sensibilidade ajustada.")
+createOption(submenus[buttons[5]], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(600) end, "Aumenta o tamanho do menu.")
