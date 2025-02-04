@@ -94,6 +94,95 @@ local function showSubMenu(name)
     end
 end
 
+-- Função para ativar o Aimbot
+local function activateAimbot()
+    print("Aimbot Ativado")
+    -- Implementar lógica do Aimbot aqui
+end
+
+-- Função para ativar o ESP
+local function activateESP()
+    print("ESP Ativado")
+    -- Implementar lógica do ESP aqui
+end
+
+-- Função para ativar o Fly
+local function activateFly()
+    print("Fly Mode Ativado")
+    -- Implementar lógica do Fly Mode aqui
+end
+
+-- Função para ativar o God Mode
+local function activateGodMode()
+    print("God Mode Ativado")
+    -- Implementar lógica do God Mode aqui
+end
+
+-- Função para ativar o Speed Boost
+local function activateSpeedBoost()
+    print("Speed Boost Ativado")
+    -- Implementar lógica do Speed Boost aqui
+end
+
+-- Função para ativar o NoClip
+local function activateNoClip()
+    print("NoClip Ativado")
+    -- Implementar lógica do NoClip aqui
+end
+
+-- Função para ativar o Teleport para Player
+local function activateTeleportToPlayer()
+    print("Teleport para Player Ativado")
+    -- Implementar lógica do Teleport para Player aqui
+end
+
+-- Função para ativar o Trolls (exemplo)
+local function activateTroll()
+    print("Função Troll Ativada")
+    -- Implementar lógica dos trolls aqui
+end
+
+-- Função para aplicar configurações (exemplo)
+local function applyConfigurations()
+    print("Configurações Aplicadas")
+    -- Implementar lógica de configurações aqui
+end
+
+-- Criando os botões dentro dos submenus
+local function createSubMenuButton(parent, position, text, callback)
+    local button = Instance.new("TextButton")
+    button.Parent = parent
+    button.Size = UDim2.new(0, 200, 0, 40)
+    button.Position = position
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSans
+    button.TextSize = 18
+    button.MouseButton1Click:Connect(callback)
+end
+
+-- Submenu "Geral"
+createSubMenuButton(SubMenus["Geral"], UDim2.new(0, 50, 0, 50), "Ativar Aimbot", activateAimbot)
+createSubMenuButton(SubMenus["Geral"], UDim2.new(0, 50, 0, 100), "Ativar ESP", activateESP)
+
+-- Submenu "Arma"
+createSubMenuButton(SubMenus["Arma"], UDim2.new(0, 50, 0, 50), "Ativar Fly", activateFly)
+createSubMenuButton(SubMenus["Arma"], UDim2.new(0, 50, 0, 100), "Ativar God Mode", activateGodMode)
+
+-- Submenu "Jogador"
+createSubMenuButton(SubMenus["Jogador"], UDim2.new(0, 50, 0, 50), "Ativar Speed Boost", activateSpeedBoost)
+createSubMenuButton(SubMenus["Jogador"], UDim2.new(0, 50, 0, 100), "Ativar NoClip", activateNoClip)
+
+-- Submenu "Veículos"
+createSubMenuButton(SubMenus["Veículos"], UDim2.new(0, 50, 0, 50), "Teleport para Player", activateTeleportToPlayer)
+
+-- Submenu "Trolls"
+createSubMenuButton(SubMenus["Trolls"], UDim2.new(0, 50, 0, 50), "Ativar Troll", activateTroll)
+
+-- Submenu "Configuração"
+createSubMenuButton(SubMenus["Configuração"], UDim2.new(0, 50, 0, 50), "Aplicar Configurações", applyConfigurations)
+
 -- Função para abrir e fechar o menu
 MenuButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
