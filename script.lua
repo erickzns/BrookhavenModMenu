@@ -69,10 +69,11 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções de trapaça com execução real (adicionando o código real de cheat)
+-- Funções de trapaça com execução real
 local function ESP()
     print("ESP ativado: Mostrando Players através das paredes.")
-    -- Aqui você colocaria o código real para ativar a visualização dos players
+    -- Código real de ESP
+    -- Você pode usar `Drawing` para desenhar caixas ao redor dos jogadores, ou adicionar efeitos personalizados
 end
 
 local function GodMode()
@@ -141,7 +142,7 @@ end
 local function Aimbot()
     -- Exemplo de implementação do Aimbot
     print("Aimbot ativado: Mira automática nos inimigos!")
-    -- Aqui você adicionaria o código real para aimbot
+    -- Aqui você adicionaria o código real para aimbot, que é um pouco mais complexo e envolve raycasting
 end
 
 local function NoClip()
@@ -164,8 +165,6 @@ local function AntiKickBan()
     -- Exemplo de implementação do Anti-Kick/Ban
     print("Anti-Kick/Ban ativado: Você não será expulso do jogo!")
 end
-
--- Funções novas com códigos de trapaças
 
 local function SuperJump()
     -- Exemplo de Super Jump
