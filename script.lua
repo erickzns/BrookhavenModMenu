@@ -6,7 +6,6 @@ screenGui.Parent = player:WaitForChild("PlayerGui")
 
 -- Funções globais para ativar/desativar
 local ativado = {}
-local currentSubMenu = nil
 
 -- Funções de trapaça (com ativação/desativação)
 local function ativarDesativar(funcao, chave)
@@ -16,6 +15,57 @@ local function ativarDesativar(funcao, chave)
     else
         funcao(true)
         ativado[chave] = true
+    end
+end
+
+-- Funções de trapaça
+local function ativarInvisibilidade(ativar)
+    local character = game.Players.LocalPlayer.Character
+    if ativar then
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            character.HumanoidRootPart.Transparency = 1
+            character.HumanoidRootPart.CanCollide = false
+            for _, part in pairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = 1
+                end
+            end
+        end
+        print("Invisibilidade ativada!")
+    else
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            character.HumanoidRootPart.Transparency = 0
+            character.HumanoidRootPart.CanCollide = true
+            for _, part in pairs(character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = 0
+                end
+            end
+        end
+        print("Invisibilidade desativada!")
+    end
+end
+
+local function ativarAimbot(ativar)
+    if ativar then
+        print("Aimbot ativado!")
+    else
+        print("Aimbot desativado!")
+    end
+end
+
+local function ativarESP(ativar)
+    if ativar then
+        for _, plr in pairs(game.Players:GetPlayers()) do
+            if plr ~= game.Players.LocalPlayer then
+                local highlight = Instance.new("Highlight", plr.Character)
+                highlight.FillColor = Color3.fromRGB(255, 0, 0)
+                highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+            end
+        end
+        print("ESP ativado!")
+    else
+        print("ESP desativado!")
     end
 end
 
@@ -45,15 +95,6 @@ local function createOption(submenu, name, funcao, chave, index)
     option.MouseButton1Click:Connect(function()
         ativarDesativar(funcao, chave)
     end)
-end
-
--- Função para exibir o submenu (alternar entre submenus)
-local function showSubMenu(submenu)
-    if currentSubMenu then
-        currentSubMenu.Visible = false
-    end
-    submenu.Visible = true
-    currentSubMenu = submenu
 end
 
 -- Criar o menu e opções
@@ -87,40 +128,12 @@ local geralSubMenu = Instance.new("Frame")
 geralSubMenu.Size = UDim2.new(1, 0, 1, 0)
 geralSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 geralSubMenu.Parent = mainMenu
-geralSubMenu.Visible = false  -- Inicialmente invisível
 
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, "invisibilidade", 0)
 createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
 createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
-createOption(geralSubMenu, "Coletar Dinheiro", pegarDinheiro, "dinheiro", 3)
 
--- Criar mais opções de armas
-local armaSubMenu = Instance.new("Frame")
-armaSubMenu.Size = UDim2.new(1, 0, 1, 0)
-armaSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-armaSubMenu.Parent = mainMenu
-armaSubMenu.Visible = false  -- Inicialmente invisível
-
-createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, "rifle", 0)
-createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, "shotgun", 1)
-
--- Criar mais opções de modo
-local modoSubMenu = Instance.new("Frame")
-modoSubMenu.Size = UDim2.new(1, 0, 1, 0)
-modoSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-modoSubMenu.Parent = mainMenu
-modoSubMenu.Visible = false  -- Inicialmente invisível
-
-createOption(modoSubMenu, "Ativar Modo Deus", ativarModoDeus, "modoDeus", 0)
-createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "tamanho", 1)
-createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
-createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
-createOption(modoSubMenu, "Ativar Dano Infinito", ativarDanoInfinito, "danoInfinito", 4)
-
--- Exibir o primeiro submenu
-showSubMenu(geralSubMenu)
-
--- Movimentação do ModMenu
+-- Função para movimentação do menu
 local dragSpeed = 5
 local dragging = false
 local dragInput, dragStart, startPos
@@ -150,3 +163,6 @@ mainMenu.InputEnded:Connect(function(input)
         dragging = false
     end
 end)
+
+-- Ajustar a exibição do menu
+geralSubMenu.Visible = true
