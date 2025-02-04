@@ -143,12 +143,7 @@ end)
 MainFrame.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
-        local newPosX = startPos.X.Offset + delta.X
-        local newPosY = startPos.Y.Offset + delta.Y
-        -- Movimentação sem limites
-        newPosX = math.clamp(newPosX, 0, game:GetService("Players").LocalPlayer.PlayerGui.AbsoluteSize.X - MainFrame.Size.X.Offset)
-        newPosY = math.clamp(newPosY, 0, game:GetService("Players").LocalPlayer.PlayerGui.AbsoluteSize.Y - MainFrame.Size.Y.Offset)
-        MainFrame.Position = UDim2.new(0, newPosX, 0, newPosY)
+        MainFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
     end
 end)
 
