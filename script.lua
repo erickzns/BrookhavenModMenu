@@ -1,6 +1,7 @@
 -- Configuração da Interface
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
 local MenuButton = Instance.new("TextButton")  -- Botão para abrir/fechar o menu
 local SideMenu = Instance.new("Frame")  -- Menu lateral com botões
 local AimbotButton = Instance.new("TextButton")
@@ -27,6 +28,16 @@ MenuButton.Text = "Abrir Menu"
 MenuButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 MenuButton.Font = Enum.Font.SourceSans
 MenuButton.TextSize = 18
+
+-- Criação do título no menu
+Title.Parent = MainFrame
+Title.Size = UDim2.new(0, 400, 0, 50)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Title.Text = "Mod Menu"
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.Font = Enum.Font.SourceSans
+Title.TextSize = 24
 
 -- Criação do menu lateral
 SideMenu.Parent = MainFrame
