@@ -84,19 +84,45 @@ MainFrame.InputEnded:Connect(function(input)
     end
 end)
 
--- Função para adicionar funções dinamicamente ao submenu
-local function addFunctionToMenu(functionName)
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 380, 0, 50)
-    Button.Text = functionName
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    Button.Font = Enum.Font.SourceSans
-    Button.TextSize = 18
-    Button.Parent = ScrollingFrame
+-- Função para adicionar um item com checkbox
+local function addCheckboxToMenu(functionName)
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 380, 0, 50)
+    Frame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    Frame.BorderSizePixel = 0
+    Frame.Parent = ScrollingFrame
+
+    local Checkbox = Instance.new("TextButton")
+    Checkbox.Size = UDim2.new(0, 20, 0, 20)
+    Checkbox.Position = UDim2.new(0, 10, 0.5, -10)
+    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Checkbox.Text = ""
+    Checkbox.Parent = Frame
+    
+    local CheckBoxText = Instance.new("TextLabel")
+    CheckBoxText.Size = UDim2.new(0, 340, 0, 50)
+    CheckBoxText.Position = UDim2.new(0, 40, 0, 0)
+    CheckBoxText.Text = functionName
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CheckBoxText.BackgroundTransparency = 1
+    CheckBoxText.Font = Enum.Font.SourceSans
+    CheckBoxText.TextSize = 18
+    CheckBoxText.Parent = Frame
+    
+    -- Função para alternar o checkbox (ativar/desativar)
+    local isChecked = false
+    Checkbox.MouseButton1Click:Connect(function()
+        isChecked = not isChecked
+        if isChecked then
+            Checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Cor verde para ativado
+        else
+            Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor vermelha para desativado
+        end
+        print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
+    end)
 end
 
--- Adicionando várias funções (botões) ao submenu
+-- Adicionando várias opções com checkbox ao submenu
 for i = 1, 50 do  -- Ajuste o número conforme necessário
-    addFunctionToMenu("Função " .. i)
+    addCheckboxToMenu("Função " .. i)
 end
