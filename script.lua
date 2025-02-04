@@ -100,6 +100,20 @@ createSubMenu(geralButton, {
     {name = "Munição Infinita", onActivate = ativarMunicaoInfinita, onDeactivate = desativarMunicaoInfinita}
 })
 
+-- Adicionar funcionalidades ao submenu de "Jogador"
+createSubMenu(jogadorButton, {
+    {name = "Aumentar Vida", onActivate = function() game.Players.LocalPlayer.Character.Humanoid.MaxHealth = game.Players.LocalPlayer.Character.Humanoid.MaxHealth + 100 end, onDeactivate = function() end},
+    {name = "Aumentar Defesa", onActivate = function() game.Players.LocalPlayer.Character.Humanoid.JumpPower = game.Players.LocalPlayer.Character.Humanoid.JumpPower + 50 end, onDeactivate = function() end},
+    {name = "Modo Fantasma", onActivate = function() game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0.5 end, onDeactivate = function() game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0 end}
+})
+
+-- Adicionar configurações ao submenu de "Configurações"
+createSubMenu(configuracoesButton, {
+    {name = "Mudar Cor do Menu para Azul", onActivate = function() mainMenu.BackgroundColor3 = Color3.fromRGB(0, 0, 255) end, onDeactivate = function() end},
+    {name = "Mudar Cor do Menu para Verde", onActivate = function() mainMenu.BackgroundColor3 = Color3.fromRGB(0, 255, 0) end, onDeactivate = function() end},
+    {name = "Redefinir Cor do Menu", onActivate = function() mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50) end, onDeactivate = function() end}
+})
+
 -- Exemplo de funções que seriam usadas para ativar/desativar trapaças
 function ativarInvisibilidade()
     -- código para ativar invisibilidade
