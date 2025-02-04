@@ -1,21 +1,5 @@
--- Variáveis globais
-local player = game.Players.LocalPlayer
-local playerCharacter = player.Character
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = player:WaitForChild("PlayerGui")
-
 -- Funções globais para ativar/desativar
 local ativado = {}
-
-local function ativarDesativar(funcao, chave)
-    if ativado[chave] then
-        funcao(false)
-        ativado[chave] = false
-    else
-        funcao(true)
-        ativado[chave] = true
-    end
-end
 
 -- Funções de trapaça (com ativação/desativação)
 local function ativarInvisibilidade(ativar)
@@ -54,16 +38,16 @@ local function ativarAimbot(ativar)
     end
 end
 
-local function ativarESP(ativar)
+local function ativarESP(ativar, tipo)
     if ativar then
         for _, player in pairs(game.Players:GetPlayers()) do
             if player ~= game.Players.LocalPlayer then
                 local highlight = Instance.new("Highlight", player.Character)
-                highlight.FillColor = Color3.fromRGB(255, 0, 0)
+                highlight.FillColor = tipo == "box" and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(0, 255, 0)
                 highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
             end
         end
-        print("ESP ativado!")
+        print("ESP ativado! Tipo: " .. tipo)
     else
         -- Desativar ESP aqui
         print("ESP desativado!")
@@ -106,35 +90,56 @@ local function ativarModoDeus(ativar)
     end
 end
 
--- Funções adicionais de configurações
-local function mudarTamanhoJogador(ativar)
-    local player = game.Players.LocalPlayer
+-- Adicionando novas funções para esp, armas, dinheiro, etc.
+
+local function ativarSuperVelocidade(ativar)
+    local character = game.Players.LocalPlayer.Character
     if ativar then
-        player.Character.HumanoidRootPart.Size = Vector3.new(10, 10, 10)
-        print("Tamanho alterado para Grande")
+        character.Humanoid.WalkSpeed = 100
+        print("Velocidade aumentada!")
     else
-        player.Character.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
-        print("Tamanho restaurado")
+        character.Humanoid.WalkSpeed = 16
+        print("Velocidade normalizada!")
     end
 end
 
-local function teleporteParaSpawn(ativar)
+local function ativarInvencibilidade(ativar)
+    local player = game.Players.LocalPlayer
     if ativar then
-        local spawn = game.Workspace:FindFirstChild("SpawnLocation")
-        if spawn then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = spawn.CFrame
-            print("Teletransportado para o spawn!")
-        else
-            print("Spawn não encontrado!")
-        end
+        player.Character.Humanoid.Health = math.huge
+        print("Invencibilidade ativada!")
     else
-        print("Teleporte desativado!")
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+        print("Invencibilidade desativada!")
+    end
+end
+
+local function teleporteParaOutroJogador(jogador)
+    local player = game.Players.LocalPlayer
+    local target = game.Players:FindFirstChild(jogador)
+    if target and target.Character then
+        player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
+        print("Teletransportado para " .. jogador)
+    else
+        print("Jogador não encontrado!")
     end
 end
 
 local function mudarGravidade(valor)
     workspace.Gravity = valor
     print("Gravidade alterada para: " .. valor)
+end
+
+local function pegarArmaRifle()
+    pegarArma("Rifle")
+end
+
+local function pegarArmaShotgun()
+    pegarArma("Shotgun")
+end
+
+local function pegarArmaPistola()
+    pegarArma("Pistola")
 end
 
 local function ativarDanoInfinito(ativar)
@@ -153,7 +158,7 @@ local function ativarDanoInfinito(ativar)
 end
 
 -- Função para criar as opções no menu
-local function createOption(submenu, name, funcao, chave, index)
+local function createOption(submenu, name, funcao, chave, index, args)
     local option = Instance.new("TextButton")
     option.Size = UDim2.new(1, -20, 0, 45)
     option.Position = UDim2.new(0, 10, 0, index * 50)
@@ -176,14 +181,18 @@ local function createOption(submenu, name, funcao, chave, index)
     end)
 
     option.MouseButton1Click:Connect(function()
-        ativarDesativar(funcao, chave)
+        if args then
+            funcao(table.unpack(args))
+        else
+            ativarDesativar(funcao, chave)
+        end
     end)
 end
 
 -- Criar o menu e opções
 local mainMenu = Instance.new("Frame")
-mainMenu.Size = UDim2.new(0, 350, 0, 450)
-mainMenu.Position = UDim2.new(0.5, -175, 0.5, -225)
+mainMenu.Size = UDim2.new(0, 350, 0, 600)
+mainMenu.Position = UDim2.new(0.5, -175, 0.5, -300)
 mainMenu.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainMenu.Parent = screenGui
 mainMenu.BorderRadius = UDim.new(0, 10)
@@ -197,7 +206,7 @@ titleBar.BorderRadius = UDim.new(0, 10)
 
 local titleText = Instance.new("TextLabel")
 titleText.Size = UDim2.new(1, 0, 1, 0)
-titleText.Text = "Ghost Menu V1"
+titleText.Text = "Ghost Menu V2"
 titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleText.BackgroundTransparency = 1
 titleText.TextSize = 24
@@ -206,7 +215,9 @@ titleText.TextXAlignment = Enum.TextXAlignment.Center
 titleText.TextYAlignment = Enum.TextYAlignment.Center
 titleText.Parent = titleBar
 
--- Criar submenus e suas opções
+-- Submenus (Geral, Armas, Jogador, Avançado, etc.)
+
+-- Geral
 local geralSubMenu = Instance.new("Frame")
 geralSubMenu.Size = UDim2.new(1, 0, 1, 0)
 geralSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
@@ -214,26 +225,19 @@ geralSubMenu.Parent = mainMenu
 
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, "invisibilidade", 0)
 createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
-createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
-createOption(geralSubMenu, "Coletar Dinheiro", pegarDinheiro, "dinheiro", 3)
+createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2, {"box"})
+createOption(geralSubMenu, "Ativar Super Velocidade", ativarSuperVelocidade, "superVelocidade", 3)
+createOption(geralSubMenu, "Ativar Invencibilidade", ativarInvencibilidade, "invencibilidade", 4)
 
--- Criar mais opções de armas
+-- Armas
 local armaSubMenu = Instance.new("Frame")
 armaSubMenu.Size = UDim2.new(1, 0, 1, 0)
 armaSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 armaSubMenu.Parent = mainMenu
 
-createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, "rifle", 0)
-createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, "shotgun", 1)
+createOption(armaSubMenu, "Pegar Arma Rifle", pegarArmaRifle, "rifle", 0)
+createOption(armaSubMenu, "Pegar Arma Shotgun", pegarArmaShotgun, "shotgun", 1)
+createOption(armaSubMenu, "Pegar Arma Pistola", pegarArmaPistola, "pistola", 2)
 
--- Criar mais opções de modo
-local modoSubMenu = Instance.new("Frame")
-modoSubMenu.Size = UDim2.new(1, 0, 1, 0)
-modoSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-modoSubMenu.Parent = mainMenu
-
-createOption(modoSubMenu, "Ativar Modo Deus", ativarModoDeus, "modoDeus", 0)
-createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "tamanho", 1)
-createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
-createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
-createOption(modoSubMenu, "Ativar Dano Infinito", ativarDanoInfinito, "danoInfinito", 4)
+-- Mais opções avançadas, configurações, modos...
+-- Continue a adicionar submenus conforme necessário
