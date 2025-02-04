@@ -1,11 +1,13 @@
 -- Criação do ScreenGui e Menu Principal
+local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
 
 local mainMenu = Instance.new("Frame")
 mainMenu.Size = UDim2.new(0, 300, 0, 400)
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Position = UDim2.new(0.5, -150, 0.5, -200) -- Centralizando o menu
+mainMenu.Visible = true  -- Tornando o menu visível
 mainMenu.Parent = screenGui
 
 -- Barra titular
