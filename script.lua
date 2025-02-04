@@ -117,7 +117,7 @@ SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, -50)
 SideBar.Position = UDim2.new(0, 0, 0, 50)
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SideBar.BackgroundTransparency = 0.5  -- Barra lateral semi-transparente
+SideBar.BackgroundTransparency = 0.7  -- Barra lateral semi-transparente (ajustado para 0.7)
 SideBar.BorderSizePixel = 0
 
 -- Função para adicionar botões laterais
