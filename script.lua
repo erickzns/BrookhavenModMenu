@@ -72,7 +72,7 @@ local function createSubMenu(button, options)
                 optionCheckbox.Text = "Off"
                 optionCheckbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
                 option.onDeactivate()
-            end
+            end)
         end)
     end
 
@@ -103,36 +103,49 @@ createSubMenu(geralButton, {
 -- Exemplo de funções que seriam usadas para ativar/desativar trapaças
 function ativarInvisibilidade()
     -- código para ativar invisibilidade
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 1
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
 end
 
 function desativarInvisibilidade()
     -- código para desativar invisibilidade
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
 end
 
 function ativarSuperVelocidade()
     -- código para ativar super velocidade
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
 end
 
 function desativarSuperVelocidade()
     -- código para desativar super velocidade
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
 end
 
 function ativarTeleporteRapido()
     -- código para ativar teleporte rápido
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100, 0)
 end
 
 function ativarVidaInfinita()
     -- código para ativar vida infinita
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+    game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
 end
 
 function desativarVidaInfinita()
     -- código para desativar vida infinita
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+    game.Players.LocalPlayer.Character.Humanoid.Health = 100
 end
 
 function ativarMunicaoInfinita()
     -- código para ativar munição infinita
+    -- código específico do jogo
 end
 
 function desativarMunicaoInfinita()
     -- código para desativar munição infinita
+    -- código específico do jogo
 end
