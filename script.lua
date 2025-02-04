@@ -1,4 +1,4 @@
--- Configuração da Interface
+-- Criando a interface do mod menu
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
@@ -8,19 +8,19 @@ local UIPadding = Instance.new("UIPadding")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
 
--- Configuração do Menu Flutuante
+-- Configuração da interface
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
 
--- Configuração do MainFrame (Menu Principal) com transparência
+-- Configuração do menu principal
 MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-MainFrame.BackgroundTransparency = 0.5  -- Tornando o fundo semi-transparente
+MainFrame.BackgroundTransparency = 0.5  -- Fundo semi-transparente
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
 
--- Título do Menu com texto vermelho
+-- Título do Menu
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
@@ -32,25 +32,20 @@ Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
 Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Configuração do ScrollingFrame (Submenu Rolável)
+-- Configuração do ScrollingFrame (sub-menu rolável)
 ScrollingFrame.Parent = MainFrame
-ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)  -- Ajuste o tamanho para dar mais espaço ao conteúdo
-ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)  -- Posicionamento do submenu à direita da barra lateral
+ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)  -- Ajuste a altura do submenu
+ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)  -- Posiciona à direita da barra lateral
 ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
-ScrollingFrame.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
 
--- Layout do ScrollingFrame (organiza os itens do submenu)
+-- Layout do ScrollingFrame
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 10)  -- Espaçamento entre os botões
+UIListLayout.Padding = UDim.new(0, 10)
 
--- Adicionando padding ao ScrollingFrame
-UIPadding.Parent = ScrollingFrame
-UIPadding.PaddingTop = UDim.new(0, 10)
-
--- Função para adicionar um item com checkbox ao submenu
+-- Adiciona um item com checkbox ao submenu
 local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(0, 380, 0, 50)
@@ -58,7 +53,7 @@ local function addCheckboxToMenu(functionName)
     Frame.BorderSizePixel = 0
     Frame.Parent = ScrollingFrame
 
-    -- Texto da função com cor vermelha
+    -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
     CheckBoxText.Size = UDim2.new(0, 300, 0, 50)
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
@@ -70,7 +65,7 @@ local function addCheckboxToMenu(functionName)
     CheckBoxText.TextXAlignment = Enum.TextXAlignment.Left
     CheckBoxText.Parent = Frame
 
-    -- Caixa de Seleção (Checkbox)
+    -- Caixa de seleção (checkbox)
     local Checkbox = Instance.new("TextButton")
     Checkbox.Size = UDim2.new(0, 20, 0, 20)
     Checkbox.Position = UDim2.new(1, -30, 0.5, -10)
@@ -83,9 +78,9 @@ local function addCheckboxToMenu(functionName)
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         if isChecked then
-            Checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Cor verde para ativado
+            Checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
         else
-            Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor vermelha para desativado
+            Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho para desativado
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
@@ -117,14 +112,21 @@ MainFrame.InputEnded:Connect(function(input)
     end
 end)
 
--- Função para adicionar um botão lateral
+-- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BorderSizePixel = 0
+
+-- Função para adicionar botões laterais
 local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 40)
     Button.Position = UDim2.new(0, 0, 0, yPosition)
     Button.Text = name
     Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho nos botões laterais
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
     Button.Font = Enum.Font.SourceSans
     Button.TextSize = 18
     Button.Parent = SideBar
@@ -137,23 +139,13 @@ local function addSideButton(name, yPosition)
     table.insert(Buttons, Button)  -- Adiciona o botão à lista para referência futura
 end
 
--- Configuração da barra lateral (SideBar)
-SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, -50)  -- A altura da barra lateral é a mesma do submenu (420px)
-SideBar.Position = UDim2.new(0, 0, 0, 50)  -- Alinha a barra lateral à esquerda do menu
-SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor sólida para a barra lateral
-SideBar.BorderSizePixel = 0  -- Remove qualquer borda indesejada
-
--- Removendo qualquer barra extra de transparência
-SideBar.BackgroundTransparency = 0  -- Garantir que não há nenhuma transparência indesejada
-
--- Adicionando os botões laterais
+-- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)  -- Ajusta a posição dos botões na barra lateral
 end
 
--- Adicionando várias opções com checkbox ao submenu
-for i = 1, 20 do  -- Ajuste o número conforme necessário
+-- Adicionando várias opções ao submenu
+for i = 1, 20 do  -- Ajuste conforme necessário
     addCheckboxToMenu("Função " .. i)
 end
