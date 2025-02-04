@@ -11,7 +11,6 @@ MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.Size = UDim2.new(0, 400, 0, 200)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -100)
-MainFrame.Draggable = true
 MainFrame.BorderSizePixel = 0
 MainFrame.BackgroundTransparency = 0.2
 
