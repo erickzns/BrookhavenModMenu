@@ -1,24 +1,16 @@
--- Criando a Interface
+-- GUI Principal
 local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-
--- Botões de Funcionalidade
-local TeleportButton = Instance.new("TextButton")
-local SpeedButton = Instance.new("TextButton")
-local AimbotButton = Instance.new("TextButton")
-local ESPButton = Instance.new("TextButton")
-local FlyButton = Instance.new("TextButton")
-local GodModeButton = Instance.new("TextButton")
-
--- Configuração do GUI
 ScreenGui.Parent = game.CoreGui
+
+local MainFrame = Instance.new("Frame")
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.Size = UDim2.new(0, 400, 0, 600)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -300)
 MainFrame.Draggable = true
 
+-- Barra de Título
+local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
@@ -28,201 +20,167 @@ Title.TextColor3 = Color3.fromRGB(255, 0, 0)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 24
 
--- Botões de Funcionalidade
-TeleportButton.Parent = MainFrame
-TeleportButton.Size = UDim2.new(0, 200, 0, 50)
-TeleportButton.Position = UDim2.new(0.5, -100, 0.2, -25)
-TeleportButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-TeleportButton.Text = "Teletransportar"
-TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TeleportButton.Font = Enum.Font.SourceSans
-TeleportButton.TextSize = 18
+-- Menu Lateral
+local Sidebar = Instance.new("Frame")
+Sidebar.Parent = MainFrame
+Sidebar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Sidebar.Size = UDim2.new(0, 100, 1, 0)
 
-SpeedButton.Parent = MainFrame
-SpeedButton.Size = UDim2.new(0, 200, 0, 50)
-SpeedButton.Position = UDim2.new(0.5, -100, 0.3, -25)
-SpeedButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-SpeedButton.Text = "Alterar Velocidade"
-SpeedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-SpeedButton.Font = Enum.Font.SourceSans
-SpeedButton.TextSize = 18
+-- Botões Laterais
+local GeralButton = Instance.new("TextButton")
+GeralButton.Parent = Sidebar
+GeralButton.Size = UDim2.new(0, 100, 0, 50)
+GeralButton.Position = UDim2.new(0, 0, 0, 0)
+GeralButton.Text = "Geral"
+GeralButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+GeralButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+GeralButton.Font = Enum.Font.SourceSans
+GeralButton.TextSize = 18
 
-AimbotButton.Parent = MainFrame
-AimbotButton.Size = UDim2.new(0, 200, 0, 50)
-AimbotButton.Position = UDim2.new(0.5, -100, 0.4, -25)
-AimbotButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-AimbotButton.Text = "Ativar Aimbot"
-AimbotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-AimbotButton.Font = Enum.Font.SourceSans
-AimbotButton.TextSize = 18
+local ArmaButton = Instance.new("TextButton")
+ArmaButton.Parent = Sidebar
+ArmaButton.Size = UDim2.new(0, 100, 0, 50)
+ArmaButton.Position = UDim2.new(0, 0, 0.1, 0)
+ArmaButton.Text = "Arma"
+ArmaButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ArmaButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ArmaButton.Font = Enum.Font.SourceSans
+ArmaButton.TextSize = 18
 
-ESPButton.Parent = MainFrame
-ESPButton.Size = UDim2.new(0, 200, 0, 50)
-ESPButton.Position = UDim2.new(0.5, -100, 0.5, -25)
-ESPButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-ESPButton.Text = "Ativar ESP"
-ESPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ESPButton.Font = Enum.Font.SourceSans
-ESPButton.TextSize = 18
+local JogadorButton = Instance.new("TextButton")
+JogadorButton.Parent = Sidebar
+JogadorButton.Size = UDim2.new(0, 100, 0, 50)
+JogadorButton.Position = UDim2.new(0, 0, 0.2, 0)
+JogadorButton.Text = "Jogador"
+JogadorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+JogadorButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+JogadorButton.Font = Enum.Font.SourceSans
+JogadorButton.TextSize = 18
 
-FlyButton.Parent = MainFrame
-FlyButton.Size = UDim2.new(0, 200, 0, 50)
-FlyButton.Position = UDim2.new(0.5, -100, 0.6, -25)
-FlyButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-FlyButton.Text = "Ativar Voo"
-FlyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-FlyButton.Font = Enum.Font.SourceSans
-FlyButton.TextSize = 18
+local ConfigButton = Instance.new("TextButton")
+ConfigButton.Parent = Sidebar
+ConfigButton.Size = UDim2.new(0, 100, 0, 50)
+ConfigButton.Position = UDim2.new(0, 0, 0.3, 0)
+ConfigButton.Text = "Configuração"
+ConfigButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ConfigButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ConfigButton.Font = Enum.Font.SourceSans
+ConfigButton.TextSize = 18
 
-GodModeButton.Parent = MainFrame
-GodModeButton.Size = UDim2.new(0, 200, 0, 50)
-GodModeButton.Position = UDim2.new(0.5, -100, 0.7, -25)
-GodModeButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-GodModeButton.Text = "Ativar God Mode"
-GodModeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-GodModeButton.Font = Enum.Font.SourceSans
-GodModeButton.TextSize = 18
+-- Submenu Geral
+local GeralFrame = Instance.new("Frame")
+GeralFrame.Parent = MainFrame
+GeralFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+GeralFrame.Size = UDim2.new(0, 300, 0, 300)
+GeralFrame.Position = UDim2.new(0, 100, 0, 50)
+GeralFrame.Visible = false
 
--- Função para Teletransportar
-TeleportButton.MouseButton1Click:Connect(function()
+-- Funções do Submenu Geral
+local SpeedToggle = Instance.new("TextButton")
+SpeedToggle.Parent = GeralFrame
+SpeedToggle.Size = UDim2.new(0, 280, 0, 50)
+SpeedToggle.Position = UDim2.new(0, 10, 0, 0)
+SpeedToggle.Text = "Alterar Velocidade"
+SpeedToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+SpeedToggle.Font = Enum.Font.SourceSans
+SpeedToggle.TextSize = 18
+
+local TeleportToggle = Instance.new("TextButton")
+TeleportToggle.Parent = GeralFrame
+TeleportToggle.Size = UDim2.new(0, 280, 0, 50)
+TeleportToggle.Position = UDim2.new(0, 10, 0, 60)
+TeleportToggle.Text = "Teletransportar"
+TeleportToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+TeleportToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+TeleportToggle.Font = Enum.Font.SourceSans
+TeleportToggle.TextSize = 18
+
+-- Submenu Arma
+local ArmaFrame = Instance.new("Frame")
+ArmaFrame.Parent = MainFrame
+ArmaFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ArmaFrame.Size = UDim2.new(0, 300, 0, 300)
+ArmaFrame.Position = UDim2.new(0, 100, 0, 50)
+ArmaFrame.Visible = false
+
+-- Funções do Submenu Arma
+local AimbotToggle = Instance.new("TextButton")
+AimbotToggle.Parent = ArmaFrame
+AimbotToggle.Size = UDim2.new(0, 280, 0, 50)
+AimbotToggle.Position = UDim2.new(0, 10, 0, 0)
+AimbotToggle.Text = "Ativar Aimbot"
+AimbotToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+AimbotToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+AimbotToggle.Font = Enum.Font.SourceSans
+AimbotToggle.TextSize = 18
+
+-- Submenu Jogador
+local JogadorFrame = Instance.new("Frame")
+JogadorFrame.Parent = MainFrame
+JogadorFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+JogadorFrame.Size = UDim2.new(0, 300, 0, 300)
+JogadorFrame.Position = UDim2.new(0, 100, 0, 50)
+JogadorFrame.Visible = false
+
+-- Funções do Submenu Jogador
+local ESPToggle = Instance.new("TextButton")
+ESPToggle.Parent = JogadorFrame
+ESPToggle.Size = UDim2.new(0, 280, 0, 50)
+ESPToggle.Position = UDim2.new(0, 10, 0, 0)
+ESPToggle.Text = "Ativar ESP"
+ESPToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ESPToggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ESPToggle.Font = Enum.Font.SourceSans
+ESPToggle.TextSize = 18
+
+-- Função para Exibir e Ocultar Submenus
+GeralButton.MouseButton1Click:Connect(function()
+    GeralFrame.Visible = not GeralFrame.Visible
+    ArmaFrame.Visible = false
+    JogadorFrame.Visible = false
+end)
+
+ArmaButton.MouseButton1Click:Connect(function()
+    ArmaFrame.Visible = not ArmaFrame.Visible
+    GeralFrame.Visible = false
+    JogadorFrame.Visible = false
+end)
+
+JogadorButton.MouseButton1Click:Connect(function()
+    JogadorFrame.Visible = not JogadorFrame.Visible
+    GeralFrame.Visible = false
+    ArmaFrame.Visible = false
+end)
+
+ConfigButton.MouseButton1Click:Connect(function()
+    print("Configurações ainda não implementadas.")
+end)
+
+-- Funções de Trapaça
+SpeedToggle.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    humanoid.WalkSpeed = 50
+    print("Velocidade alterada!")
+end)
+
+TeleportToggle.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-    
-    -- Altere a posição para onde você quer teleportar
-    local teleportPosition = Vector3.new(0, 10, 0) -- Substitua com as coordenadas desejadas
+    local teleportPosition = Vector3.new(0, 10, 0) -- Posição para teleportar
     humanoidRootPart.CFrame = CFrame.new(teleportPosition)
-    print("Teletransportado para a posição!")
+    print("Teletransportado!")
 end)
 
--- Função para Alterar Velocidade
-SpeedButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-    
-    humanoid.WalkSpeed = 50
-    print("Velocidade alterada para: " .. humanoid.WalkSpeed)
+AimbotToggle.MouseButton1Click:Connect(function()
+    print("Aimbot ativado!")
+    -- Aqui você pode adicionar o código do Aimbot.
 end)
 
--- Função para Ativar Aimbot
-AimbotButton.MouseButton1Click:Connect(function()
-    local players = game:GetService("Players")
-    local localPlayer = players.LocalPlayer
-    local mouse = localPlayer:GetMouse()
-
-    local function getClosestPlayer()
-        local closestDistance = math.huge
-        local closestPlayer = nil
-
-        for _, player in pairs(players:GetPlayers()) do
-            if player ~= localPlayer and player.Team ~= localPlayer.Team then
-                local character = player.Character
-                if character and character:FindFirstChild("HumanoidRootPart") then
-                    local distance = (character.HumanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).magnitude
-                    if distance < closestDistance then
-                        closestDistance = distance
-                        closestPlayer = player
-                    end
-                end
-            end
-        end
-
-        return closestPlayer
-    end
-
-    mouse.Button2Down:Connect(function()
-        local target = getClosestPlayer()
-        if target then
-            local targetPos = target.Character.HumanoidRootPart.Position
-            mouse.Hit = CFrame.new(targetPos)
-        end
-    end)
-    print("Aimbot ativado")
-end)
-
--- Função para Ativar ESP
-ESPButton.MouseButton1Click:Connect(function()
-    local RunService = game:GetService("RunService")
-    local players = game:GetService("Players")
-    
-    local function createESP(player)
-        local espBox = Drawing.new("Square")
-        espBox.Thickness = 3
-        espBox.Color = Color3.fromRGB(255, 0, 0)
-        espBox.Filled = false
-
-        RunService.RenderStepped:Connect(function()
-            if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                local rootPart = player.Character.HumanoidRootPart
-                local screenPos = workspace.CurrentCamera:WorldToViewportPoint(rootPart.Position)
-
-                if screenPos.Z > 0 then
-                    espBox.Visible = true
-                    espBox.Size = Vector2.new(50, 50)
-                    espBox.Position = Vector2.new(screenPos.X - 25, screenPos.Y - 25)
-                else
-                    espBox.Visible = false
-                end
-            else
-                espBox.Visible = false
-            end
-        end)
-    end
-
-    for _, player in pairs(players:GetPlayers()) do
-        if player ~= players.LocalPlayer then
-            createESP(player)
-        end
-    end
-
-    players.PlayerAdded:Connect(function(player)
-        createESP(player)
-    end)
-    print("ESP ativado")
-end)
-
--- Função para Ativar Fly Mode
-FlyButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-
-    humanoid:SetStateEnabled(Enum.HumanoidStateType.Physics, true)
-    humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-    humanoid.PlatformStand = true
-
-    local flySpeed = 50
-
-    game:GetService("UserInputService").InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Keyboard then
-            if input.KeyCode == Enum.KeyCode.W then
-                humanoid:Move(Vector3.new(0, 0, -flySpeed))
-            elseif input.KeyCode == Enum.KeyCode.S then
-                humanoid:Move(Vector3.new(0, 0, flySpeed))
-            elseif input.KeyCode == Enum.KeyCode.A then
-                humanoid:Move(Vector3.new(-flySpeed, 0, 0))
-            elseif input.KeyCode == Enum.KeyCode.D then
-                humanoid:Move(Vector3.new(flySpeed, 0, 0))
-            elseif input.KeyCode == Enum.KeyCode.Space then
-                humanoid:Move(Vector3.new(0, flySpeed, 0))
-            elseif input.KeyCode == Enum.KeyCode.LeftShift then
-                humanoid:Move(Vector3.new(0, -flySpeed, 0))
-            end
-        end
-    end)
-    print("Modo de Voo ativado")
-end)
-
--- Função para Ativar God Mode
-GodModeButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-    
-    humanoid.Health = humanoid.MaxHealth
-    humanoid.HealthChanged:Connect(function()
-        humanoid.Health = humanoid.MaxHealth -- Restaura a saúde constantemente
-    end)
-    print("God Mode ativado - Personagem invencível!")
+ESPToggle.MouseButton1Click:Connect(function()
+    print("ESP ativado!")
+    -- Aqui você pode adicionar o código do ESP.
 end)
