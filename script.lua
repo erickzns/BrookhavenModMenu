@@ -129,3 +129,34 @@ local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGU
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
+
+-- Função para tornar o menu arrastável
+local dragging, dragStart, startPos
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        local newPos = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
+
+        -- Limite da tela (ajustando para que o menu não ultrapasse os limites da tela)
+        newPos = UDim2.new(
+            0, math.clamp(newPos.X.Offset, 0, game:GetService("CoreGui").AbsoluteSize.X - MainFrame.Size.X.Offset),
+            0, math.clamp(newPos.Y.Offset, 0, game:GetService("CoreGui").AbsoluteSize.Y - MainFrame.Size.Y.Offset)
+        )
+
+        MainFrame.Position = newPos
+    end
+end)
+
+MainFrame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
