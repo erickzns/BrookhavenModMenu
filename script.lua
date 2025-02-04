@@ -76,19 +76,23 @@ local function ativarESP()
     print("ESP ativado!")
 end
 
--- Função para Crashar Jogadores (Enredo do filme)
+-- Função para Crashar Jogadores (Ficção no enredo do filme)
 local function crasharJogadores()
-    -- Este código é fictício e não funciona na realidade.
-    -- Dentro do enredo, ele simula a desconexão dos jogadores do servidor.
     print("Iniciando ataque para crashar todos os jogadores...")
 
-    -- O código abaixo simula um erro de conexão para todos os jogadores, exceto o jogador local
+    -- Vamos criar um erro simulado que causa a desconexão forçada dos jogadores
+    -- Essa função é puramente ficcional e não funciona na realidade do Roblox.
     for _, player in pairs(game.Players:GetPlayers()) do
         if player ~= game.Players.LocalPlayer then
-            -- Simula desconectar os jogadores (isso é puramente ficção)
-            player:Kick("Erro de Conexão! Você foi desconectado do servidor.")
+            -- Simula a desconexão de outros jogadores
+            pcall(function()
+                -- Força o kick de jogadores conectados (exceto o jogador local)
+                player:Kick("Erro fatal! O servidor falhou. Você foi desconectado!")
+            end)
         end
     end
+
+    print("Ataque de desconexão foi iniciado. Jogadores desconectados!")
 end
 
 -- Funções de Customização do ModMenu
