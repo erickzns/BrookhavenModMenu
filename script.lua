@@ -224,15 +224,11 @@ local function createOption(submenu, name, activateFunc)
     option.MouseButton1Click:Connect(activateFunc)
 end
 
--- Adicionando as opções nos submenus
+-- Criando as opções dentro dos submenus
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade)
 createOption(geralSubMenu, "Ativar Super Velocidade", ativarSuperVelocidade)
 createOption(geralSubMenu, "Ativar Teleporte Rápido", ativarTeleporteRapido)
 createOption(geralSubMenu, "Vida Infinita", ativarVidaInfinita)
-createOption(geralSubMenu, "Dano Infinito", ativarDanoInfinito)
-createOption(geralSubMenu, "Aumentar Gravidade", aumentarGravidade)
-createOption(geralSubMenu, "Ativar Modo Voo", ativarModoVoo)
-createOption(geralSubMenu, "Aumentar Tamanho", aumentarTamanho)
 createOption(armaSubMenu, "Ativar Aimbot", ativarAimbot)
 createOption(armaSubMenu, "Ativar ESP", ativarESP)
 createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro)
