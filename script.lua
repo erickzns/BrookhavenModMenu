@@ -54,7 +54,7 @@ local function clearSubMenu()
 end
 
 -- Função para adicionar funções ao submenu com checkboxes
-local function addCheckboxToMenu(functionName)
+local function addCheckboxToMenu(functionName, callback)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
     Frame.BackgroundTransparency = 1
@@ -83,6 +83,7 @@ local function addCheckboxToMenu(functionName)
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
+        callback(isChecked)
     end)
 end
 
@@ -96,14 +97,50 @@ SideBar.BorderSizePixel = 0
 
 -- Função para adicionar botões laterais e carregar funções específicas
 local buttonFunctions = {
-    GERAL = {"AutoClick", "God Mode", "Bypass Anti-Cheat"},
-    ARMA = {"Aimbot", "Hitbox Expander", "No Recoil"},
-    JOGADORES = {"ESP Wallhack", "Teleport", "Speed Hack"},
-    VEICULO = {"Boost Nitro", "Carro Voador", "Anti-Crash"},
-    TROLLS = {"Explodir Jogador", "Loop Kill", "Chat Spammer"},
-    CONFIGURACOES = {"Mudar Tema", "Ativar Modo Stealth", "Personalizar Teclas"}
+    GERAL = {"AutoClick", "God Mode", "Bypass Anti-Cheat", "Infinite Jump", "Speed Hack", "Chat Spammer", "Fly Mode", "Crash Server", "NoClip"},
+    ARMA = {"Aimbot", "Hitbox Expander", "No Recoil", "Rapid Fire", "Triggerbot"},
+    JOGADORES = {"ESP Wallhack", "Teleport", "Speed Hack", "Aimbot", "Wallhack", "Player Info", "Invisibility", "NoFallDamage"},
+    VEICULO = {"Boost Nitro", "Carro Voador", "Anti-Crash", "Super Jump"},
+    TROLLS = {"Explodir Jogador", "Loop Kill", "Chat Spammer", "No Collision", "Invisible", "Fake Ping"},
+    CONFIGURACOES = {"Mudar Tema", "Ativar Modo Stealth", "Personalizar Teclas", "Botão de Debug"}
 }
 
+-- Códigos de trapaça para as funções
+local cheatFunctions = {
+    AutoClick = function() print("Ativado AutoClick") end,
+    GodMode = function() print("Ativado God Mode") end,
+    ["Bypass Anti-Cheat"] = function() print("Anti-Cheat Bypass Ativado") end,
+    ["Infinite Jump"] = function() print("Infinite Jump Ativado") end,
+    ["Speed Hack"] = function() print("Speed Hack Ativado") end,
+    ["Chat Spammer"] = function() print("Chat Spammer Ativado") end,
+    ["Fly Mode"] = function() print("Fly Mode Ativado") end,
+    ["Crash Server"] = function() print("Crash Server Ativado") end,
+    NoClip = function() print("NoClip Ativado") end,
+    Aimbot = function() print("Aimbot Ativado") end,
+    ["Hitbox Expander"] = function() print("Hitbox Expander Ativado") end,
+    ["No Recoil"] = function() print("No Recoil Ativado") end,
+    ["Rapid Fire"] = function() print("Rapid Fire Ativado") end,
+    Triggerbot = function() print("Triggerbot Ativado") end,
+    ["ESP Wallhack"] = function() print("ESP Wallhack Ativado") end,
+    Teleport = function() print("Teleport Ativado") end,
+    ["Invisibility"] = function() print("Invisibility Ativado") end,
+    ["NoFallDamage"] = function() print("NoFallDamage Ativado") end,
+    ["Boost Nitro"] = function() print("Boost Nitro Ativado") end,
+    ["Carro Voador"] = function() print("Carro Voador Ativado") end,
+    ["Anti-Crash"] = function() print("Anti-Crash Ativado") end,
+    ["Super Jump"] = function() print("Super Jump Ativado") end,
+    ["Explodir Jogador"] = function() print("Explodir Jogador Ativado") end,
+    ["Loop Kill"] = function() print("Loop Kill Ativado") end,
+    ["No Collision"] = function() print("No Collision Ativado") end,
+    Invisible = function() print("Invisible Ativado") end,
+    ["Fake Ping"] = function() print("Fake Ping Ativado") end,
+    ["Mudar Tema"] = function() print("Tema Alterado") end,
+    ["Ativar Modo Stealth"] = function() print("Modo Stealth Ativado") end,
+    ["Personalizar Teclas"] = function() print("Teclas Personalizadas") end,
+    ["Botão de Debug"] = function() print("Botão de Debug Ativado") end
+}
+
+-- Função para adicionar botões laterais
 local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 40)
@@ -118,7 +155,7 @@ local function addSideButton(name, yPosition)
     Button.MouseButton1Click:Connect(function()
         clearSubMenu()
         for _, func in ipairs(buttonFunctions[name] or {}) do
-            addCheckboxToMenu(func)
+            addCheckboxToMenu(func, cheatFunctions[func])
         end
     end)
 
@@ -144,14 +181,10 @@ end)
 MainFrame.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
-        -- Movendo de forma suave
         local newPosX = startPos.X.Offset + delta.X
         local newPosY = startPos.Y.Offset + delta.Y
-
-        -- Garantindo que o menu não saia da tela
         newPosX = math.clamp(newPosX, 0, game:GetService("Players").LocalPlayer.PlayerGui.AbsoluteSize.X - MainFrame.Size.X.Offset)
         newPosY = math.clamp(newPosY, 0, game:GetService("Players").LocalPlayer.PlayerGui.AbsoluteSize.Y - MainFrame.Size.Y.Offset)
-
         MainFrame.Position = UDim2.new(0, newPosX, 0, newPosY)
     end
 end)
