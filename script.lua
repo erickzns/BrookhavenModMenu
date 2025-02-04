@@ -72,7 +72,7 @@ local function createSubMenu(button, options)
                 optionCheckbox.Text = "Off"
                 optionCheckbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
                 option.onDeactivate()
-            end)
+            end
         end)
     end
 
@@ -82,13 +82,53 @@ local function createSubMenu(button, options)
 end
 
 -- Garantir que todos os submenus sejam ocultados quando outro for aberto
+local function hideAllSubmenus()
+    for _, submenu in pairs(submenus) do
+        submenu.Visible = false
+    end
+end
+
 for button, submenu in pairs(submenus) do
     button.MouseButton1Click:Connect(function()
-        for _, sub in pairs(submenus) do
-            sub.Visible = false
-        end
+        hideAllSubmenus()
         submenu.Visible = true
     end)
+end
+
+-- Funções de trapaça para "Geral"
+local function ativarInvisibilidade()
+    -- Código para ativar invisibilidade
+    print("Invisibilidade ativada!")
+end
+
+local function desativarInvisibilidade()
+    -- Código para desativar invisibilidade
+    print("Invisibilidade desativada!")
+end
+
+local function ativarSuperVelocidade()
+    -- Código para ativar super velocidade
+    print("Super velocidade ativada!")
+end
+
+local function desativarSuperVelocidade()
+    -- Código para desativar super velocidade
+    print("Super velocidade desativada!")
+end
+
+local function ativarTeleporteRapido()
+    -- Código para ativar teleporte rápido
+    print("Teleporte rápido ativado!")
+end
+
+local function ativarVidaInfinita()
+    -- Código para ativar vida infinita
+    print("Vida infinita ativada!")
+end
+
+local function desativarVidaInfinita()
+    -- Código para desativar vida infinita
+    print("Vida infinita desativada!")
 end
 
 -- Adicionar os códigos de trapaça ao submenu de "Geral"
@@ -96,70 +136,5 @@ createSubMenu(geralButton, {
     {name = "Ativar Invisibilidade", onActivate = ativarInvisibilidade, onDeactivate = desativarInvisibilidade},
     {name = "Ativar Super Velocidade", onActivate = ativarSuperVelocidade, onDeactivate = desativarSuperVelocidade},
     {name = "Ativar Teleporte Rápido", onActivate = ativarTeleporteRapido, onDeactivate = function() end},
-    {name = "Vida Infinita", onActivate = ativarVidaInfinita, onDeactivate = desativarVidaInfinita},
-    {name = "Munição Infinita", onActivate = ativarMunicaoInfinita, onDeactivate = desativarMunicaoInfinita}
+    {name = "Vida Infinita", onActivate = ativarVidaInfinita, onDeactivate = desativarVidaInfinita}
 })
-
--- Adicionar funcionalidades ao submenu de "Jogador"
-createSubMenu(jogadorButton, {
-    {name = "Aumentar Vida", onActivate = function() game.Players.LocalPlayer.Character.Humanoid.MaxHealth = game.Players.LocalPlayer.Character.Humanoid.MaxHealth + 100 end, onDeactivate = function() end},
-    {name = "Aumentar Defesa", onActivate = function() game.Players.LocalPlayer.Character.Humanoid.JumpPower = game.Players.LocalPlayer.Character.Humanoid.JumpPower + 50 end, onDeactivate = function() end},
-    {name = "Modo Fantasma", onActivate = function() game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0.5 end, onDeactivate = function() game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0 end}
-})
-
--- Adicionar configurações ao submenu de "Configurações"
-createSubMenu(configuracoesButton, {
-    {name = "Mudar Cor do Menu para Azul", onActivate = function() mainMenu.BackgroundColor3 = Color3.fromRGB(0, 0, 255) end, onDeactivate = function() end},
-    {name = "Mudar Cor do Menu para Verde", onActivate = function() mainMenu.BackgroundColor3 = Color3.fromRGB(0, 255, 0) end, onDeactivate = function() end},
-    {name = "Redefinir Cor do Menu", onActivate = function() mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50) end, onDeactivate = function() end}
-})
-
--- Exemplo de funções que seriam usadas para ativar/desativar trapaças
-function ativarInvisibilidade()
-    -- código para ativar invisibilidade
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 1
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
-end
-
-function desativarInvisibilidade()
-    -- código para desativar invisibilidade
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
-end
-
-function ativarSuperVelocidade()
-    -- código para ativar super velocidade
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
-end
-
-function desativarSuperVelocidade()
-    -- código para desativar super velocidade
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-end
-
-function ativarTeleporteRapido()
-    -- código para ativar teleporte rápido
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100, 0)
-end
-
-function ativarVidaInfinita()
-    -- código para ativar vida infinita
-    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
-    game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
-end
-
-function desativarVidaInfinita()
-    -- código para desativar vida infinita
-    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
-    game.Players.LocalPlayer.Character.Humanoid.Health = 100
-end
-
-function ativarMunicaoInfinita()
-    -- código para ativar munição infinita
-    -- código específico do jogo
-end
-
-function desativarMunicaoInfinita()
-    -- código para desativar munição infinita
-    -- código específico do jogo
-end
