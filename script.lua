@@ -106,6 +106,24 @@ local function AntiKickBan()
     print("Anti-Kick e Anti-Ban ativado") -- Adicionar código real aqui
 end
 
+-- Funções para adicionar os botões de ativação de hacks em cada submenu
+local function AddButtonToFrame(frame, text, func)
+    local button = Instance.new("TextButton")
+    button.Parent = frame
+    button.Size = UDim2.new(0, 180, 0, 50)
+    button.Position = UDim2.new(0, 10, 0, 10)
+    button.Text = text
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.MouseButton1Click:Connect(func)
+end
+
+-- Adicionando os botões aos submenus
+AddButtonToFrame(GeralFrame, "ESP", ESP)
+AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
+AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
+AddButtonToFrame(ConfigFrame, "Infinite Jump", InfiniteJump)
+
 -- Ações dos botões para abrir os submenus
 GeralButton.MouseButton1Click:Connect(function()
     ToggleFrame(GeralFrame)
@@ -122,49 +140,3 @@ end)
 ConfigButton.MouseButton1Click:Connect(function()
     ToggleFrame(ConfigFrame)
 end)
-
--- Submenu Geral
-local ESPButton = Instance.new("TextButton")
-ESPButton.Parent = GeralFrame
-ESPButton.Size = UDim2.new(0, 180, 0, 50)
-ESPButton.Position = UDim2.new(0, 10, 0, 10)
-ESPButton.Text = "ESP"
-ESPButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-ESPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-ESPButton.MouseButton1Click:Connect(ESP)
-
--- Submenu Arma
-local GodModeButton = Instance.new("TextButton")
-GodModeButton.Parent = ArmaFrame
-GodModeButton.Size = UDim2.new(0, 180, 0, 50)
-GodModeButton.Position = UDim2.new(0, 10, 0, 10)
-GodModeButton.Text = "God Mode"
-GodModeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-GodModeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-GodModeButton.MouseButton1Click:Connect(GodMode)
-
--- Submenu Jogador
-local FlyHackButton = Instance.new("TextButton")
-FlyHackButton.Parent = JogadorFrame
-FlyHackButton.Size = UDim2.new(0, 180, 0, 50)
-FlyHackButton.Position = UDim2.new(0, 10, 0, 10)
-FlyHackButton.Text = "Fly Hack"
-FlyHackButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-FlyHackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-FlyHackButton.MouseButton1Click:Connect(FlyHack)
-
--- Submenu Config
-local InfiniteJumpButton = Instance.new("TextButton")
-InfiniteJumpButton.Parent = ConfigFrame
-InfiniteJumpButton.Size = UDim2.new(0, 180, 0, 50)
-InfiniteJumpButton.Position = UDim2.new(0, 10, 0, 10)
-InfiniteJumpButton.Text = "Infinite Jump"
-InfiniteJumpButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-InfiniteJumpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-InfiniteJumpButton.MouseButton1Click:Connect(InfiniteJump)
-
--- Você pode adicionar mais botões para as funções de TeleportPlayer, SpeedBoost, Aimbot, NoClip e AntiKickBan.
