@@ -21,15 +21,9 @@ jogadorButton.Position = UDim2.new(0, 10, 0, 70)
 jogadorButton.Text = "Jogador"
 jogadorButton.Parent = mainMenu
 
-local inventarioButton = Instance.new("TextButton")
-inventarioButton.Size = UDim2.new(0, 100, 0, 50)
-inventarioButton.Position = UDim2.new(0, 10, 0, 130)
-inventarioButton.Text = "Inventário"
-inventarioButton.Parent = mainMenu
-
 local configuracoesButton = Instance.new("TextButton")
 configuracoesButton.Size = UDim2.new(0, 100, 0, 50)
-configuracoesButton.Position = UDim2.new(0, 10, 0, 190)
+configuracoesButton.Position = UDim2.new(0, 10, 0, 130)
 configuracoesButton.Text = "Configurações"
 configuracoesButton.Parent = mainMenu
 
@@ -63,6 +57,5 @@ end
 
 -- Criando submenus para cada botão
 createSubMenu(geralButton, {"Ativar Modo Invencível", "Aumentar Velocidade", "Habilidades Ilimitadas"})
-createSubMenu(jogadorButton, {"Teletransportar Jogador", "Visão de Raio-X"})
-createSubMenu(inventarioButton, {"Adicionar Item Raro", "Duplicar Itens", "Inventário Ilimitado"})
-createSubMenu(configuracoesButton, {"Ativar Modo Noturno", "Ajustar Gravidade"})
+createSubMenu(jogadorButton, {"Teletransportar Jogador", "Visão de Raio-X", "Aumentar Tamanho"})
+createSubMenu(configuracoesButton, {"Ativar Modo Noturno", "Ajustar Gravidade", "Multiplicar Pontos"})
