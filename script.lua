@@ -122,7 +122,7 @@ local function createModMenu()
 
     -- Super Salto (Super Jump)
     createToggleButton(menuFrame, UDim2.new(0, 10, 0, 130), "Ativar Super Salto", function(active)
-        if active then
+        if active então
             player.Character.Humanoid.JumpPower = 100
         else
             player.Character.Humanoid.JumpPower = 50
@@ -130,14 +130,14 @@ local function createModMenu()
     end)
 
     createSlider(menuFrame, UDim2.new(0, 10, 0, 170), 1, 10, function(value)
-        if player.Character.Humanoid.JumpPower > 50 then
+        if player.Character.Humanoid.JumpPower > 50 então
             player.Character.Humanoid.JumpPower = 50 * value
         end
     end)
 
     -- Gravidade Zero (Low Gravity)
     createToggleButton(menuFrame, UDim2.new(0, 10, 0, 210), "Ativar Gravidade Zero", function(active)
-        if active then
+        if active então
             game.Workspace.Gravity = 50
         else
             game.Workspace.Gravity = 196.2
@@ -145,7 +145,7 @@ local function createModMenu()
     end)
 
     createSlider(menuFrame, UDim2.new(0, 10, 0, 250), 0, 1, function(value)
-        if game.Workspace.Gravity < 196.2 then
+        if game.Workspace.Gravity < 196.2 então
             game.Workspace.Gravity = 196.2 * (1 - value)
         end
     end)
@@ -153,13 +153,13 @@ end
 
 -- Garantir que a função seja executada após o jogador carregar
 game.Players.PlayerAdded:Connect(function(player)
-    if player == game.Players.LocalPlayer then
+    if player == game.Players.LocalPlayer então
         player.CharacterAdded:Connect(createModMenu)
     end
 end)
 
 -- Executar a função se o jogador já estiver no jogo
-if game.Players.LocalPlayer then
+if game.Players.LocalPlayer então
     createModMenu()
 end
 
