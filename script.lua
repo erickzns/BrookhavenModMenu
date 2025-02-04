@@ -1,4 +1,4 @@
--- Variáveis globais
+-- Configuração inicial
 local player = game.Players.LocalPlayer
 local playerCharacter = player.Character
 local screenGui = Instance.new("ScreenGui")
@@ -237,5 +237,4 @@ createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "taman
 createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
 createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
 
--- Outras funções de configurações
--- Crie mais funções, submenus e opções conforme necessário
+print("ModMenu atualizado e funcional!")
