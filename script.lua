@@ -1,6 +1,7 @@
 -- Criando o ScreenGui e a estrutura do Menu
+local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
 
 local menuFrame = Instance.new("Frame")
 menuFrame.Parent = screenGui
@@ -9,6 +10,7 @@ menuFrame.Position = UDim2.new(0, 10, 0, 10)  -- Posição inicial do menu
 menuFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 menuFrame.BorderSizePixel = 0
 menuFrame.ClipsDescendants = true  -- Garante que elementos fora da área do menu não apareçam
+menuFrame.Visible = false -- Começa invisível
 
 -- Criando o botão principal (para abrir o menu)
 local openMenuButton = Instance.new("TextButton")
@@ -27,14 +29,16 @@ local menuOpenPosition = UDim2.new(0, 10, 0, 70)
 local menuClosedPosition = UDim2.new(0, 10, 0, 10)
 
 local function openCloseMenu()
-    if menuFrame.Position == menuClosedPosition then
-        -- Animar para abrir
+    if menuFrame.Visible == false then
+        menuFrame.Visible = true
         local openTween = TweenService:Create(menuFrame, tweenInfo, {Position = menuOpenPosition})
         openTween:Play()
     else
-        -- Animar para fechar
         local closeTween = TweenService:Create(menuFrame, tweenInfo, {Position = menuClosedPosition})
         closeTween:Play()
+        closeTween.Completed:Connect(function()
+            menuFrame.Visible = false
+        end)
     end
 end
 
