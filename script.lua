@@ -138,7 +138,7 @@ end
 
 -- Configuração da barra lateral (SideBar)
 SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, 0)  -- Barra lateral com largura fixa de 120px
+SideBar.Size = UDim2.new(0, 120, 1, -50)  -- A altura da barra lateral é a mesma do submenu (400px)
 SideBar.Position = UDim2.new(0, 0, 0, 50)  -- Alinha a barra lateral à esquerda do menu
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Cor sólida para a barra lateral
 
