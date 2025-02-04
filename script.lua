@@ -94,94 +94,106 @@ local function showSubMenu(name)
     end
 end
 
--- Função para ativar o Aimbot
-local function activateAimbot()
-    print("Aimbot Ativado")
-    -- Implementar lógica do Aimbot aqui
+-- Função para criar uma caixinha de seleção (checkbox)
+local function createCheckbox(parent, position, label, callback)
+    local checkboxFrame = Instance.new("Frame")
+    checkboxFrame.Parent = parent
+    checkboxFrame.Size = UDim2.new(0, 250, 0, 30)
+    checkboxFrame.Position = position
+    checkboxFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+
+    local checkbox = Instance.new("TextButton")
+    checkbox.Parent = checkboxFrame
+    checkbox.Size = UDim2.new(0, 30, 0, 30)
+    checkbox.Position = UDim2.new(0, 0, 0, 0)
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    checkbox.Text = ""
+    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+    local labelText = Instance.new("TextLabel")
+    labelText.Parent = checkboxFrame
+    labelText.Size = UDim2.new(0, 220, 0, 30)
+    labelText.Position = UDim2.new(0, 35, 0, 0)
+    labelText.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    labelText.Text = label
+    labelText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    labelText.Font = Enum.Font.SourceSans
+    labelText.TextSize = 18
+
+    local isChecked = false
+    checkbox.MouseButton1Click:Connect(function()
+        isChecked = not isChecked
+        checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        callback(isChecked)
+    end)
 end
 
--- Função para ativar o ESP
-local function activateESP()
-    print("ESP Ativado")
-    -- Implementar lógica do ESP aqui
+-- Funções para ativar/desativar as opções (representadas por checkboxes)
+local function activateAimbot(isChecked)
+    print("Aimbot " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de Aimbot aqui
 end
 
--- Função para ativar o Fly
-local function activateFly()
-    print("Fly Mode Ativado")
-    -- Implementar lógica do Fly Mode aqui
+local function activateESP(isChecked)
+    print("ESP " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de ESP aqui
 end
 
--- Função para ativar o God Mode
-local function activateGodMode()
-    print("God Mode Ativado")
-    -- Implementar lógica do God Mode aqui
+local function activateFly(isChecked)
+    print("Fly Mode " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de Fly aqui
 end
 
--- Função para ativar o Speed Boost
-local function activateSpeedBoost()
-    print("Speed Boost Ativado")
-    -- Implementar lógica do Speed Boost aqui
+local function activateGodMode(isChecked)
+    print("God Mode " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de God Mode aqui
 end
 
--- Função para ativar o NoClip
-local function activateNoClip()
-    print("NoClip Ativado")
-    -- Implementar lógica do NoClip aqui
+local function activateSpeedBoost(isChecked)
+    print("Speed Boost " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de Speed Boost aqui
 end
 
--- Função para ativar o Teleport para Player
-local function activateTeleportToPlayer()
-    print("Teleport para Player Ativado")
-    -- Implementar lógica do Teleport para Player aqui
+local function activateNoClip(isChecked)
+    print("NoClip " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de NoClip aqui
 end
 
--- Função para ativar o Trolls (exemplo)
-local function activateTroll()
-    print("Função Troll Ativada")
-    -- Implementar lógica dos trolls aqui
+local function activateTeleportToPlayer(isChecked)
+    print("Teleport para Player " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de Teleport aqui
 end
 
--- Função para aplicar configurações (exemplo)
-local function applyConfigurations()
-    print("Configurações Aplicadas")
-    -- Implementar lógica de configurações aqui
+local function activateTroll(isChecked)
+    print("Trolls " .. (isChecked and "Ativado" or "Desativado"))
+    -- Implementar a lógica de Trolls aqui
 end
 
--- Criando os botões dentro dos submenus
-local function createSubMenuButton(parent, position, text, callback)
-    local button = Instance.new("TextButton")
-    button.Parent = parent
-    button.Size = UDim2.new(0, 200, 0, 40)
-    button.Position = position
-    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    button.Text = text
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Font = Enum.Font.SourceSans
-    button.TextSize = 18
-    button.MouseButton1Click:Connect(callback)
+local function applyConfigurations(isChecked)
+    print("Configurações " .. (isChecked and "Aplicadas" or "Desfeitas"))
+    -- Implementar a lógica de Configurações aqui
 end
 
--- Submenu "Geral"
-createSubMenuButton(SubMenus["Geral"], UDim2.new(0, 50, 0, 50), "Ativar Aimbot", activateAimbot)
-createSubMenuButton(SubMenus["Geral"], UDim2.new(0, 50, 0, 100), "Ativar ESP", activateESP)
+-- Submenu "Geral" com caixinhas de seleção
+createCheckbox(SubMenus["Geral"], UDim2.new(0, 50, 0, 50), "Aimbot", activateAimbot)
+createCheckbox(SubMenus["Geral"], UDim2.new(0, 50, 0, 100), "ESP", activateESP)
 
--- Submenu "Arma"
-createSubMenuButton(SubMenus["Arma"], UDim2.new(0, 50, 0, 50), "Ativar Fly", activateFly)
-createSubMenuButton(SubMenus["Arma"], UDim2.new(0, 50, 0, 100), "Ativar God Mode", activateGodMode)
+-- Submenu "Arma" com caixinhas de seleção
+createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 50), "Fly Mode", activateFly)
+createCheckbox(SubMenus["Arma"], UDim2.new(0, 50, 0, 100), "God Mode", activateGodMode)
 
--- Submenu "Jogador"
-createSubMenuButton(SubMenus["Jogador"], UDim2.new(0, 50, 0, 50), "Ativar Speed Boost", activateSpeedBoost)
-createSubMenuButton(SubMenus["Jogador"], UDim2.new(0, 50, 0, 100), "Ativar NoClip", activateNoClip)
+-- Submenu "Jogador" com caixinhas de seleção
+createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 50), "Speed Boost", activateSpeedBoost)
+createCheckbox(SubMenus["Jogador"], UDim2.new(0, 50, 0, 100), "NoClip", activateNoClip)
 
--- Submenu "Veículos"
-createSubMenuButton(SubMenus["Veículos"], UDim2.new(0, 50, 0, 50), "Teleport para Player", activateTeleportToPlayer)
+-- Submenu "Veículos" com caixinhas de seleção
+createCheckbox(SubMenus["Veículos"], UDim2.new(0, 50, 0, 50), "Teleport para Player", activateTeleportToPlayer)
 
--- Submenu "Trolls"
-createSubMenuButton(SubMenus["Trolls"], UDim2.new(0, 50, 0, 50), "Ativar Troll", activateTroll)
+-- Submenu "Trolls" com caixinhas de seleção
+createCheckbox(SubMenus["Trolls"], UDim2.new(0, 50, 0, 50), "Ativar Trolls", activateTroll)
 
--- Submenu "Configuração"
-createSubMenuButton(SubMenus["Configuração"], UDim2.new(0, 50, 0, 50), "Aplicar Configurações", applyConfigurations)
+-- Submenu "Configuração" com caixinhas de seleção
+createCheckbox(SubMenus["Configuração"], UDim2.new(0, 50, 0, 50), "Aplicar Configurações", applyConfigurations)
 
 -- Função para abrir e fechar o menu
 MenuButton.MouseButton1Click:Connect(function()
