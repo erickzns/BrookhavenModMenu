@@ -130,7 +130,7 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função para tornar o menu arrastável sem limites
+-- Função para tornar o menu arrastável sem limites e corrigir o bug
 local dragging, dragStart, startPos
 MainFrame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -145,7 +145,7 @@ MainFrame.InputChanged:Connect(function(input)
         local delta = input.Position - dragStart
         local newPos = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
         
-        -- Não limita a posição do menu
+        -- Atualização da posição sem limites
         MainFrame.Position = newPos
     end
 end)
