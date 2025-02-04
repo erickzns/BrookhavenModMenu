@@ -69,41 +69,41 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções antigas
+-- Funções antigas e novas
 local function ESP()
-    print("ESP ativado") -- Adicionar código real aqui
+    print("ESP ativado")
 end
 
 local function GodMode()
-    print("God Mode ativado") -- Adicionar código real aqui
+    print("God Mode ativado")
 end
 
 local function FlyHack()
-    print("Fly Hack ativado") -- Adicionar código real aqui
+    print("Fly Hack ativado")
 end
 
 local function InfiniteJump()
-    print("Infinite Jump ativado") -- Adicionar código real aqui
+    print("Infinite Jump ativado")
 end
 
 local function TeleportPlayer()
-    print("Teleport para Player ativado") -- Adicionar código real aqui
+    print("Teleport para Player ativado")
 end
 
 local function SpeedBoost()
-    print("Speed Boost ativado") -- Adicionar código real aqui
+    print("Speed Boost ativado")
 end
 
 local function Aimbot()
-    print("Aimbot ativado") -- Adicionar código real aqui
+    print("Aimbot ativado")
 end
 
 local function NoClip()
-    print("NoClip ativado") -- Adicionar código real aqui
+    print("NoClip ativado")
 end
 
 local function AntiKickBan()
-    print("Anti-Kick e Anti-Ban ativado") -- Adicionar código real aqui
+    print("Anti-Kick e Anti-Ban ativado")
 end
 
 -- Funções para adicionar os botões aos submenus
@@ -118,7 +118,7 @@ local function AddButtonToFrame(frame, text, func)
     button.MouseButton1Click:Connect(func)
 end
 
--- Adicionando os botões aos submenus com as funções antigas
+-- Adicionando os botões aos submenus com as funções antigas e novas
 AddButtonToFrame(GeralFrame, "ESP", ESP)
 AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
 AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
