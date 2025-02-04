@@ -14,8 +14,7 @@ local buttons = {
     {name = "Arma", position = 70},
     {name = "Jogador", position = 130},
     {name = "Configurações", position = 190},
-    {name = "Trapaças", position = 250},
-    {name = "Avançado", position = 310}
+    {name = "Avançado", position = 250}
 }
 
 local submenus = {}
@@ -33,25 +32,17 @@ for _, btn in ipairs(buttons) do
     submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     submenu.Visible = false
     submenu.Parent = mainMenu
-    submenus[btn.name] = submenu
+    submenus[button] = submenu
     
     button.MouseButton1Click:Connect(function()
-        -- Fechar todos os submenus
-        for _, sm in pairs(submenus) do 
-            sm.Visible = false 
-        end
-        -- Abrir o submenu específico
+        for _, sm in pairs(submenus) do sm.Visible = false end
         submenu.Visible = true
     end)
 end
 
--- Funções de Trapaça
+-- Funções de trapaça
 local function ativarInvisibilidade()
     print("Invisibilidade ativada!")
-end
-
-local function desativarInvisibilidade()
-    print("Invisibilidade desativada!")
 end
 
 local function ativarSuperVelocidade()
@@ -76,79 +67,39 @@ local function ativarESP()
     print("ESP ativado!")
 end
 
--- Função para Crashar Jogadores (Ficção no enredo do filme)
-local function crasharJogadores()
-    print("Iniciando ataque para crashar todos os jogadores...")
-
-    -- Vamos criar um erro simulado que causa a desconexão forçada dos jogadores
-    -- Essa função é puramente ficcional e não funciona na realidade do Roblox.
-    for _, player in pairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer then
-            -- Simula a desconexão de outros jogadores
-            pcall(function()
-                -- Força o kick de jogadores conectados (exceto o jogador local)
-                player:Kick("Erro fatal! O servidor falhou. Você foi desconectado!")
-            end)
-        end
-    end
-
-    print("Ataque de desconexão foi iniciado. Jogadores desconectados!")
-end
-
--- Funções de Customização do ModMenu
-local function mudarCorMenu(cor)
-    mainMenu.BackgroundColor3 = cor
-end
-
-local function mudarTamanhoMenu(tamanho)
-    mainMenu.Size = UDim2.new(0, tamanho, 0, 400)
-end
-
--- Função para adicionar opções no submenu com caixas de seleção
-local function createCheckbox(submenu, name, onCheckedFunc, onUncheckedFunc)
-    local checkbox = Instance.new("Frame")
-    checkbox.Size = UDim2.new(0, 160, 0, 40)
-    checkbox.Position = UDim2.new(0, 10, 0, #submenu:GetChildren() * 50)
-    checkbox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    checkbox.Parent = submenu
+-- Função de Crashar Jogadores (Simulação Indetectável de Trapaça)
+local function crasharJogadoresIndetectavel()
+    -- Vamos esconder as ações e tornar o processo invisível
+    -- Nada será mostrado no console ou interface para não levantar suspeitas
     
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 1, 0)
-    label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.BackgroundTransparency = 1
-    label.Parent = checkbox
-    
-    local checkBoxBtn = Instance.new("TextButton")
-    checkBoxBtn.Size = UDim2.new(0, 20, 0, 20)
-    checkBoxBtn.Position = UDim2.new(1, -30, 0.5, -10)
-    checkBoxBtn.Text = "☐"
-    checkBoxBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    checkBoxBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-    checkBoxBtn.Parent = checkbox
-    
-    local checked = false
-
-    checkBoxBtn.MouseButton1Click:Connect(function()
-        checked = not checked
-        if checked then
-            checkBoxBtn.Text = "☑"
-            onCheckedFunc()
-        else
-            checkBoxBtn.Text = "☐"
-            onUncheckedFunc()
+    local success, err = pcall(function()
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                -- A simulação de desconexão ocorre de maneira invisível
+                player:Kick("Erro fatal! O servidor falhou devido a um erro crítico de rede.")
+            end
         end
     end)
+
+    -- A função não exibirá nada no console, nem alterará qualquer interface
+    -- Apenas simula o efeito de "crashar" sem deixar rastro
 end
 
--- Adicionando as opções aos submenus com caixas de seleção
-createCheckbox(submenus["Avançado"], "Crashar Jogadores", crasharJogadores, function() print("Crashar Jogadores desativado.") end)
-createCheckbox(submenus["Geral"], "Invisibilidade", ativarInvisibilidade, desativarInvisibilidade)
-createCheckbox(submenus["Geral"], "Super Velocidade", ativarSuperVelocidade, function() game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16 end)
-createCheckbox(submenus["Geral"], "Teleporte Rápido", ativarTeleporteRapido, function() game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, 0, 0)) end)
-createCheckbox(submenus["Geral"], "Vida Infinita", ativarVidaInfinita, function() 
-    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
-    game.Players.LocalPlayer.Character.Humanoid.Health = 100
-end)
-createCheckbox(submenus["Arma"], "Aimbot", ativarAimbot, function() print("Aimbot desativado.") end)
-createCheckbox(submenus["Jogador"], "ESP", ativarESP, function() print("ESP desativado.") end)
+-- Criar opções no submenu
+local function createOption(submenu, name, activateFunc)
+    local option = Instance.new("TextButton")
+    option.Size = UDim2.new(0, 160, 0, 40)
+    option.Position = UDim2.new(0, 10, 0, #submenu:GetChildren() * 50)
+    option.Text = name
+    option.Parent = submenu
+    option.MouseButton1Click:Connect(activateFunc)
+end
+
+-- Adicionando opções aos submenus
+createOption(submenus[buttons[1]], "Ativar Invisibilidade", ativarInvisibilidade)
+createOption(submenus[buttons[1]], "Ativar Super Velocidade", ativarSuperVelocidade)
+createOption(submenus[buttons[1]], "Ativar Teleporte Rápido", ativarTeleporteRapido)
+createOption(submenus[buttons[1]], "Vida Infinita", ativarVidaInfinita)
+createOption(submenus[buttons[2]], "Ativar Aimbot", ativarAimbot)
+createOption(submenus[buttons[3]], "Ativar ESP", ativarESP)
+createOption(submenus[buttons[4]], "Ativar Crashar Jogadores", crasharJogadoresIndetectavel)
