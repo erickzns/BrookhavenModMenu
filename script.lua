@@ -36,7 +36,10 @@ Title.TextTransparency = 1
 game:GetService("TweenService"):Create(Title, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
 
 -- Tornar o menu arrastável
-local dragging, dragInput, dragStart, startPos
+local dragging = false
+local dragInput, dragStart, startPos
+
+-- Função para iniciar o arraste
 MainFrame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
@@ -46,6 +49,7 @@ MainFrame.InputBegan:Connect(function(input)
     end
 end)
 
+-- Função para mover o menu enquanto arrasta
 MainFrame.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
@@ -53,6 +57,7 @@ MainFrame.InputChanged:Connect(function(input)
     end
 end)
 
+-- Função para finalizar o arraste
 MainFrame.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = false
