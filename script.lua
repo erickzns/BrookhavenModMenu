@@ -175,13 +175,16 @@ local function ativarESP()
     print("ESP ativado!")
 end
 
+-- Função para pegar dinheiro
 local function pegarDinheiro()
+    -- Procurar por itens chamados "Money" no jogo
     for _, money in pairs(workspace:GetChildren()) do
-        if money:IsA("Part") and money.Name == "Money" then
+        if money:IsA("Part") and money.Name:lower() == "money" then
+            -- Movendo o item de dinheiro para o jogador
             money.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+            print("Dinheiro coletado!")
         end
     end
-    print("Dinheiro coletado!")
 end
 
 -- Função para criar opções dentro dos submenus
