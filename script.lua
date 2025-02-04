@@ -31,9 +31,9 @@ for _, btn in ipairs(buttons) do
     submenu.Size = UDim2.new(0, 180, 0, 300)
     submenu.Position = UDim2.new(0, 120, 0, 10)
     submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    submenu.Visible = false
+    submenu.Visible = false  -- Inicialmente invisível
     submenu.Parent = mainMenu
-    submenus[button] = submenu
+    submenus[btn.name] = submenu
     
     -- Função para abrir o submenu ao clicar no botão lateral
     button.MouseButton1Click:Connect(function()
@@ -141,19 +141,19 @@ local function createOption(submenu, name, activateFunc, tooltip)
 end
 
 -- Adicionando as novas opções aos submenus
-createOption(submenus[buttons[1]], "Ativar Invisibilidade", ativarInvisibilidade, "Ativa a invisibilidade.")
-createOption(submenus[buttons[1]], "Ativar Super Velocidade", ativarSuperVelocidade, "Aumenta a velocidade do jogador.")
-createOption(submenus[buttons[1]], "Ativar Teleporte Rápido", ativarTeleporteRapido, "Teleporta rapidamente para uma posição.")
-createOption(submenus[buttons[1]], "Vida Infinita", ativarVidaInfinita, "Ativa vida infinita para o jogador.")
-createOption(submenus[buttons[2]], "Ativar Aimbot", ativarAimbot, "Ativa o aimbot.")
-createOption(submenus[buttons[2]], "Ativar ESP", ativarESP, "Ativa o ESP simples.")
-createOption(submenus[buttons[2]], "Ativar ESP Avançado", ativarESPAvancado, "Ativa o ESP avançado com mais recursos.")
-createOption(submenus[buttons[2]], "Cor do ESP", function() personalizarCorESP("red") end, "Altera a cor do ESP para vermelho.")
-createOption(submenus[buttons[3]], "Teleporte Aleatório", ativarTeleporteAleatorio, "Teleporta para uma posição aleatória.")
-createOption(submenus[buttons[3]], "Ajustar Dano", function() ajustarDano(2) end, "Aumenta o dano em 2x.")
-createOption(submenus[buttons[3]], "Habilitar Wallhack", habilitarWallhack, "Deixa todos os objetos sem colidir e sem opacidade.")
-createOption(submenus[buttons[3]], "Desabilitar Wallhack", desabilitarWallhack, "Restaura o Wallhack.")
-createOption(submenus[buttons[4]], "Alterar Cor do Menu", function() mudarCorMenu(Color3.fromRGB(100, 100, 255)) end, "Muda a cor de fundo do menu.")
-createOption(submenus[buttons[4]], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(500) end, "Muda o tamanho do menu.")
-createOption(submenus[buttons[5]], "Aimbot com Sensibilidade", function() ativarAimbotComSensibilidade(5) end, "Ativa o aimbot com sensibilidade ajustada.")
-createOption(submenus[buttons[5]], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(600) end, "Aumenta o tamanho do menu.")
+createOption(submenus["Geral"], "Ativar Invisibilidade", ativarInvisibilidade, "Ativa a invisibilidade.")
+createOption(submenus["Geral"], "Ativar Super Velocidade", ativarSuperVelocidade, "Aumenta a velocidade do jogador.")
+createOption(submenus["Geral"], "Ativar Teleporte Rápido", ativarTeleporteRapido, "Teleporta rapidamente para uma posição.")
+createOption(submenus["Geral"], "Vida Infinita", ativarVidaInfinita, "Ativa vida infinita para o jogador.")
+createOption(submenus["Arma"], "Ativar Aimbot", ativarAimbot, "Ativa o aimbot.")
+createOption(submenus["Arma"], "Ativar ESP", ativarESP, "Ativa o ESP simples.")
+createOption(submenus["Arma"], "Ativar ESP Avançado", ativarESPAvancado, "Ativa o ESP avançado com mais recursos.")
+createOption(submenus["Arma"], "Cor do ESP", function() personalizarCorESP("red") end, "Altera a cor do ESP para vermelho.")
+createOption(submenus["Jogador"], "Teleporte Aleatório", ativarTeleporteAleatorio, "Teleporta para uma posição aleatória.")
+createOption(submenus["Jogador"], "Ajustar Dano", function() ajustarDano(2) end, "Aumenta o dano em 2x.")
+createOption(submenus["Jogador"], "Habilitar Wallhack", habilitarWallhack, "Deixa todos os objetos sem colidir e sem opacidade.")
+createOption(submenus["Jogador"], "Desabilitar Wallhack", desabilitarWallhack, "Restaura o Wallhack.")
+createOption(submenus["Configurações"], "Alterar Cor do Menu", function() mudarCorMenu(Color3.fromRGB(100, 100, 255)) end, "Muda a cor de fundo do menu.")
+createOption(submenus["Configurações"], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(500) end, "Muda o tamanho do menu.")
+createOption(submenus["Avançado"], "Aimbot com Sensibilidade", function() ativarAimbotComSensibilidade(5) end, "Ativa o aimbot com sensibilidade ajustada.")
+createOption(submenus["Avançado"], "Alterar Tamanho do Menu", function() mudarTamanhoMenu(600) end, "Aumenta o tamanho do menu.")
