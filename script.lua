@@ -56,6 +56,11 @@ for i, frame in ipairs(submenus) do
     frame.Visible = false
 end
 
+-- Função para abrir e fechar o menu
+OpenButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
 -- Funções adicionais
 local function ESP()
     print("ESP ativado") -- Adicionar código real aqui
