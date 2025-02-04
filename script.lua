@@ -69,8 +69,7 @@ local function ToggleFrame(frame)
     frame.Visible = true
 end
 
--- Funções adicionais antigas
-
+-- Funções antigas
 local function ESP()
     print("ESP ativado") -- Adicionar código real aqui
 end
@@ -119,7 +118,7 @@ local function AddButtonToFrame(frame, text, func)
     button.MouseButton1Click:Connect(func)
 end
 
--- Adicionando os botões aos submenus com funções antigas
+-- Adicionando os botões aos submenus com as funções antigas
 AddButtonToFrame(GeralFrame, "ESP", ESP)
 AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
 AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
