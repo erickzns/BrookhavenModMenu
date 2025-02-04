@@ -7,6 +7,7 @@ local SideMenu = Instance.new("Frame")  -- Menu lateral com botões
 local AimbotButton = Instance.new("TextButton")
 local ESPButton = Instance.new("TextButton")
 local FlyButton = Instance.new("TextButton")
+local ConfigButton = Instance.new("TextButton")  -- Configurações (exemplo de submenu)
 
 -- Adiciona o ScreenGui ao PlayerGui
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -71,6 +72,15 @@ FlyButton.Text = "Fly"
 FlyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 FlyButton.Font = Enum.Font.SourceSans
 FlyButton.TextSize = 18
+
+ConfigButton.Parent = SideMenu
+ConfigButton.Size = UDim2.new(0, 100, 0, 50)
+ConfigButton.Position = UDim2.new(0, 0, 0, 200)
+ConfigButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ConfigButton.Text = "Config"
+ConfigButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ConfigButton.Font = Enum.Font.SourceSans
+ConfigButton.TextSize = 18
 
 -- Função para abrir e fechar o menu
 MenuButton.MouseButton1Click:Connect(function()
