@@ -52,6 +52,7 @@ local function createSubMenu(button, options)
         -- Exemplo de funcionalidade fictícia para cada botão
         optionButton.MouseButton1Click:Connect(function()
             print("Função " .. option .. " ativada")
+            -- Aqui você pode adicionar efeitos fictícios, como partículas ou sons, para simular a trapaça
         end)
     end
 
@@ -61,7 +62,7 @@ local function createSubMenu(button, options)
 end
 
 -- Criando submenus para cada botão
-createSubMenu(geralButton, {"Função Geral 1", "Função Geral 2", "Função Geral 3"})
-createSubMenu(jogadorButton, {"Função Jogador 1", "Função Jogador 2"})
-createSubMenu(inventarioButton, {"Adicionar Item", "Remover Item", "Ver Inventário"})
-createSubMenu(configuracoesButton, {"Opção 1", "Opção 2", "Opção 3"})
+createSubMenu(geralButton, {"Ativar Modo Invencível", "Aumentar Velocidade", "Habilidades Ilimitadas"})
+createSubMenu(jogadorButton, {"Teletransportar Jogador", "Visão de Raio-X"})
+createSubMenu(inventarioButton, {"Adicionar Item Raro", "Duplicar Itens", "Inventário Ilimitado"})
+createSubMenu(configuracoesButton, {"Ativar Modo Noturno", "Ajustar Gravidade"})
