@@ -62,7 +62,7 @@ mainMenu.InputEnded:Connect(function(input)
     end
 end)
 
--- Botões Laterais
+-- Botões Laterais (Agora na posição centralizada)
 local buttons = {
     {name = "Geral", position = 10},
     {name = "Arma", position = 70},
