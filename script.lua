@@ -55,7 +55,7 @@ local function addCheckboxToMenu(functionName)
 
     -- Texto da função
     local CheckBoxText = Instance.new("TextLabel")
-    CheckBoxText.Size = UDim2.new(0, 300, 0, 30)  -- Ajustando o tamanho do texto para caber
+    CheckBoxText.Size = UDim2.new(0, 280, 0, 30)  -- Ajustando o tamanho do texto para caber mais à esquerda
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
     CheckBoxText.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
@@ -68,7 +68,7 @@ local function addCheckboxToMenu(functionName)
     -- Caixa de seleção (checkbox)
     local Checkbox = Instance.new("TextButton")
     Checkbox.Size = UDim2.new(0, 20, 0, 20)
-    Checkbox.Position = UDim2.new(1, -30, 0.5, -10)
+    Checkbox.Position = UDim2.new(1, -40, 0.5, -10)  -- Ajustando a posição para mais à esquerda
     Checkbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
