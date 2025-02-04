@@ -1,66 +1,70 @@
 -- Configuração da Interface
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
+local MenuButton = Instance.new("TextButton")  -- Botão para abrir/fechar o menu
+local SideMenu = Instance.new("Frame")  -- Menu lateral com botões
 local AimbotButton = Instance.new("TextButton")
 local ESPButton = Instance.new("TextButton")
 local FlyButton = Instance.new("TextButton")
-local ScriptExecutorButton = Instance.new("TextButton")
 
--- Configuração da interface
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  -- Adicionando no PlayerGui
+-- Adiciona o ScreenGui ao PlayerGui
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Criação do Frame principal (menu)
 MainFrame.Parent = ScreenGui
-
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.Draggable = true
+MainFrame.Visible = false  -- Inicialmente o menu está oculto
 
-Title.Parent = MainFrame
-Title.Size = UDim2.new(0, 400, 0, 50)
-Title.Position = UDim2.new(0, 0, 0, 0)
-Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-Title.Text = "Mod Menu"
-Title.TextColor3 = Color3.fromRGB(255, 0, 0)
-Title.Font = Enum.Font.SourceSans
-Title.TextSize = 24
+-- Criação do botão para abrir o menu
+MenuButton.Parent = ScreenGui
+MenuButton.Size = UDim2.new(0, 100, 0, 50)
+MenuButton.Position = UDim2.new(0, 10, 0.5, -25)
+MenuButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+MenuButton.Text = "Abrir Menu"
+MenuButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MenuButton.Font = Enum.Font.SourceSans
+MenuButton.TextSize = 18
 
--- Configuração dos botões
-AimbotButton.Parent = MainFrame
-AimbotButton.Size = UDim2.new(0, 200, 0, 50)
-AimbotButton.Position = UDim2.new(0.5, -100, 0.2, -25)
+-- Criação do menu lateral
+SideMenu.Parent = MainFrame
+SideMenu.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+SideMenu.Size = UDim2.new(0, 100, 1, 0)
+
+-- Botões dentro do menu lateral
+AimbotButton.Parent = SideMenu
+AimbotButton.Size = UDim2.new(0, 100, 0, 50)
+AimbotButton.Position = UDim2.new(0, 0, 0, 50)
 AimbotButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-AimbotButton.Text = "Ativar Aimbot"
+AimbotButton.Text = "Aimbot"
 AimbotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 AimbotButton.Font = Enum.Font.SourceSans
 AimbotButton.TextSize = 18
 
-ESPButton.Parent = MainFrame
-ESPButton.Size = UDim2.new(0, 200, 0, 50)
-ESPButton.Position = UDim2.new(0.5, -100, 0.4, -25)
+ESPButton.Parent = SideMenu
+ESPButton.Size = UDim2.new(0, 100, 0, 50)
+ESPButton.Position = UDim2.new(0, 0, 0, 100)
 ESPButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-ESPButton.Text = "Ativar ESP"
+ESPButton.Text = "ESP"
 ESPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ESPButton.Font = Enum.Font.SourceSans
 ESPButton.TextSize = 18
 
-FlyButton.Parent = MainFrame
-FlyButton.Size = UDim2.new(0, 200, 0, 50)
-FlyButton.Position = UDim2.new(0.5, -100, 0.6, -25)
+FlyButton.Parent = SideMenu
+FlyButton.Size = UDim2.new(0, 100, 0, 50)
+FlyButton.Position = UDim2.new(0, 0, 0, 150)
 FlyButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-FlyButton.Text = "Ativar Fly"
+FlyButton.Text = "Fly"
 FlyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 FlyButton.Font = Enum.Font.SourceSans
 FlyButton.TextSize = 18
 
-ScriptExecutorButton.Parent = MainFrame
-ScriptExecutorButton.Size = UDim2.new(0, 200, 0, 50)
-ScriptExecutorButton.Position = UDim2.new(0.5, -100, 0.8, -25)
-ScriptExecutorButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-ScriptExecutorButton.Text = "Executar Script Lua"
-ScriptExecutorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ScriptExecutorButton.Font = Enum.Font.SourceSans
-ScriptExecutorButton.TextSize = 18
+-- Função para abrir e fechar o menu
+MenuButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
 
 -- Função para ativar o Aimbot
 AimbotButton.MouseButton1Click:Connect(function()
@@ -171,30 +175,3 @@ FlyButton.MouseButton1Click:Connect(function()
     end)
     print("Fly mode ativado")
 end)
-
--- Função para executar script Lua
-ScriptExecutorButton.MouseButton1Click:Connect(function()
-    loadstring("print('Script Lua executado')")()
-    print("Script Lua executado")
-end)
-
--- Funções extras de segurança
-local function BypassAntiCheat()
-    -- Implementação fictícia de Bypass Anti-Cheat
-    print("Bypass Anti-Cheat ativado")
-end
-
-local function HWIDSpoofer()
-    -- Implementação fictícia de HWID Spoofer
-    print("HWID Spoofer ativado")
-end
-
-local function StealthMode()
-    -- Implementação fictícia de Stealth Mode
-    print("Stealth Mode ativado")
-end
-
--- Chamando funções de segurança
-BypassAntiCheat()
-HWIDSpoofer()
-StealthMode()
