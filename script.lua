@@ -1,28 +1,9 @@
--- Configuração da Interface
+-- Criação do ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-local MenuButton = Instance.new("TextButton")  -- Botão para abrir/fechar o menu
-local SideMenu = Instance.new("Frame")  -- Menu lateral com botões
-local GeneralButton = Instance.new("TextButton")  -- Botão Geral
-local WeaponButton = Instance.new("TextButton")  -- Botão Arma
-local PlayerButton = Instance.new("TextButton")  -- Botão Jogador
-local VehicleButton = Instance.new("TextButton")  -- Botão Veículos
-local TrollButton = Instance.new("TextButton")  -- Botão Trolls
-local ConfigButton = Instance.new("TextButton")  -- Botão Configuração
-
--- Submenus
-local GeneralMenu = Instance.new("Frame")
-local WeaponMenu = Instance.new("Frame")
-local PlayerMenu = Instance.new("Frame")
-local VehicleMenu = Instance.new("Frame")
-local TrollMenu = Instance.new("Frame")
-local ConfigMenu = Instance.new("Frame")
-
--- Adiciona o ScreenGui ao PlayerGui
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Criação do Frame principal (menu)
+local MainFrame = Instance.new("Frame")
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
@@ -30,17 +11,8 @@ MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.Draggable = true
 MainFrame.Visible = false  -- Inicialmente o menu está oculto
 
--- Criação do botão para abrir o menu
-MenuButton.Parent = ScreenGui
-MenuButton.Size = UDim2.new(0, 100, 0, 50)
-MenuButton.Position = UDim2.new(0, 10, 0.5, -25)
-MenuButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-MenuButton.Text = "Abrir Menu"
-MenuButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-MenuButton.Font = Enum.Font.SourceSans
-MenuButton.TextSize = 18
-
--- Criação do título no menu
+-- Título do menu
+local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
@@ -50,163 +22,99 @@ Title.TextColor3 = Color3.fromRGB(255, 0, 0)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 24
 
+-- Botão para abrir o menu
+local MenuButton = Instance.new("TextButton")
+MenuButton.Parent = ScreenGui
+MenuButton.Size = UDim2.new(0, 100, 0, 50)
+MenuButton.Position = UDim2.new(0, 10, 0.5, -25)
+MenuButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+MenuButton.Text = "Abrir Menu"
+MenuButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MenuButton.Font = Enum.Font.SourceSans
+MenuButton.TextSize = 18
+
 -- Criação do menu lateral
+local SideMenu = Instance.new("Frame")
 SideMenu.Parent = MainFrame
 SideMenu.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 SideMenu.Size = UDim2.new(0, 100, 1, 0)
 
--- Botões laterais para abrir submenus
-GeneralButton.Parent = SideMenu
-GeneralButton.Size = UDim2.new(0, 100, 0, 50)
-GeneralButton.Position = UDim2.new(0, 0, 0, 50)
-GeneralButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-GeneralButton.Text = "Geral"
-GeneralButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-GeneralButton.Font = Enum.Font.SourceSans
-GeneralButton.TextSize = 18
+-- Botões laterais
+local buttons = {}
 
-WeaponButton.Parent = SideMenu
-WeaponButton.Size = UDim2.new(0, 100, 0, 50)
-WeaponButton.Position = UDim2.new(0, 0, 0, 100)
-WeaponButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-WeaponButton.Text = "Arma"
-WeaponButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-WeaponButton.Font = Enum.Font.SourceSans
-WeaponButton.TextSize = 18
+-- Função para criar botões
+local function createButton(parent, position, text)
+    local button = Instance.new("TextButton")
+    button.Parent = parent
+    button.Size = UDim2.new(0, 100, 0, 50)
+    button.Position = position
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSans
+    button.TextSize = 18
+    table.insert(buttons, button)
+    return button
+end
 
-PlayerButton.Parent = SideMenu
-PlayerButton.Size = UDim2.new(0, 100, 0, 50)
-PlayerButton.Position = UDim2.new(0, 0, 0, 150)
-PlayerButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-PlayerButton.Text = "Jogador"
-PlayerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-PlayerButton.Font = Enum.Font.SourceSans
-PlayerButton.TextSize = 18
-
-VehicleButton.Parent = SideMenu
-VehicleButton.Size = UDim2.new(0, 100, 0, 50)
-VehicleButton.Position = UDim2.new(0, 0, 0, 200)
-VehicleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-VehicleButton.Text = "Veículos"
-VehicleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-VehicleButton.Font = Enum.Font.SourceSans
-VehicleButton.TextSize = 18
-
-TrollButton.Parent = SideMenu
-TrollButton.Size = UDim2.new(0, 100, 0, 50)
-TrollButton.Position = UDim2.new(0, 0, 0, 250)
-TrollButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-TrollButton.Text = "Trolls"
-TrollButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TrollButton.Font = Enum.Font.SourceSans
-TrollButton.TextSize = 18
-
-ConfigButton.Parent = SideMenu
-ConfigButton.Size = UDim2.new(0, 100, 0, 50)
-ConfigButton.Position = UDim2.new(0, 0, 0, 300)
-ConfigButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-ConfigButton.Text = "Configuração"
-ConfigButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ConfigButton.Font = Enum.Font.SourceSans
-ConfigButton.TextSize = 18
+-- Criando os botões laterais
+createButton(SideMenu, UDim2.new(0, 0, 0, 50), "Geral")
+createButton(SideMenu, UDim2.new(0, 0, 0, 100), "Arma")
+createButton(SideMenu, UDim2.new(0, 0, 0, 150), "Jogador")
+createButton(SideMenu, UDim2.new(0, 0, 0, 200), "Veículos")
+createButton(SideMenu, UDim2.new(0, 0, 0, 250), "Trolls")
+createButton(SideMenu, UDim2.new(0, 0, 0, 300), "Configuração")
 
 -- Submenus (inicialmente invisíveis)
-GeneralMenu.Parent = MainFrame
-GeneralMenu.Size = UDim2.new(0, 300, 0, 400)
-GeneralMenu.Position = UDim2.new(0, 100, 0, 50)
-GeneralMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-GeneralMenu.Visible = false
+local SubMenus = {}
 
-WeaponMenu.Parent = MainFrame
-WeaponMenu.Size = UDim2.new(0, 300, 0, 400)
-WeaponMenu.Position = UDim2.new(0, 100, 0, 50)
-WeaponMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-WeaponMenu.Visible = false
+-- Função para criar um submenu
+local function createSubMenu(name)
+    local frame = Instance.new("Frame")
+    frame.Parent = MainFrame
+    frame.Size = UDim2.new(0, 300, 0, 400)
+    frame.Position = UDim2.new(0, 100, 0, 50)
+    frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    frame.Visible = false
+    SubMenus[name] = frame
+end
 
-PlayerMenu.Parent = MainFrame
-PlayerMenu.Size = UDim2.new(0, 300, 0, 400)
-PlayerMenu.Position = UDim2.new(0, 100, 0, 50)
-PlayerMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-PlayerMenu.Visible = false
+-- Criando os submenus
+createSubMenu("Geral")
+createSubMenu("Arma")
+createSubMenu("Jogador")
+createSubMenu("Veículos")
+createSubMenu("Trolls")
+createSubMenu("Configuração")
 
-VehicleMenu.Parent = MainFrame
-VehicleMenu.Size = UDim2.new(0, 300, 0, 400)
-VehicleMenu.Position = UDim2.new(0, 100, 0, 50)
-VehicleMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-VehicleMenu.Visible = false
-
-TrollMenu.Parent = MainFrame
-TrollMenu.Size = UDim2.new(0, 300, 0, 400)
-TrollMenu.Position = UDim2.new(0, 100, 0, 50)
-TrollMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-TrollMenu.Visible = false
-
-ConfigMenu.Parent = MainFrame
-ConfigMenu.Size = UDim2.new(0, 300, 0, 400)
-ConfigMenu.Position = UDim2.new(0, 100, 0, 50)
-ConfigMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-ConfigMenu.Visible = false
+-- Função para alternar visibilidade dos submenus
+local function showSubMenu(name)
+    for key, submenu in pairs(SubMenus) do
+        submenu.Visible = (key == name)
+    end
+end
 
 -- Função para abrir e fechar o menu
 MenuButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
 end)
 
--- Funções para abrir os submenus
-GeneralButton.MouseButton1Click:Connect(function()
-    GeneralMenu.Visible = true
-    WeaponMenu.Visible = false
-    PlayerMenu.Visible = false
-    VehicleMenu.Visible = false
-    TrollMenu.Visible = false
-    ConfigMenu.Visible = false
+-- Conectando os botões laterais aos submenus
+buttons[1].MouseButton1Click:Connect(function()
+    showSubMenu("Geral")
 end)
-
-WeaponButton.MouseButton1Click:Connect(function()
-    WeaponMenu.Visible = true
-    GeneralMenu.Visible = false
-    PlayerMenu.Visible = false
-    VehicleMenu.Visible = false
-    TrollMenu.Visible = false
-    ConfigMenu.Visible = false
+buttons[2].MouseButton1Click:Connect(function()
+    showSubMenu("Arma")
 end)
-
-PlayerButton.MouseButton1Click:Connect(function()
-    PlayerMenu.Visible = true
-    GeneralMenu.Visible = false
-    WeaponMenu.Visible = false
-    VehicleMenu.Visible = false
-    TrollMenu.Visible = false
-    ConfigMenu.Visible = false
+buttons[3].MouseButton1Click:Connect(function()
+    showSubMenu("Jogador")
 end)
-
-VehicleButton.MouseButton1Click:Connect(function()
-    VehicleMenu.Visible = true
-    GeneralMenu.Visible = false
-    WeaponMenu.Visible = false
-    PlayerMenu.Visible = false
-    TrollMenu.Visible = false
-    ConfigMenu.Visible = false
+buttons[4].MouseButton1Click:Connect(function()
+    showSubMenu("Veículos")
 end)
-
-TrollButton.MouseButton1Click:Connect(function()
-    TrollMenu.Visible = true
-    GeneralMenu.Visible = false
-    WeaponMenu.Visible = false
-    PlayerMenu.Visible = false
-    VehicleMenu.Visible = false
-    ConfigMenu.Visible = false
+buttons[5].MouseButton1Click:Connect(function()
+    showSubMenu("Trolls")
 end)
-
-ConfigButton.MouseButton1Click:Connect(function()
-    ConfigMenu.Visible = true
-    GeneralMenu.Visible = false
-    WeaponMenu.Visible = false
-    PlayerMenu.Visible = false
-    VehicleMenu.Visible = false
-    TrollMenu.Visible = false
+buttons[6].MouseButton1Click:Connect(function()
+    showSubMenu("Configuração")
 end)
-
--- Funções de Aimbot, ESP, Fly, etc.
--- Aqui você pode manter as funções anteriores de Aimbot, ESP e Fly.
-
