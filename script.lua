@@ -4,16 +4,18 @@ local MainFrame = Instance.new("Frame")
 local OpenButton = Instance.new("TextButton")
 local SidebarFrame = Instance.new("Frame")
 
--- Funções de Trapaça
+-- Funções de Trapaça (inicialmente desativadas)
 local AimbotEnabled = false
 local FlyEnabled = false
 local SpeedEnabled = false
+local ESPEnabled = false
+local GodModeEnabled = false
 
--- Criando os botões de cada função
+-- Criando os botões para cada funcionalidade
 local buttons = {}
-local buttonNames = {"Aimbot", "Fly Mode", "Speed Hack", "ESP", "Exploits"}
+local buttonNames = {"Aimbot", "Fly Mode", "Speed Hack", "ESP", "God Mode", "Scripts"}
 
--- Função para configurar botões do Menu
+-- Função para configurar os botões no Menu Lateral
 local function CreateButton(name, posY)
     local button = Instance.new("TextButton")
     button.Parent = SidebarFrame
@@ -22,8 +24,9 @@ local function CreateButton(name, posY)
     button.Text = name
     button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    
     button.MouseButton1Click:Connect(function()
-        -- Ações quando o botão for clicado
+        -- Ativando/desativando as funções ao clicar nos botões
         if name == "Aimbot" then
             AimbotEnabled = not AimbotEnabled
             print(AimbotEnabled and "Aimbot Ativado" or "Aimbot Desativado")
@@ -33,8 +36,15 @@ local function CreateButton(name, posY)
         elseif name == "Speed Hack" then
             SpeedEnabled = not SpeedEnabled
             print(SpeedEnabled and "Speed Hack Ativado" or "Speed Hack Desativado")
+        elseif name == "ESP" then
+            ESPEnabled = not ESPEnabled
+            print(ESPEnabled and "ESP Ativado" or "ESP Desativado")
+        elseif name == "God Mode" then
+            GodModeEnabled = not GodModeEnabled
+            print(GodModeEnabled and "God Mode Ativado" or "God Mode Desativado")
         end
     end)
+    
     return button
 end
 
@@ -48,9 +58,6 @@ OpenButton.Position = UDim2.new(0, 10, 0.5, -25)
 OpenButton.Text = "Abrir Menu"
 OpenButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-OpenButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-end)
 
 -- Configuração do Menu Principal (Frame)
 MainFrame.Parent = ScreenGui
@@ -72,23 +79,33 @@ for _, name in ipairs(buttonNames) do
     posY = posY + 50
 end
 
--- Funções de Trapaça (Aimbot, Fly Mode, Speed Hack) -- Funções que precisam ser chamadas para realizar as ações
+-- Funções de Trapaça (Aimbot, Fly Mode, Speed Hack)
 local function ExecuteAimbot()
-    -- Implementação real do Aimbot aqui
+    -- Implemente a lógica do Aimbot aqui
     print("Aimbot Ativado!")
 end
 
 local function ExecuteFlyMode()
-    -- Implementação real do Fly Mode aqui
+    -- Implemente a lógica do Fly Mode aqui
     print("Fly Mode Ativado!")
 end
 
 local function ExecuteSpeedHack()
-    -- Implementação real do Speed Hack aqui
+    -- Implemente a lógica do Speed Hack aqui
     print("Speed Hack Ativado!")
 end
 
--- Atualizações contínuas (usadas para ativar/desativar as funções enquanto o jogador está no jogo)
+local function ExecuteESP()
+    -- Implemente a lógica do ESP aqui
+    print("ESP Ativado!")
+end
+
+local function ExecuteGodMode()
+    -- Implemente a lógica do God Mode aqui
+    print("God Mode Ativado!")
+end
+
+-- Atualizações contínuas para ativar/desativar as funções enquanto o jogo está rodando
 game:GetService("RunService").Heartbeat:Connect(function()
     if AimbotEnabled then
         ExecuteAimbot()
@@ -98,5 +115,11 @@ game:GetService("RunService").Heartbeat:Connect(function()
     end
     if SpeedEnabled then
         ExecuteSpeedHack()
+    end
+    if ESPEnabled then
+        ExecuteESP()
+    end
+    if GodModeEnabled then
+        ExecuteGodMode()
     end
 end)
