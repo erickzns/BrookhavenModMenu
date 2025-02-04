@@ -177,3 +177,24 @@ ScriptExecutorButton.MouseButton1Click:Connect(function()
     loadstring("print('Script Lua executado')")()
     print("Script Lua executado")
 end)
+
+-- Funções extras de segurança
+local function BypassAntiCheat()
+    -- Implementação fictícia de Bypass Anti-Cheat
+    print("Bypass Anti-Cheat ativado")
+end
+
+local function HWIDSpoofer()
+    -- Implementação fictícia de HWID Spoofer
+    print("HWID Spoofer ativado")
+end
+
+local function StealthMode()
+    -- Implementação fictícia de Stealth Mode
+    print("Stealth Mode ativado")
+end
+
+-- Chamando funções de segurança
+BypassAntiCheat()
+HWIDSpoofer()
+StealthMode()
