@@ -11,6 +11,14 @@ local VehicleButton = Instance.new("TextButton")  -- Botão Veículos
 local TrollButton = Instance.new("TextButton")  -- Botão Trolls
 local ConfigButton = Instance.new("TextButton")  -- Botão Configuração
 
+-- Submenus
+local GeneralMenu = Instance.new("Frame")
+local WeaponMenu = Instance.new("Frame")
+local PlayerMenu = Instance.new("Frame")
+local VehicleMenu = Instance.new("Frame")
+local TrollMenu = Instance.new("Frame")
+local ConfigMenu = Instance.new("Frame")
+
 -- Adiciona o ScreenGui ao PlayerGui
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -102,40 +110,101 @@ ConfigButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ConfigButton.Font = Enum.Font.SourceSans
 ConfigButton.TextSize = 18
 
+-- Submenus (inicialmente invisíveis)
+GeneralMenu.Parent = MainFrame
+GeneralMenu.Size = UDim2.new(0, 300, 0, 400)
+GeneralMenu.Position = UDim2.new(0, 100, 0, 50)
+GeneralMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+GeneralMenu.Visible = false
+
+WeaponMenu.Parent = MainFrame
+WeaponMenu.Size = UDim2.new(0, 300, 0, 400)
+WeaponMenu.Position = UDim2.new(0, 100, 0, 50)
+WeaponMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+WeaponMenu.Visible = false
+
+PlayerMenu.Parent = MainFrame
+PlayerMenu.Size = UDim2.new(0, 300, 0, 400)
+PlayerMenu.Position = UDim2.new(0, 100, 0, 50)
+PlayerMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+PlayerMenu.Visible = false
+
+VehicleMenu.Parent = MainFrame
+VehicleMenu.Size = UDim2.new(0, 300, 0, 400)
+VehicleMenu.Position = UDim2.new(0, 100, 0, 50)
+VehicleMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+VehicleMenu.Visible = false
+
+TrollMenu.Parent = MainFrame
+TrollMenu.Size = UDim2.new(0, 300, 0, 400)
+TrollMenu.Position = UDim2.new(0, 100, 0, 50)
+TrollMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+TrollMenu.Visible = false
+
+ConfigMenu.Parent = MainFrame
+ConfigMenu.Size = UDim2.new(0, 300, 0, 400)
+ConfigMenu.Position = UDim2.new(0, 100, 0, 50)
+ConfigMenu.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ConfigMenu.Visible = false
+
 -- Função para abrir e fechar o menu
 MenuButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
 end)
 
--- Função para abrir submenus quando o botão é pressionado
+-- Funções para abrir os submenus
 GeneralButton.MouseButton1Click:Connect(function()
-    print("Abrindo submenu Geral")
-    -- Adicione as opções do submenu Geral aqui
+    GeneralMenu.Visible = true
+    WeaponMenu.Visible = false
+    PlayerMenu.Visible = false
+    VehicleMenu.Visible = false
+    TrollMenu.Visible = false
+    ConfigMenu.Visible = false
 end)
 
 WeaponButton.MouseButton1Click:Connect(function()
-    print("Abrindo submenu Arma")
-    -- Adicione as opções do submenu Arma aqui
+    WeaponMenu.Visible = true
+    GeneralMenu.Visible = false
+    PlayerMenu.Visible = false
+    VehicleMenu.Visible = false
+    TrollMenu.Visible = false
+    ConfigMenu.Visible = false
 end)
 
 PlayerButton.MouseButton1Click:Connect(function()
-    print("Abrindo submenu Jogador")
-    -- Adicione as opções do submenu Jogador aqui
+    PlayerMenu.Visible = true
+    GeneralMenu.Visible = false
+    WeaponMenu.Visible = false
+    VehicleMenu.Visible = false
+    TrollMenu.Visible = false
+    ConfigMenu.Visible = false
 end)
 
 VehicleButton.MouseButton1Click:Connect(function()
-    print("Abrindo submenu Veículos")
-    -- Adicione as opções do submenu Veículos aqui
+    VehicleMenu.Visible = true
+    GeneralMenu.Visible = false
+    WeaponMenu.Visible = false
+    PlayerMenu.Visible = false
+    TrollMenu.Visible = false
+    ConfigMenu.Visible = false
 end)
 
 TrollButton.MouseButton1Click:Connect(function()
-    print("Abrindo submenu Trolls")
-    -- Adicione as opções do submenu Trolls aqui
+    TrollMenu.Visible = true
+    GeneralMenu.Visible = false
+    WeaponMenu.Visible = false
+    PlayerMenu.Visible = false
+    VehicleMenu.Visible = false
+    ConfigMenu.Visible = false
 end)
 
 ConfigButton.MouseButton1Click:Connect(function()
-    print("Abrindo submenu Configuração")
-    -- Adicione as opções do submenu Configuração aqui
+    ConfigMenu.Visible = true
+    GeneralMenu.Visible = false
+    WeaponMenu.Visible = false
+    PlayerMenu.Visible = false
+    VehicleMenu.Visible = false
+    TrollMenu.Visible = false
 end)
 
 -- Funções de Aimbot, ESP, Fly, etc.
