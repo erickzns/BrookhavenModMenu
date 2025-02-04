@@ -46,7 +46,6 @@ local function ativarInvisibilidade(ativar)
 end
 
 local function ativarAimbot(ativar)
-    -- Implementar ativação e desativação do aimbot aqui
     if ativar then
         print("Aimbot ativado!")
     else
@@ -70,87 +69,34 @@ local function ativarESP(ativar)
     end
 end
 
-local function pegarArma(armaNome)
-    local arma = game.ServerStorage:FindFirstChild(armaNome)
-    if arma then
-        local cloneArma = arma:Clone()
-        cloneArma.Parent = game.Players.LocalPlayer.Backpack
-        print("Arma " .. armaNome .. " adquirida!")
-    else
-        print("Arma não encontrada!")
-    end
+-- Funções de movimentação de menu
+local dragging, dragInput, dragStart, startPos
+local function update(input)
+    local delta = input.Position - dragStart
+    screenGui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
 
-local function pegarDinheiro(ativar)
-    if ativar then
-        for _, money in pairs(workspace:GetChildren()) do
-            if money:IsA("Part") and money.Name == "Money" then
-                money.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+local function onInputBegan(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = screenGui.Position
+        input.Changed:Connect(function()
+            if not input.UserInputState == Enum.UserInputState.Change then
+                dragging = false
             end
-        end
-        print("Dinheiro coletado!")
-    else
-        print("Dinheiro desativado!")
+        end)
     end
 end
 
-local function ativarModoDeus(ativar)
-    local player = game.Players.LocalPlayer
-    if ativar then
-        player.Character.Humanoid.Health = math.huge
-        player.Character.Humanoid.MaxHealth = math.huge
-        print("Modo Deus ativado!")
-    else
-        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
-        print("Modo Deus desativado!")
+local function onInputChanged(input)
+    if dragging then
+        update(input)
     end
 end
 
--- Funções adicionais de configurações
-local function mudarTamanhoJogador(ativar)
-    local player = game.Players.LocalPlayer
-    if ativar then
-        player.Character.HumanoidRootPart.Size = Vector3.new(10, 10, 10)
-        print("Tamanho alterado para Grande")
-    else
-        player.Character.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
-        print("Tamanho restaurado")
-    end
-end
-
-local function teleporteParaSpawn(ativar)
-    if ativar then
-        local spawn = game.Workspace:FindFirstChild("SpawnLocation")
-        if spawn then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = spawn.CFrame
-            print("Teletransportado para o spawn!")
-        else
-            print("Spawn não encontrado!")
-        end
-    else
-        print("Teleporte desativado!")
-    end
-end
-
-local function mudarGravidade(valor)
-    workspace.Gravity = valor
-    print("Gravidade alterada para: " .. valor)
-end
-
-local function ativarDanoInfinito(ativar)
-    local player = game.Players.LocalPlayer
-    local humanoid = player.Character:FindFirstChild("Humanoid")
-    if humanoid then
-        if ativar then
-            humanoid.HealthChanged:Connect(function()
-                humanoid.Health = humanoid.MaxHealth
-            end)
-            print("Dano infinito ativado!")
-        else
-            print("Dano infinito desativado!")
-        end
-    end
-end
+screenGui.InputBegan:Connect(onInputBegan)
+screenGui.InputChanged:Connect(onInputChanged)
 
 -- Função para criar as opções no menu
 local function createOption(submenu, name, funcao, chave, index)
@@ -215,7 +161,6 @@ geralSubMenu.Parent = mainMenu
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, "invisibilidade", 0)
 createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
 createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
-createOption(geralSubMenu, "Coletar Dinheiro", pegarDinheiro, "dinheiro", 3)
 
 -- Criar mais opções de armas
 local armaSubMenu = Instance.new("Frame")
@@ -223,16 +168,8 @@ armaSubMenu.Size = UDim2.new(1, 0, 1, 0)
 armaSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 armaSubMenu.Parent = mainMenu
 
-createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, "rifle", 0)
-createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, "shotgun", 1)
+createOption(armaSubMenu, "Pegar Arma Rifle", function() print("Rifle Pego") end, "rifle", 0)
+createOption(armaSubMenu, "Pegar Arma Shotgun", function() print("Shotgun Pega") end, "shotgun", 1)
 
--- Criar mais opções de modo
-local modoSubMenu = Instance.new("Frame")
-modoSubMenu.Size = UDim2.new(1, 0, 1, 0)
-modoSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-modoSubMenu.Parent = mainMenu
-
-createOption(modoSubMenu, "Ativar Modo Deus", ativarModoDeus, "modoDeus", 0)
-createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "tamanho", 1)
-createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
-createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
+-- Função de exibição do menu
+screenGui.Enabled = true
