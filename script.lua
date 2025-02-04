@@ -72,69 +72,56 @@ end
 -- Funções com códigos de trapaças
 
 local function ESP()
-    -- Código de ESP (Exemplo)
     print("ESP ativado: Mostrando Players através das paredes.")
 end
 
 local function GodMode()
-    -- Código de God Mode (Exemplo)
     print("God Mode ativado: Você é invencível!")
 end
 
 local function FlyHack()
-    -- Código de Fly Hack (Exemplo)
     print("Fly Hack ativado: Voando pelo mapa!")
 end
 
 local function InfiniteJump()
-    -- Código de Infinite Jump (Exemplo)
     print("Infinite Jump ativado: Você pode pular infinitamente!")
 end
 
 local function TeleportPlayer()
-    -- Código de Teleporte para Player (Exemplo)
     print("Teleportando para o Player alvo!")
 end
 
 local function SpeedBoost()
-    -- Código de Speed Boost (Exemplo)
     print("Speed Boost ativado: Correndo mais rápido!")
 end
 
 local function Aimbot()
-    -- Código de Aimbot (Exemplo)
     print("Aimbot ativado: Mira automática nos inimigos!")
 end
 
 local function NoClip()
-    -- Código de NoClip (Exemplo)
     print("NoClip ativado: Você pode atravessar paredes!")
 end
 
 local function AntiKickBan()
-    -- Código de Anti-Kick/Ban (Exemplo)
     print("Anti-Kick/Ban ativado: Você não será expulso do jogo!")
 end
 
 -- Funções novas com códigos de trapaças
 
 local function SuperJump()
-    -- Código de Super Jump (Exemplo)
     print("Super Jump ativado: Você pula super alto!")
 end
 
 local function WallHack()
-    -- Código de Wall Hack (Exemplo)
     print("Wall Hack ativado: Veja através das paredes!")
 end
 
 local function SpeedHack()
-    -- Código de Speed Hack (Exemplo)
     print("Speed Hack ativado: Acelera sua movimentação de forma extrema!")
 end
 
 local function TeleportToCoords()
-    -- Código de Teleporte para Coordenadas (Exemplo)
     print("Teleportando para as coordenadas X:100 Y:50 Z:200")
 end
 
@@ -143,7 +130,7 @@ local function AddButtonToFrame(frame, text, func)
     local button = Instance.new("TextButton")
     button.Parent = frame
     button.Size = UDim2.new(0, 180, 0, 50)
-    button.Position = UDim2.new(0, 10, 0, 10)
+    button.Position = UDim2.new(0, 10, 0, #frame:GetChildren() * 60 + 10) -- Correção no posicionamento
     button.Text = text
     button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
