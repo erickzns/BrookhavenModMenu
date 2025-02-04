@@ -8,7 +8,7 @@ local FlyButton = Instance.new("TextButton")
 local ScriptExecutorButton = Instance.new("TextButton")
 
 -- Configuração da interface
-ScreenGui.Parent = game.CoreGui
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  -- Adicionando no PlayerGui
 MainFrame.Parent = ScreenGui
 
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
@@ -177,4 +177,3 @@ ScriptExecutorButton.MouseButton1Click:Connect(function()
     loadstring("print('Script Lua executado')")()
     print("Script Lua executado")
 end)
-
