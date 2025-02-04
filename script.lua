@@ -144,7 +144,19 @@ end)
 MainFrame.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
-        MainFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
+        -- Atualizando a posição para garantir que o menu não saia da tela
+        local newPosX = startPos.X.Offset + delta.X
+        local newPosY = startPos.Y.Offset + delta.Y
+        
+        -- Garantir que a posição X e Y estejam dentro da área da tela
+        local screenWidth = game:GetService("Workspace").CurrentCamera.ViewportSize.X
+        local screenHeight = game:GetService("Workspace").CurrentCamera.ViewportSize.Y
+        
+        -- Limitar o menu à tela
+        newPosX = math.clamp(newPosX, 0, screenWidth - MainFrame.Size.X.Offset)
+        newPosY = math.clamp(newPosY, 0, screenHeight - MainFrame.Size.Y.Offset)
+
+        MainFrame.Position = UDim2.new(0, newPosX, 0, newPosY)
     end
 end)
 
