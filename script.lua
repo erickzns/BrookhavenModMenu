@@ -1,27 +1,36 @@
--- GUI Principal
+-- Configuração da Interface
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
-
 local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local AimbotButton = Instance.new("TextButton")
+local ESPButton = Instance.new("TextButton")
+local FlyButton = Instance.new("TextButton")
+local GERALButton = Instance.new("TextButton")
+local ARMAButton = Instance.new("TextButton")
+local JOGADORButton = Instance.new("TextButton")
+local VEICULOSButton = Instance.new("TextButton")
+local TROLLSButton = Instance.new("TextButton")
+local CONFIGURACAOButton = Instance.new("TextButton")
+
+-- Configuração da interface
+ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
+
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.Draggable = true
 
--- Título do Menu
-local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-Title.Text = "Mod Menu Ilha Bela"
+Title.Text = "Mod Menu"
 Title.TextColor3 = Color3.fromRGB(255, 0, 0)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 24
 
--- Botões Laterais
-local AimbotButton = Instance.new("TextButton")
+-- Configuração dos botões laterais
 AimbotButton.Parent = MainFrame
 AimbotButton.Size = UDim2.new(0, 200, 0, 50)
 AimbotButton.Position = UDim2.new(0, 0, 0.2, 0)
@@ -31,7 +40,6 @@ AimbotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 AimbotButton.Font = Enum.Font.SourceSans
 AimbotButton.TextSize = 18
 
-local ESPButton = Instance.new("TextButton")
 ESPButton.Parent = MainFrame
 ESPButton.Size = UDim2.new(0, 200, 0, 50)
 ESPButton.Position = UDim2.new(0, 0, 0.4, 0)
@@ -41,7 +49,6 @@ ESPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ESPButton.Font = Enum.Font.SourceSans
 ESPButton.TextSize = 18
 
-local FlyButton = Instance.new("TextButton")
 FlyButton.Parent = MainFrame
 FlyButton.Size = UDim2.new(0, 200, 0, 50)
 FlyButton.Position = UDim2.new(0, 0, 0.6, 0)
@@ -50,6 +57,61 @@ FlyButton.Text = "Ativar Fly"
 FlyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 FlyButton.Font = Enum.Font.SourceSans
 FlyButton.TextSize = 18
+
+-- Adicionando os novos botões laterais
+GERALButton.Parent = MainFrame
+GERALButton.Size = UDim2.new(0, 200, 0, 50)
+GERALButton.Position = UDim2.new(0, 0, 0.8, 0)
+GERALButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+GERALButton.Text = "Geral"
+GERALButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+GERALButton.Font = Enum.Font.SourceSans
+GERALButton.TextSize = 18
+
+ARMAButton.Parent = MainFrame
+ARMAButton.Size = UDim2.new(0, 200, 0, 50)
+ARMAButton.Position = UDim2.new(0, 0, 1.0, 0)
+ARMAButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ARMAButton.Text = "Arma"
+ARMAButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ARMAButton.Font = Enum.Font.SourceSans
+ARMAButton.TextSize = 18
+
+JOGADORButton.Parent = MainFrame
+JOGADORButton.Size = UDim2.new(0, 200, 0, 50)
+JOGADORButton.Position = UDim2.new(0, 0, 1.2, 0)
+JOGADORButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+JOGADORButton.Text = "Jogador"
+JOGADORButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+JOGADORButton.Font = Enum.Font.SourceSans
+JOGADORButton.TextSize = 18
+
+VEICULOSButton.Parent = MainFrame
+VEICULOSButton.Size = UDim2.new(0, 200, 0, 50)
+VEICULOSButton.Position = UDim2.new(0, 0, 1.4, 0)
+VEICULOSButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+VEICULOSButton.Text = "Veículos"
+VEICULOSButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+VEICULOSButton.Font = Enum.Font.SourceSans
+VEICULOSButton.TextSize = 18
+
+TROLLSButton.Parent = MainFrame
+TROLLSButton.Size = UDim2.new(0, 200, 0, 50)
+TROLLSButton.Position = UDim2.new(0, 0, 1.6, 0)
+TROLLSButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+TROLLSButton.Text = "Trolls"
+TROLLSButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TROLLSButton.Font = Enum.Font.SourceSans
+TROLLSButton.TextSize = 18
+
+CONFIGURACAOButton.Parent = MainFrame
+CONFIGURACAOButton.Size = UDim2.new(0, 200, 0, 50)
+CONFIGURACAOButton.Position = UDim2.new(0, 0, 1.8, 0)
+CONFIGURACAOButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+CONFIGURACAOButton.Text = "Configuração"
+CONFIGURACAOButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CONFIGURACAOButton.Font = Enum.Font.SourceSans
+CONFIGURACAOButton.TextSize = 18
 
 -- Função para ativar o Aimbot
 local aimbotActive = false
@@ -154,4 +216,29 @@ game:GetService("RunService").Heartbeat:Connect(function()
             end
         end
     end
+end)
+
+-- Função de ativação para os novos botões laterais
+GERALButton.MouseButton1Click:Connect(function()
+    print("Geral Menu Ativado")
+end)
+
+ARMAButton.MouseButton1Click:Connect(function()
+    print("Menu de Armas Ativado")
+end)
+
+JOGADORButton.MouseButton1Click:Connect(function()
+    print("Menu de Jogador Ativado")
+end)
+
+VEICULOSButton.MouseButton1Click:Connect(function()
+    print("Menu de Veículos Ativado")
+end)
+
+TROLLSButton.MouseButton1Click:Connect(function()
+    print("Menu de Trolls Ativado")
+end)
+
+CONFIGURACAOButton.MouseButton1Click:Connect(function()
+    print("Menu de Configuração Ativado")
 end)
