@@ -1,5 +1,6 @@
--- Configuração inicial
+-- Variáveis globais
 local player = game.Players.LocalPlayer
+local playerCharacter = player.Character
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
@@ -163,7 +164,7 @@ local function createOption(submenu, name, funcao, chave, index)
     option.Font = Enum.Font.Gotham
     option.TextXAlignment = Enum.TextXAlignment.Center
     option.Parent = submenu
-    option.BorderSizePixel = 0
+    option.BorderRadius = UDim.new(0, 5)
 
     -- Efeito ao passar o mouse
     option.MouseEnter:Connect(function()
@@ -185,14 +186,14 @@ mainMenu.Size = UDim2.new(0, 350, 0, 450)
 mainMenu.Position = UDim2.new(0.5, -175, 0.5, -225)
 mainMenu.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainMenu.Parent = screenGui
-mainMenu.BorderSizePixel = 0
+mainMenu.BorderRadius = UDim.new(0, 10)
 
 -- Barra de título
 local titleBar = Instance.new("Frame")
 titleBar.Size = UDim2.new(1, 0, 0, 50)
 titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 titleBar.Parent = mainMenu
-titleBar.BorderSizePixel = 0
+titleBar.BorderRadius = UDim.new(0, 10)
 
 local titleText = Instance.new("TextLabel")
 titleText.Size = UDim2.new(1, 0, 1, 0)
@@ -205,64 +206,34 @@ titleText.TextXAlignment = Enum.TextXAlignment.Center
 titleText.TextYAlignment = Enum.TextYAlignment.Center
 titleText.Parent = titleBar
 
--- Container do Menu Principal
-local buttonContainer = Instance.new("Frame")
-buttonContainer.Size = UDim2.new(0, 150, 1, 0)
-buttonContainer.Position = UDim2.new(0, 0, 0, 50)
-buttonContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-buttonContainer.Parent = mainMenu
-buttonContainer.BorderSizePixel = 0
+-- Criar submenus e suas opções
+local geralSubMenu = Instance.new("Frame")
+geralSubMenu.Size = UDim2.new(1, 0, 1, 0)
+geralSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+geralSubMenu.Parent = mainMenu
 
--- Container para os Submenus
-local submenuContainer = Instance.new("Frame")
-submenuContainer.Size = UDim2.new(1, -150, 1, 0)
-submenuContainer.Position = UDim2.new(0, 150, 0, 50)
-submenuContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-submenuContainer.Parent = mainMenu
-submenuContainer.BorderSizePixel = 0
-
--- Função para criar os Submenus
-local function createSubmenuButton(name, order)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, -10, 0, 50)
-    button.Position = UDim2.new(0, 5, 0, (order - 1) * 55 + 5)
-    button.Text = name
-    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Parent = buttonContainer
-    
-    local submenu = Instance.new("Frame")
-    submenu.Size = UDim2.new(1, 0, 1, 0)
-    submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    submenu.Visible = false
-    submenu.Parent = submenuContainer
-    
-    button.MouseButton1Click:Connect(function()
-        for _, child in ipairs(submenuContainer:GetChildren()) do
-            child.Visible = false
-        end
-        submenu.Visible = true
-    end)
-    
-    return submenu
-end
-
--- Submenus e Opções
-local geralSubMenu = createSubmenuButton("Geral", 1)
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, "invisibilidade", 0)
 createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
 createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
+createOption(geralSubMenu, "Coletar Dinheiro", pegarDinheiro, "dinheiro", 3)
 
-local armaSubMenu = createSubmenuButton("Arma", 2)
-createOption(armaSubMenu, "Pegar Arma: Rifle", function() pegarArma("Rifle") end, "rifle", 0)
-createOption(armaSubMenu, "Pegar Arma: Pistola", function() pegarArma("Pistola") end, "pistola", 1)
+-- Criar mais opções de armas
+local armaSubMenu = Instance.new("Frame")
+armaSubMenu.Size = UDim2.new(1, 0, 1, 0)
+armaSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+armaSubMenu.Parent = mainMenu
 
-local dinheiroSubMenu = createSubmenuButton("Dinheiro", 3)
-createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro, "dinheiro", 0)
+createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, "rifle", 0)
+createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, "shotgun", 1)
 
-local modoSubMenu = createSubmenuButton("Modo", 4)
+-- Criar mais opções de modo
+local modoSubMenu = Instance.new("Frame")
+modoSubMenu.Size = UDim2.new(1, 0, 1, 0)
+modoSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+modoSubMenu.Parent = mainMenu
+
 createOption(modoSubMenu, "Ativar Modo Deus", ativarModoDeus, "modoDeus", 0)
 createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "tamanho", 1)
 createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
-
-print("ModMenu atualizado e funcional!")
+createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
+createOption(modoSubMenu, "Ativar Dano Infinito", ativarDanoInfinito, "danoInfinito", 4)
