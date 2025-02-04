@@ -124,18 +124,6 @@ local function ativarAimbot()
     print("Aimbot ativado!")
 end
 
--- Função para pegar uma arma
-local function pegarArma(nomeDaArma)
-    for _, weapon in pairs(workspace:GetChildren()) do
-        if weapon:IsA("Tool") and weapon.Name:lower() == nomeDaArma:lower() then
-            weapon.Parent = game.Players.LocalPlayer.Backpack
-            print("Arma " .. nomeDaArma .. " coletada!")
-            return
-        end
-    end
-    print("Arma " .. nomeDaArma .. " não encontrada!")
-end
-
 local function ativarESP()
     local player = game.Players.LocalPlayer
     for _, targetPlayer in pairs(game.Players:GetPlayers()) do
@@ -176,6 +164,18 @@ local function ativarESP()
         end
     end
     print("ESP ativado!")
+end
+
+-- Função para pegar uma arma
+local function pegarArma(nomeDaArma)
+    for _, weapon in pairs(workspace:GetChildren()) do
+        if weapon:IsA("Tool") and weapon.Name:lower() == nomeDaArma:lower() then
+            weapon.Parent = game.Players.LocalPlayer.Backpack
+            print("Arma " .. nomeDaArma .. " coletada!")
+            return
+        end
+    end
+    print("Arma " .. nomeDaArma .. " não encontrada!")
 end
 
 -- Função para pegar dinheiro
