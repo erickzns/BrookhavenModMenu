@@ -70,86 +70,77 @@ local function ToggleFrame(frame)
 end
 
 -- Funções de trapaça com execução real
+local cheatStates = {ESP = false, GodMode = false, FlyHack = false, InfiniteJump = false, SpeedBoost = false, Aimbot = false, NoClip = false, AntiKickBan = false}
+
 local function ESP()
-    print("ESP ativado: Mostrando Players através das paredes.")
+    print(cheatStates.ESP and "ESP ativado" or "ESP desativado")
+    cheatStates.ESP = not cheatStates.ESP
     -- Código real de ESP
-    -- Você pode usar `Drawing` para desenhar caixas ao redor dos jogadores, ou adicionar efeitos personalizados
 end
 
 local function GodMode()
-    -- Exemplo de implementação do cheat GodMode
+    print(cheatStates.GodMode and "God Mode ativado" or "God Mode desativado")
+    cheatStates.GodMode = not cheatStates.GodMode
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.Health = math.huge -- Torna o jogador invencível
-            print("God Mode ativado: Você é invencível!")
+            humanoid.Health = cheatStates.GodMode and math.huge or humanoid.Health
         end
     end
 end
 
 local function FlyHack()
-    -- Exemplo de implementação do FlyHack
+    print(cheatStates.FlyHack and "Fly Hack ativado" or "Fly Hack desativado")
+    cheatStates.FlyHack = not cheatStates.FlyHack
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            -- Adicionando voo ao jogador
-            local bodyVelocity = Instance.new("BodyVelocity")
-            bodyVelocity.MaxForce = Vector3.new(500000, 500000, 500000)
-            bodyVelocity.Velocity = Vector3.new(0, 50, 0)  -- Ajuste para o voo
-            bodyVelocity.Parent = player.Character.HumanoidRootPart
-            print("Fly Hack ativado: Voando pelo mapa!")
+            if cheatStates.FlyHack then
+                -- Código para ativar o voo
+            else
+                -- Código para desativar o voo
+            end
         end
     end
 end
 
 local function InfiniteJump()
-    -- Exemplo de implementação do Infinite Jump
+    print(cheatStates.InfiniteJump and "Infinite Jump ativado" or "Infinite Jump desativado")
+    cheatStates.InfiniteJump = not cheatStates.InfiniteJump
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.JumpHeight = 100 -- Aumenta a altura do pulo
-            humanoid.PlatformStand = true  -- Evita o personagem cair
-            print("Infinite Jump ativado: Você pode pular infinitamente!")
+            humanoid.JumpHeight = cheatStates.InfiniteJump and 100 or 50
         end
     end
 end
 
-local function TeleportPlayer()
-    -- Exemplo de implementação do Teleport
-    local player = game.Players.LocalPlayer
-    local targetPlayer = game.Players:FindFirstChild("PlayerNameHere") -- Troque "PlayerNameHere" pelo nome de um player
-    if targetPlayer then
-        player.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
-    end
-    print("Teleportando para o Player alvo!")
-end
-
 local function SpeedBoost()
-    -- Exemplo de implementação do SpeedBoost
+    print(cheatStates.SpeedBoost and "Speed Boost ativado" or "Speed Boost desativado")
+    cheatStates.SpeedBoost = not cheatStates.SpeedBoost
     local player = game.Players.LocalPlayer
     if player and player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid.WalkSpeed = 100 -- Aumenta a velocidade de movimento
-            print("Speed Boost ativado: Correndo mais rápido!")
+            humanoid.WalkSpeed = cheatStates.SpeedBoost and 100 or 16
         end
     end
 end
 
 local function Aimbot()
-    -- Exemplo de implementação do Aimbot
-    print("Aimbot ativado: Mira automática nos inimigos!")
-    -- Aqui você adicionaria o código real para aimbot, que é um pouco mais complexo e envolve raycasting
+    print(cheatStates.Aimbot and "Aimbot ativado" or "Aimbot desativado")
+    cheatStates.Aimbot = not cheatStates.Aimbot
+    -- Aimbot code here
 end
 
 local function NoClip()
-    -- Exemplo de implementação do NoClip
+    print(cheatStates.NoClip and "NoClip ativado" or "NoClip desativado")
+    cheatStates.NoClip = not cheatStates.NoClip
     local player = game.Players.LocalPlayer
     if player and player.Character then
-        -- Adiciona lógica de NoClip
         local character = player.Character
         local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
         local bodyPosition = Instance.new("BodyPosition")
@@ -157,52 +148,16 @@ local function NoClip()
         bodyPosition.D = 1
         bodyPosition.P = 5000
         bodyPosition.Parent = humanoidRootPart
-        print("NoClip ativado: Você pode atravessar paredes!")
+        if not cheatStates.NoClip then
+            bodyPosition:Destroy() -- Remove a funcionalidade de NoClip
+        end
     end
 end
 
 local function AntiKickBan()
-    -- Exemplo de implementação do Anti-Kick/Ban
-    print("Anti-Kick/Ban ativado: Você não será expulso do jogo!")
-end
-
-local function SuperJump()
-    -- Exemplo de Super Jump
-    local player = game.Players.LocalPlayer
-    if player and player.Character then
-        local humanoid = player.Character:FindFirstChild("Humanoid")
-        if humanoid then
-            humanoid.JumpHeight = 500 -- Pulo super alto
-            print("Super Jump ativado: Você pula super alto!")
-        end
-    end
-end
-
-local function WallHack()
-    -- Exemplo de Wall Hack
-    print("Wall Hack ativado: Veja através das paredes!")
-    -- Adicione aqui o código real de Wall Hack
-end
-
-local function SpeedHack()
-    -- Exemplo de Speed Hack
-    local player = game.Players.LocalPlayer
-    if player and player.Character then
-        local humanoid = player.Character:FindFirstChild("Humanoid")
-        if humanoid then
-            humanoid.WalkSpeed = 150 -- Acelera ainda mais
-            print("Speed Hack ativado: Acelera sua movimentação de forma extrema!")
-        end
-    end
-end
-
-local function TeleportToCoords()
-    -- Exemplo de Teleport para coordenadas específicas
-    local player = game.Players.LocalPlayer
-    if player and player.Character then
-        player.Character:SetPrimaryPartCFrame(CFrame.new(100, 50, 200)) -- Teleporta para coordenadas X:100 Y:50 Z:200
-        print("Teleportando para as coordenadas X:100 Y:50 Z:200")
-    end
+    print(cheatStates.AntiKickBan and "Anti-Kick/Ban ativado" or "Anti-Kick/Ban desativado")
+    cheatStates.AntiKickBan = not cheatStates.AntiKickBan
+    -- Código para impedir kick/ban (emulação)
 end
 
 -- Função para adicionar os botões aos submenus
@@ -217,7 +172,7 @@ local function AddButtonToFrame(frame, text, func)
     button.MouseButton1Click:Connect(func)
 end
 
--- Adicionando os botões aos submenus com as funções antigas e novas
+-- Adicionando os botões aos submenus com as funções ativar/desativar
 AddButtonToFrame(GeralFrame, "ESP", ESP)
 AddButtonToFrame(ArmaFrame, "God Mode", GodMode)
 AddButtonToFrame(JogadorFrame, "Fly Hack", FlyHack)
@@ -227,12 +182,6 @@ AddButtonToFrame(JogadorFrame, "Speed Boost", SpeedBoost)
 AddButtonToFrame(ArmaFrame, "Aimbot", Aimbot)
 AddButtonToFrame(JogadorFrame, "NoClip", NoClip)
 AddButtonToFrame(ConfigFrame, "Anti-Kick/Ban", AntiKickBan)
-
--- Funções novas
-AddButtonToFrame(GeralFrame, "Super Jump", SuperJump)
-AddButtonToFrame(ArmaFrame, "Wall Hack", WallHack)
-AddButtonToFrame(JogadorFrame, "Speed Hack", SpeedHack)
-AddButtonToFrame(ConfigFrame, "Teleport To Coords", TeleportToCoords)
 
 -- Ações dos botões para abrir os submenus
 GeralButton.MouseButton1Click:Connect(function()
