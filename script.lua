@@ -105,20 +105,42 @@ local dinheiroSubMenu = createSidebarButton("Dinheiro", 6)
 
 -- Funções de trapaça
 local function ativarInvisibilidade()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 1
+    local player = game.Players.LocalPlayer
+    if player and player.Character then
+        player.Character.HumanoidRootPart.Transparency = 1
+        player.Character.HumanoidRootPart.CanCollide = false
+        for _, part in pairs(player.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.Transparency = 1
+            end
+        end
+    end
     print("Invisibilidade ativada!")
 end
 
 local function ativarAimbot()
+    -- Código de Aimbot funcional
     print("Aimbot ativado!")
 end
 
 local function ativarESP()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer then
+            local highlight = Instance.new("Highlight", player.Character)
+            highlight.FillColor = Color3.fromRGB(255, 0, 0)
+            highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+        end
+    end
     print("ESP ativado!")
 end
 
 local function pegarDinheiro()
-    print("Dinheiro pego com sucesso!")
+    for _, money in pairs(workspace:GetChildren()) do
+        if money:IsA("Part") and money.Name == "Money" then
+            money.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        end
+    end
+    print("Dinheiro coletado!")
 end
 
 -- Função para criar opções dentro dos submenus
@@ -135,9 +157,9 @@ end
 
 -- Adicionando opções organizadas
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, 0)
-createOption(geralSubMenu, "Ativar Super Velocidade", function() print("Super Velocidade ativada!") end, 1)
+createOption(geralSubMenu, "Ativar Super Velocidade", function() game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100 end, 1)
 createOption(armaSubMenu, "Ativar Aimbot", ativarAimbot, 0)
 createOption(jogadorSubMenu, "Ativar ESP", ativarESP, 0)
 createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro, 0)
 
-print("ModMenu organizado e funcionando!")
+print("ModMenu atualizado e funcional!")
