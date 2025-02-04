@@ -50,19 +50,6 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 10)  -- Espaçamento entre os botões
 
--- Adicionando botões no submenu (apenas como exemplo)
-local buttonNames = {"Aimbot", "ESP", "Fly", "GodMode", "SpeedHack", "NoClip", "Teleport"}
-for _, buttonName in ipairs(buttonNames) do
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0, 380, 0, 40)
-    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    button.Text = "Ativar " .. buttonName
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Font = Enum.Font.SourceSans
-    button.TextSize = 18
-    button.Parent = ScrollingFrame
-end
-
 -- Função para tornar o menu arrastável
 local dragging = false
 local dragInput, dragStart, startPos
@@ -91,3 +78,5 @@ MainFrame.InputEnded:Connect(function(input)
         dragging = false
     end
 end)
+
+-- Agora, adicionei a rolagem no submenu sem adicionar funções extras como Aimbot, etc.
