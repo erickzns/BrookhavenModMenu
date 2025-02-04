@@ -119,16 +119,57 @@ local function ativarInvisibilidade()
 end
 
 local function ativarAimbot()
-    -- Código de Aimbot funcional
+    local player = game.Players.LocalPlayer
+    local closestPlayer = nil
+    local shortestDistance = math.huge
+
+    -- Encontrar o jogador mais próximo
+    for _, targetPlayer in pairs(game.Players:GetPlayers()) do
+        if targetPlayer ~= player and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            local distance = (player.Character.HumanoidRootPart.Position - targetPlayer.Character.HumanoidRootPart.Position).Magnitude
+            if distance < shortestDistance then
+                shortestDistance = distance
+                closestPlayer = targetPlayer
+            end
+        end
+    end
+
+    -- Mirar no jogador mais próximo
+    if closestPlayer then
+        local character = closestPlayer.Character
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            game:GetService("TweenService"):Create(player.Character.HumanoidRootPart, TweenInfo.new(0.1), {CFrame = CFrame.new(humanoidRootPart.Position)}):Play()
+        end
+    end
     print("Aimbot ativado!")
 end
 
 local function ativarESP()
     for _, player in pairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer then
-            local highlight = Instance.new("Highlight", player.Character)
-            highlight.FillColor = Color3.fromRGB(255, 0, 0)
-            highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+        if player ~= game.Players.LocalPlayer and player.Character then
+            -- Exibir a caixa ao redor do jogador
+            local box = Instance.new("BoxHandleAdornment")
+            box.Adornee = player.Character.HumanoidRootPart
+            box.Size = player.Character.HumanoidRootPart.Size
+            box.Transparency = 0.5
+            box.Color3 = Color3.fromRGB(255, 0, 0)
+            box.Parent = player.Character
+
+            -- Exibir o nome do jogador
+            local label = Instance.new("BillboardGui")
+            label.Adornee = player.Character.Head
+            label.Size = UDim2.new(0, 100, 0, 50)
+            label.StudsOffset = Vector3.new(0, 3, 0)
+            label.Parent = player.Character
+
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.Text = player.Name
+            textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            textLabel.BackgroundTransparency = 1
+            textLabel.TextSize = 14
+            textLabel.Parent = label
         end
     end
     print("ESP ativado!")
