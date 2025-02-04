@@ -7,6 +7,19 @@ mainMenu.Size = UDim2.new(0, 300, 0, 400)
 mainMenu.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 mainMenu.Parent = screenGui
 
+-- Criação da barra de rolagem
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(0, 300, 0, 400)
+scrollFrame.Position = UDim2.new(0, 0, 0, 0)
+scrollFrame.Parent = mainMenu
+scrollFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+scrollFrame.ScrollBarThickness = 10
+
+local uiListLayout = Instance.new("UIListLayout")
+uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+uiListLayout.Padding = UDim.new(0, 10)
+uiListLayout.Parent = scrollFrame
+
 -- Função para permitir mover o menu
 local isDragging = false
 local dragStart = nil
@@ -39,7 +52,8 @@ local buttons = {
     {name = "Arma", position = 70},
     {name = "Jogador", position = 130},
     {name = "Configurações", position = 190},
-    {name = "Avançado", position = 250}
+    {name = "Avançado", position = 250},
+    {name = "Dinheiro", position = 310}
 }
 
 local submenus = {}
@@ -82,6 +96,7 @@ local armaSubMenu = createSubMenu("Arma", 70)
 local jogadorSubMenu = createSubMenu("Jogador", 130)
 local configuracoesSubMenu = createSubMenu("Configurações", 190)
 local avancadoSubMenu = createSubMenu("Avançado", 250)
+local dinheiroSubMenu = createSubMenu("Dinheiro", 310)
 
 -- Funções de Trapaça
 local function ativarInvisibilidade()
@@ -169,6 +184,18 @@ local function crasharJogadoresIndetectavel()
     print("Jogadores crashados!")
 end
 
+-- Função para pegar dinheiro (adicionando a funcionalidade no submenu Dinheiro)
+local function pegarDinheiro()
+    local player = game.Players.LocalPlayer
+    local money = player.leaderstats and player.leaderstats.Money or nil
+    if money then
+        money.Value = money.Value + 1000 -- Adiciona 1000 ao saldo de dinheiro do jogador
+        print("Você pegou 1000 de dinheiro!")
+    else
+        print("Erro: Nenhum sistema de dinheiro encontrado.")
+    end
+end
+
 -- Função para adicionar opções dentro dos submenus
 local function createOption(submenu, name, activateFunc)
     local option = Instance.new("TextButton")
@@ -195,6 +222,7 @@ createOption(jogadorSubMenu, "Ativar ESP", ativarESP)
 createOption(jogadorSubMenu, "Teletransportar Outro Jogador", teleportarOutroJogador)
 createOption(avancadoSubMenu, "Invocar Objeto", invocarObjeto)
 createOption(avancadoSubMenu, "Crashar Jogadores", crasharJogadoresIndetectavel)
+createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro)
 
 -- Função de inicialização e conclusão
 print("ModMenu iniciado com sucesso!")
