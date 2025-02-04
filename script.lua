@@ -77,25 +77,68 @@ local function createSubMenu(button, options)
     end)
 end
 
--- Funções fictícias para ativar/desativar
+-- Funções simuladas para ativar/desativar
 local function ativarModoInvencivel()
-    print("Modo Invencível Ativado")
-    -- Código para ativar invencibilidade aqui
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+    game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
 end
 
 local function desativarModoInvencivel()
-    print("Modo Invencível Desativado")
-    -- Código para desativar invencibilidade aqui
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+    game.Players.LocalPlayer.Character.Humanoid.Health = 100
 end
 
 local function aumentarVelocidade()
-    print("Velocidade Aumentada")
-    -- Código para aumentar velocidade aqui
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
 end
 
 local function diminuirVelocidade()
-    print("Velocidade Reduzida")
-    -- Código para reduzir velocidade aqui
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+end
+
+local function ativarTeletransporte()
+    local targetPosition = Vector3.new(0, 100, 0) -- Posição alvo fictícia
+    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+end
+
+local function desativarTeletransporte()
+    -- Função fictícia para desativar o teletransporte (não precisa fazer nada)
+end
+
+local function ativarVisaoRaioX()
+    for _, obj in pairs(game.Workspace:GetDescendants()) do
+        if obj:IsA("BasePart") then
+            obj.Transparency = 0.5
+        end
+    end
+end
+
+local function desativarVisaoRaioX()
+    for _, obj in pairs(game.Workspace:GetDescendants()) do
+        if obj:IsA("BasePart") then
+            obj.Transparency = 0
+        end
+    end
+end
+
+local function aumentarTamanho()
+    local character = game.Players.LocalPlayer.Character
+    character.HumanoidRootPart.Size = character.HumanoidRootPart.Size * 2
+    for _, part in pairs(character:GetChildren()) do
+        if part:IsA("BasePart") then
+            part.Size = part.Size * 2
+        end
+    end
+end
+
+local function diminuirTamanho()
+    local character = game.Players.LocalPlayer.Character
+    character.HumanoidRootPart.Size = character.HumanoidRootPart.Size / 2
+    for _, part in pairs(character:GetChildren()) do
+        if part:IsA("BasePart") then
+            part.Size = part.Size / 2
+        end
+    end
 end
 
 -- Criando submenus para cada botão
@@ -105,13 +148,13 @@ createSubMenu(geralButton, {
 })
 
 createSubMenu(jogadorButton, {
-    {name = "Teletransportar Jogador", onActivate = function() print("Teletransporte Ativado") end, onDeactivate = function() print("Teletransporte Desativado") end},
-    {name = "Visão de Raio-X", onActivate = function() print("Visão de Raio-X Ativada") end, onDeactivate = function() print("Visão de Raio-X Desativada") end},
-    {name = "Aumentar Tamanho", onActivate = function() print("Tamanho Aumentado") end, onDeactivate = function() print("Tamanho Reduzido") end}
+    {name = "Teletransportar Jogador", onActivate = ativarTeletransporte, onDeactivate = desativarTeletransporte},
+    {name = "Visão de Raio-X", onActivate = ativarVisaoRaioX, onDeactivate = desativarVisaoRaioX},
+    {name = "Aumentar Tamanho", onActivate = aumentarTamanho, onDeactivate = diminuirTamanho}
 })
 
 createSubMenu(configuracoesButton, {
-    {name = "Ativar Modo Noturno", onActivate = function() print("Modo Noturno Ativado") end, onDeactivate = function() print("Modo Noturno Desativado") end},
-    {name = "Ajustar Gravidade", onActivate = function() print("Gravidade Ajustada") end, onDeactivate = function() print("Gravidade Padrão") end},
+    {name = "Ativar Modo Noturno", onActivate = function() game.Lighting.Brightness = 0 end, onDeactivate = function() game.Lighting.Brightness = 2 end},
+    {name = "Ajustar Gravidade", onActivate = function() game.Workspace.Gravity = 50 end, onDeactivate = function() game.Workspace.Gravity = 196.2 end},
     {name = "Multiplicar Pontos", onActivate = function() print("Pontos Multiplicados") end, onDeactivate = function() print("Pontos Normais") end}
 })
