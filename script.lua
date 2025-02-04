@@ -1,6 +1,5 @@
 -- Configuração inicial
 local player = game.Players.LocalPlayer
-local playerCharacter = player.Character
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
@@ -206,35 +205,59 @@ titleText.TextXAlignment = Enum.TextXAlignment.Center
 titleText.TextYAlignment = Enum.TextYAlignment.Center
 titleText.Parent = titleBar
 
--- Criar submenus e suas opções
-local geralSubMenu = Instance.new("Frame")
-geralSubMenu.Size = UDim2.new(1, 0, 1, 0)
-geralSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-geralSubMenu.Parent = mainMenu
+-- Container do Menu Principal
+local buttonContainer = Instance.new("Frame")
+buttonContainer.Size = UDim2.new(0, 150, 1, 0)
+buttonContainer.Position = UDim2.new(0, 0, 0, 50)
+buttonContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+buttonContainer.Parent = mainMenu
 
+-- Container para os Submenus
+local submenuContainer = Instance.new("Frame")
+submenuContainer.Size = UDim2.new(1, -150, 1, 0)
+submenuContainer.Position = UDim2.new(0, 150, 0, 50)
+submenuContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+submenuContainer.Parent = mainMenu
+
+-- Função para criar os Submenus
+local function createSubmenuButton(name, order)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -10, 0, 50)
+    button.Position = UDim2.new(0, 5, 0, (order - 1) * 55 + 5)
+    button.Text = name
+    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Parent = buttonContainer
+    
+    local submenu = Instance.new("Frame")
+    submenu.Size = UDim2.new(1, 0, 1, 0)
+    submenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    submenu.Visible = false
+    submenu.Parent = submenuContainer
+    
+    button.MouseButton1Click:Connect(function()
+        submenu.Visible = not submenu.Visible
+    end)
+    
+    return submenu
+end
+
+-- Submenus e Opções
+local geralSubMenu = createSubmenuButton("Geral", 1)
 createOption(geralSubMenu, "Ativar Invisibilidade", ativarInvisibilidade, "invisibilidade", 0)
 createOption(geralSubMenu, "Ativar Aimbot", ativarAimbot, "aimbot", 1)
 createOption(geralSubMenu, "Ativar ESP", ativarESP, "esp", 2)
-createOption(geralSubMenu, "Coletar Dinheiro", pegarDinheiro, "dinheiro", 3)
 
--- Criar mais opções de armas
-local armaSubMenu = Instance.new("Frame")
-armaSubMenu.Size = UDim2.new(1, 0, 1, 0)
-armaSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-armaSubMenu.Parent = mainMenu
+local armaSubMenu = createSubmenuButton("Arma", 2)
+createOption(armaSubMenu, "Pegar Arma: Rifle", pegarArma, "rifle", 0)
+createOption(armaSubMenu, "Pegar Arma: Pistola", pegarArma, "pistola", 1)
 
-createOption(armaSubMenu, "Pegar Arma Rifle", function() pegarArma("Rifle") end, "rifle", 0)
-createOption(armaSubMenu, "Pegar Arma Shotgun", function() pegarArma("Shotgun") end, "shotgun", 1)
+local dinheiroSubMenu = createSubmenuButton("Dinheiro", 3)
+createOption(dinheiroSubMenu, "Pegar Dinheiro", pegarDinheiro, "dinheiro", 0)
 
--- Criar mais opções de modo
-local modoSubMenu = Instance.new("Frame")
-modoSubMenu.Size = UDim2.new(1, 0, 1, 0)
-modoSubMenu.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-modoSubMenu.Parent = mainMenu
-
+local modoSubMenu = createSubmenuButton("Modo", 4)
 createOption(modoSubMenu, "Ativar Modo Deus", ativarModoDeus, "modoDeus", 0)
 createOption(modoSubMenu, "Alterar Tamanho Jogador", mudarTamanhoJogador, "tamanho", 1)
 createOption(modoSubMenu, "Teleporte para Spawn", teleporteParaSpawn, "teleporte", 2)
-createOption(modoSubMenu, "Alterar Gravidade", function() mudarGravidade(196) end, "gravidade", 3)
 
 print("ModMenu atualizado e funcional!")
