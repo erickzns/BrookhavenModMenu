@@ -5,6 +5,7 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
+local ToggleButton = Instance.new("TextButton")  -- Botão de alternância (+ e -)
 
 -- Configuração da interface
 ScreenGui.Parent = game.CoreGui
@@ -42,14 +43,35 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
--- Sidebar
-SideBar.Size = UDim2.new(0, 120, 1, 0)
-SideBar.Position = UDim2.new(0, 0, 0, 0)
-SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+-- Barra Lateral (SideBar)
 SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
 
--- Tabela para armazenar o estado das checkboxes
-local checkboxStates = {}
+-- Adicionando o botão "+" para abrir e minimizar o menu
+ToggleButton.Parent = MainFrame
+ToggleButton.Size = UDim2.new(0, 30, 0, 30)
+ToggleButton.Position = UDim2.new(1, -40, 0, 10)
+ToggleButton.Text = "+"
+ToggleButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.Font = Enum.Font.Gotham
+ToggleButton.TextSize = 24
+
+-- Função de clique do botão "+" para abrir ou minimizar o menu
+ToggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible  -- Alterna a visibilidade do menu
+
+    -- Troca o texto do botão para "-" ou "+" dependendo do estado do menu
+    if MainFrame.Visible then
+        ToggleButton.Text = "-"
+    else
+        ToggleButton.Text = "+"
+    end
+end)
 
 -- Função para limpar o submenu antes de adicionar novas opções
 local function clearSubMenu()
@@ -86,7 +108,7 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.Parent = Frame
 
     -- Verificar o estado salvo da checkbox
-    local isChecked = checkboxStates[functionName] or false
+    local isChecked = false
     Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
 
     -- Função que lida com o clique na checkbox
@@ -94,15 +116,14 @@ local function addCheckboxToMenu(functionName, cheatFunction)
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
 
-        -- Salvar o estado da checkbox
-        checkboxStates[functionName] = isChecked
-
         if isChecked then
             cheatFunction()
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
 end
+
+-- Adicionar outras funções aqui...
 
 -- Funções de trapaças (Adicionadas novas funções)
 local function activateGodMode()
