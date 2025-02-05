@@ -256,21 +256,10 @@ local buttonFunctions = {
         {"Mudar Tema", function() print("Tema alterado!") end},
         {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
         {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
-        {"Alterar Cores", function() print("Cores alteradas!") end},
-        {"Ativar/Desativar Música", function() print("Música ativada/desativada!") end},
-        {"Ativar Modo Noturno", function() print("Modo Noturno ativado!") end},
-        {"Desativar Notificações", function() print("Notificações desativadas!") end},
-        {"Mudar Opções de Menu", function() print("Opções de menu alteradas!") end},
-        {"Restaurar Configurações Padrão", function() print("Configurações restauradas!") end},
-        {"Habilitar/Desabilitar Logs", function() print("Logs ativados/desativados!") end},
-        {"Habilitar Atualizações Automáticas", function() print("Atualizações automáticas ativadas!") end},
-        {"Alterar Idioma", function() print("Idioma alterado!") end},
-        {"Configurar Sensibilidade", function() print("Sensibilidade configurada!") end},
-        {"Redefinir Padrões de Controles", function() print("Controles redefinidos!") end},
     },
 }
 
--- Adicionando botões para as novas opções de Configurações
+-- Inicializando botões
 for category, functions in pairs(buttonFunctions) do
     -- Adiciona botões de categoria
     local CategoryButton = Instance.new("TextButton")
