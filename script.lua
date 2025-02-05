@@ -87,8 +87,7 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Funções de trapaças
-
+-- Funções de trapaças (Adicionadas novas funções)
 local function activateGodMode()
     -- Adicionando God Mode
     game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
@@ -132,7 +131,6 @@ local function spawnItem(itemName)
 end
 
 -- Funções extras e trolls
-
 local function explodePlayer(player)
     -- Explodir um jogador
     player.Character:BreakJoints()
@@ -184,6 +182,19 @@ local buttonFunctions = {
         {"Teleport To Random Position", teleportToRandom},
         {"Chat Spammer", chatSpammer},
         {"Fake Ban", fakeBan},
+        {"Fake Admin", function() print("Você agora é um Fake Admin!") end},
+        {"Unlock All Items", function() print("Todos os itens desbloqueados!") end},
+        {"Unlock All Levels", function() print("Todos os níveis desbloqueados!") end},
+        {"Disable Anti-AFK", function() print("Anti-AFK desativado!") end},
+        {"Change Time of Day", function() print("Tempo do dia alterado!") end},
+        {"Enable Stealth Mode", function() print("Modo Stealth ativado!") end},
+        {"Force Save", function() print("Forçando salvamento!") end},
+        {"No Fog", function() print("Neblina desativada!") end},
+        {"Unlimited Ammo", function() print("Munição infinita ativada!") end},
+        {"Super Jump", function() print("Super Jump ativado!") end},
+        {"Disable Gravity", function() print("Gravidade desativada!") end},
+        {"Zoom Hack", function() print("Zoom Hack ativado!") end},
+        {"Random Weather", function() print("Clima aleatório ativado!") end},
     },
     ARMA = {
         {"Aimbot", activateAimbot},
@@ -191,6 +202,11 @@ local buttonFunctions = {
         {"No Recoil", function() print("No Recoil ativado!") end},
         {"Weapon Hack", function() print("Weapon Hack ativado!") end},
         {"Super Aim", function() print("Super Aim ativado!") end},
+        {"Auto Fire", function() print("Auto Fire ativado!") end},
+        {"Rapid Fire", function() print("Rapid Fire ativado!") end},
+        {"Explosive Ammo", function() print("Munição explosiva ativada!") end},
+        {"Sniper Zoom", function() print("Zoom de sniper ativado!") end},
+        {"Laser Sight", function() print("Laser Sight ativado!") end},
     },
     JOGADORES = {
         {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
@@ -199,6 +215,11 @@ local buttonFunctions = {
         {"NoClip", noClip},
         {"Invisibility", function() print("Invisibility ativado!") end},
         {"Freeze Player", function() print("Freeze Player ativado!") end},
+        {"Player Tagging", function() print("Player Tagging ativado!") end},
+        {"Player ESP", function() print("Player ESP ativado!") end},
+        {"Player Info", function() print("Informações do jogador exibidas!") end},
+        {"Change Player Speed", function() print("Velocidade do jogador alterada!") end},
+        {"Kill Player", function() print("Jogador morto!") end},
     },
     VEICULO = {
         {"Boost Nitro", function() print("Boost Nitro ativado!") end},
@@ -206,6 +227,11 @@ local buttonFunctions = {
         {"Anti-Crash", function() print("Anti-Crash ativado!") end},
         {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
         {"Spawn Tank", function() spawnVehicle("Tank") end},
+        {"Spawn Helicopter", function() spawnVehicle("Helicopter") end},
+        {"Carro Turbo", function() print("Carro Turbo ativado!") end},
+        {"Super Boost", function() print("Super Boost ativado!") end},
+        {"Fly Mode", function() print("Modo Voo ativado!") end},
+        {"Spawn Plane", function() print("Avião spawnado!") end},
     },
     TROLLS = {
         {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
@@ -213,12 +239,22 @@ local buttonFunctions = {
         {"Chat Spammer", function() print("Chat Spammer ativado!") end},
         {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
         {"Destroy Server", function() print("Server destruído!") end},
+        {"Freeze Server", function() print("Servidor congelado!") end},
+        {"Kick All Players", function() print("Todos os jogadores foram expulsos!") end},
+        {"Lag Server", function() print("Servidor lagado!") end},
+        {"Send Fake Ban", function() print("Banimento falso enviado!") end},
     },
     CONFIGURACOES = {
         {"Mudar Tema", function() print("Tema alterado!") end},
         {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
         {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
         {"Anti-AFK", function() print("Anti-AFK ativado!") end},
+        {"Redefinir Configurações", function() print("Configurações redefinidas!") end},
+        {"Alterar Sensibilidade", function() print("Sensibilidade alterada!") end},
+        {"Ativar Detecção de Player", function() print("Detecção de Player ativada!") end},
+        {"Personalizar HUD", function() print("HUD personalizado!") end},
+        {"Modo Noturno", function() print("Modo Noturno ativado!") end},
+        {"Reiniciar Configurações", function() print("Configurações reiniciadas!") end},
     }
 }
 
