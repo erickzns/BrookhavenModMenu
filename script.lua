@@ -282,7 +282,7 @@ local function addSideButton(name, yPosition)
 end
 
 -- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "DINHEIRO", "VEICULO", "TROLLS", "CONFIGURACOES"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
