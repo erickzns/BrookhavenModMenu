@@ -1,140 +1,57 @@
--- Seu código inicial (não removi nada)
 local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local SideBar = Instance.new("Frame")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIListLayout = Instance.new("UIListLayout")
+local SideBar = Instance.new("Frame")
 local Buttons = {}
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.Name = "ModMenu"
-ScreenGui.ResetOnSpawn = false
+-- Configuração da interface
+ScreenGui.Parent = game.CoreGui
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.5
+MainFrame.Size = UDim2.new(0, 400, 0, 500)
+MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+MainFrame.BorderSizePixel = 2
+MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.Visible = false
 
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-Frame.Size = UDim2.new(0, 500, 0, 500)
-Frame.Position = UDim2.new(0.5, -250, 0.5, -250)
+-- Título do Menu
+Title.Parent = MainFrame
+Title.Size = UDim2.new(0, 400, 0, 50)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Title.Text = "Ghost Menu V1"
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.Font = Enum.Font.Gotham
+Title.TextSize = 28
+Title.TextStrokeTransparency = 0.5
+Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
-SideBar.Parent = Frame
-SideBar.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-SideBar.Size = UDim2.new(0, 150, 1, 0)
-
-ScrollingFrame.Parent = Frame
-ScrollingFrame.Size = UDim2.new(1, -150, 1, 0)
-ScrollingFrame.Position = UDim2.new(0, 150, 0, 0)
-ScrollingFrame.CanvasSize = UDim2.new(0, 0, 2, 0)
+-- Configuração do ScrollingFrame (sub-menu rolável)
+ScrollingFrame.Parent = MainFrame
+ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
+ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
+ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
 
--- Funções de trapaça (adicionando conforme sua solicitação)
-local function activateGodMode()
-    local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-    if humanoid then
-        humanoid.Health = math.huge -- A saúde se torna infinita
-        print("God Mode ativado!")
+-- Layout do ScrollingFrame
+UIListLayout.Parent = ScrollingFrame
+UIListLayout.FillDirection = Enum.FillDirection.Vertical
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+-- Função para limpar o submenu antes de adicionar novas opções
+local function clearSubMenu()
+    for _, child in pairs(ScrollingFrame:GetChildren()) do
+        if child:IsA("Frame") then
+            child:Destroy()
+        end
     end
 end
 
-local function activateAimbot()
-    -- Exemplo de código de Aimbot (deve ser implementado de acordo com a lógica do jogo)
-    local player = game.Players.LocalPlayer
-    local target = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
-    print("Aimbot ativado! A mirando no jogador: " .. target.Name)
-    -- Implementar lógica de aimbot real aqui
-end
-
-local function teleportToPlayer()
-    local player = game.Players.LocalPlayer
-    local targetPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
-    player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
-    print("Teleportado para o jogador " .. targetPlayer.Name)
-end
-
-local function infiniteJump()
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.JumpHeight = 100
-    print("Pulo infinito ativado!")
-end
-
-local function speedHack()
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.WalkSpeed = 100
-    print("Velocidade aumentada para 100!")
-end
-
-local function superJump()
-    -- Aumenta o pulo do jogador
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.JumpHeight = 200
-    print("Super pulo ativado!")
-end
-
-local function noClip()
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.PlatformStand = true
-    player.Character.HumanoidRootPart.CanCollide = false
-    print("NoClip ativado!")
-end
-
-local function infiniteHealth()
-    local player = game.Players.LocalPlayer
-    local humanoid = player.Character:FindFirstChild("Humanoid")
-    if humanoid then
-        humanoid.Health = math.huge
-        print("Saúde infinita ativada!")
-    end
-end
-
-local function antiAFK()
-    -- Previne o desconectar por inatividade
-    while wait(30) do
-        game:GetService("Players").LocalPlayer:Kick("Desconectado por inatividade.")
-        print("Anti-AFK ativado!")
-    end
-end
-
-local function spawnRandomObject()
-    -- Spawn aleatório de objeto
-    local model = Instance.new("Part")
-    model.Size = Vector3.new(10, 1, 10)
-    model.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 5, 0)
-    model.Anchored = true
-    model.Parent = workspace
-    print("Objeto aleatório spawnado!")
-end
-
-local function changePlayerColor()
-    -- Mudar a cor do personagem
-    local player = game.Players.LocalPlayer
-    player.Character.Head.BrickColor = BrickColor.Random()
-    print("Cor do personagem alterada!")
-end
-
-local function spawnVehicle(vehicleType)
-    -- Função de spawn de veículos
-    if vehicleType == "Carro" then
-        local vehicle = Instance.new("VehicleSeat")
-        vehicle.Parent = game.Workspace
-        print("Carro spawnado!")
-    elseif vehicleType == "Avião" then
-        local vehicle = Instance.new("VehicleSeat")
-        vehicle.Parent = game.Workspace
-        print("Avião spawnado!")
-    end
-end
-
-local function fakeBan()
-    -- Enviar uma falsa mensagem de banimento
-    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Você foi banido do servidor!", "All")
-    print("Falso banimento enviado!")
-end
-
-local function teleportToRandomLocation()
-    -- Teleportar para uma posição aleatória no mapa
-    local randomPos = Vector3.new(math.random(-100, 100), 50, math.random(-100, 100))
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
-    print("Teleportado para posição aleatória!")
-end
-
--- Função para adicionar as opções de trapaça aos submenus
+-- Função para adicionar funções ao submenu com checkboxes
 local function addCheckboxToMenu(functionName, cheatFunction)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
@@ -170,7 +87,141 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Função para adicionar os botões no menu lateral
+-- Funções de trapaças
+
+local function activateGodMode()
+    -- Adicionando God Mode
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
+end
+
+local function activateAimbot()
+    -- Código básico para ativar o Aimbot (só um exemplo)
+    print("Aimbot ativado!")
+    -- Implementar a lógica de aimbot real aqui
+end
+
+local function teleportToPlayer()
+    -- Teleporta para o jogador selecionado
+    local player = game.Players.LocalPlayer
+    local targetPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+    player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+end
+
+local function speedHack()
+    -- Aumenta a velocidade do jogador
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 100
+end
+
+local function noClip()
+    -- Ativa o NoClip (Passar através das paredes)
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.PlatformStand = true
+    player.Character.HumanoidRootPart.CanCollide = false
+end
+
+local function infiniteJump()
+    -- Permite pular infinitamente
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.JumpHeight = 100
+end
+
+local function spawnItem(itemName)
+    -- Spawna um item específico
+    print("Item " .. itemName .. " spawnado!")
+    -- Adicionar lógica de spawn de item aqui
+end
+
+-- Funções extras e trolls
+
+local function explodePlayer(player)
+    -- Explodir um jogador
+    player.Character:BreakJoints()
+end
+
+local function chatSpammer()
+    -- Spam de mensagens no chat
+    while true do
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Spam!", "All")
+        wait(0.5)
+    end
+end
+
+local function fakeBan()
+    -- Enviar uma falsa mensagem de banimento
+    print("Você foi banido do servidor!")
+end
+
+local function teleportToRandom()
+    -- Teleportar para um local aleatório no mapa
+    local randomPos = Vector3.new(math.random(-100, 100), 50, math.random(-100, 100))
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
+end
+
+local function spawnVehicle(vehicleType)
+    -- Função de spawn de veículos (personalizar conforme necessário)
+    print(vehicleType .. " spawnado!")
+end
+
+-- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
+
+-- Função para adicionar botões laterais e carregar funções específicas
+local buttonFunctions = {
+    GERAL = {
+        {"AutoClick", function() print("AutoClick ativado") end},
+        {"God Mode", activateGodMode},
+        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
+        {"Infinitive Jump", infiniteJump},
+        {"Speed Hack", speedHack},
+        {"Spawn Item - Carro", function() spawnItem("Carro") end},
+        {"Teleport To Player", teleportToPlayer},
+        {"Explode Player", explodePlayer},
+        {"Teleport To Random Position", teleportToRandom},
+        {"Chat Spammer", chatSpammer},
+        {"Fake Ban", fakeBan},
+    },
+    ARMA = {
+        {"Aimbot", activateAimbot},
+        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
+        {"No Recoil", function() print("No Recoil ativado!") end},
+        {"Weapon Hack", function() print("Weapon Hack ativado!") end},
+        {"Super Aim", function() print("Super Aim ativado!") end},
+    },
+    JOGADORES = {
+        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
+        {"Teleport", teleportToPlayer},
+        {"Speed Hack", speedHack},
+        {"NoClip", noClip},
+        {"Invisibility", function() print("Invisibility ativado!") end},
+        {"Freeze Player", function() print("Freeze Player ativado!") end},
+    },
+    VEICULO = {
+        {"Boost Nitro", function() print("Boost Nitro ativado!") end},
+        {"Carro Voador", function() print("Carro Voador ativado!") end},
+        {"Anti-Crash", function() print("Anti-Crash ativado!") end},
+        {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
+        {"Spawn Tank", function() spawnVehicle("Tank") end},
+    },
+    TROLLS = {
+        {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
+        {"Loop Kill", function() print("Loop Kill ativado!") end},
+        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
+        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
+        {"Destroy Server", function() print("Server destruído!") end},
+    },
+    CONFIGURACOES = {
+        {"Mudar Tema", function() print("Tema alterado!") end},
+        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
+        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
+        {"Anti-AFK", function() print("Anti-AFK ativado!") end},
+    }
+}
+
 local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 40)
@@ -193,49 +244,24 @@ local function addSideButton(name, yPosition)
     table.insert(Buttons, Button)
 end
 
--- Funções do mod menu
-local buttonFunctions = {
-    GERAL = {
-        {"God Mode", activateGodMode},
-        {"Speed Hack", speedHack},
-        {"Infinite Health", infiniteHealth},
-        {"Anti-AFK", antiAFK},
-        {"Super Jump", superJump},
-        {"Spawn Random Object", spawnRandomObject},
-        {"Teleport To Random", teleportToRandomLocation},
-        {"Fake Ban", fakeBan},
-    },
-    ARMA = {
-        {"Aimbot", activateAimbot},
-        {"No Recoil", function() print("No Recoil ativado!") end},
-        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
-        {"Super Aim", function() print("Super Aim ativado!") end},
-    },
-    JOGADORES = {
-        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
-        {"Teleport to Player", teleportToPlayer},
-        {"Speed Hack", speedHack},
-        {"NoClip", noClip},
-        {"Invisibility", function() print("Invisibility ativado!") end},
-    },
-    VEICULO = {
-        {"Spawn Car", function() spawnVehicle("Carro") end},
-        {"Spawn Plane", function() spawnVehicle("Avião") end},
-    },
-    TROLLS = {
-        {"Explode Player", function() print("Explode Player ativado!") end},
-        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-        {"Destroy Server", function() print("Server destruído!") end},
-    },
-    CONFIGURACOES = {
-        {"Mudar Cor do Personagem", changePlayerColor},
-        {"Alterar Tema", function() print("Tema alterado!") end},
-        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
-    }
-}
-
--- Adicionando os botões ao lado do menu
+-- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
+
+-- Botão de abrir/fechar o menu
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 60, 0, 60)
+toggleButton.Position = UDim2.new(0, 0, 0, 0)
+toggleButton.Text = "+"
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 36
+toggleButton.Parent = ScreenGui
+
+toggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+    toggleButton.Text = MainFrame.Visible and "-" or "+"
+end)
