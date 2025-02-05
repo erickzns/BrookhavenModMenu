@@ -1,3 +1,4 @@
+-- Inicialização do ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
@@ -240,27 +241,6 @@ local function spawnConfetti()
     -- Código para gerar confetes
 end
 
--- CONFIGURAÇÕES
-local function setPlayerSpeed(speed)
-    print("Ajustando a velocidade do jogador para: " .. speed)
-end
-
-local function setGravity(gravity)
-    print("Ajustando a gravidade para: " .. gravity)
-end
-
-local function setJumpHeight(height)
-    print("Ajustando a altura do pulo para: " .. height)
-end
-
-local function setWalkSpeed(speed)
-    print("Ajustando a velocidade de caminhada para: " .. speed)
-end
-
-local function enableAntiCheat()
-    print("Anti-Cheat ativado!")
-end
-
 -- Barra Lateral (SideBar)
 SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, -50)
@@ -309,18 +289,25 @@ local function addSideButton(name, positionY)
             addCheckboxToMenu("Dar Chaves de Veículo", giveVehicleKeys)
             addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
         elseif name == "TROLLS" then
-            addCheckboxToMenu("Ativar Bombas", spawnBomb)
-            addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+            addCheckboxToMenu("Gerar Bomba", spawnBomb)
+            addCheckboxToMenu("Ativar/Desativar Gravidade", toggleGravity)
             addCheckboxToMenu("Gerar Jogador Falso", spawnFakePlayer)
-            addCheckboxToMenu("Gerar Confete", spawnConfetti)
+            addCheckboxToMenu("Gerar Confetes", spawnConfetti)
         end
     end)
 end
 
--- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
-for i, name in ipairs(buttonNames) do
-    addSideButton(name, (i - 1) * 50)
+-- Adicionar botões ao menu lateral
+addSideButton("GERAL", 0)
+addSideButton("ARMA", 60)
+addSideButton("JOGADORES", 120)
+addSideButton("DINHEIRO", 180)
+addSideButton("VEICULO", 240)
+addSideButton("TROLLS", 300)
+
+-- Função para exibir/ocultar o menu
+local function toggleMenu()
+    MainFrame.Visible = not MainFrame.Visible
 end
 
 -- Botão de abrir/fechar o menu
