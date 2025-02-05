@@ -9,14 +9,13 @@ local Buttons = {}
 -- Configuração da interface
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
-
--- Configuração do menu principal
 MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 MainFrame.BackgroundTransparency = 0.5  -- Fundo semi-transparente
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.Visible = false  -- Começa invisível
 
 -- Título do Menu
 Title.Parent = MainFrame
@@ -130,29 +129,34 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função de movimentação ajustada
-local dragging = false
-local dragStart = nil
-local startPos = nil
+-- Botão de abrir/fechar o menu
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 50, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -25, 0.5, 200)
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.Text = "+"
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 24
+toggleButton.Parent = ScreenGui
 
-Title.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = MainFrame.Position
-    end
+toggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+    toggleButton.Text = MainFrame.Visible and "−" or "+"
 end)
 
-Title.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        -- Movimenta a tela de acordo com o delta
-        MainFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
-    end
-end)
+-- Botão de fechar o mod menu
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 40, 0, 40)
+closeButton.Position = UDim2.new(1, -50, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.SourceSans
+closeButton.TextSize = 24
+closeButton.Parent = MainFrame
 
-Title.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
+closeButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    toggleButton.Text = "+"
 end)
