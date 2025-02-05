@@ -247,6 +247,48 @@ local function addCheckboxToMenu(label, toggleFunction)
     end)
 end
 
+-- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
+
+-- Função para adicionar botões laterais e carregar funções específicas
+local function addSideButton(name, positionY)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 120, 0, 50)
+    Button.Position = UDim2.new(0, 0, 0, positionY)
+    Button.Text = name
+    Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 18
+    Button.Parent = SideBar
+
+    Button.MouseButton1Click:Connect(function()
+        clearSubMenu()
+        -- Dependendo do nome do botão, adicionar funções diferentes
+        if name == "GERAL" then
+            addCheckboxToMenu("Ativar Speed Hack", toggleSpeedHack)
+            addCheckboxToMenu("Ativar No-Clip", toggleNoClip)
+            addCheckboxToMenu("Ativar Voar", toggleFly)
+        elseif name == "ARMA" then
+            addCheckboxToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
+            addCheckboxToMenu("Ativar Sem Recoil", toggleNoRecoil)
+            addCheckboxToMenu("Ativar Disparo Rápido", toggleRapidFire)
+        elseif name == "JOGADORES" then
+            addCheckboxToMenu("Congelar Jogador", toggleFreezePlayer)
+        elseif name == "VEICULO" then
+            addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
+        elseif name == "TROLLS" then
+            addCheckboxToMenu("Ativar Bombas", toggleBomb)
+            addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+        end
+    end)
+end
+
 -- Exemplo de como adicionar checkboxes para as trapaças
 addCheckboxToMenu("Ativar Speed Hack", toggleSpeedHack)
 addCheckboxToMenu("Ativar No-Clip", toggleNoClip)
@@ -258,6 +300,12 @@ addCheckboxToMenu("Congelar Jogador", toggleFreezePlayer)
 addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
 addCheckboxToMenu("Ativar Bombas", toggleBomb)
 addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+
+-- Adicionando botões laterais
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)
+end
 
 -- Função para abrir/fechar o menu
 local toggleButton = Instance.new("TextButton")
