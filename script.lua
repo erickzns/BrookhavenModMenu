@@ -6,65 +6,41 @@ local UIListLayout = Instance.new("UIListLayout")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
 
--- Configurações de Personalização
-local config = {
-    BackgroundColor = Color3.fromRGB(0, 0, 0), -- Cor do fundo
-    TitleColor = Color3.fromRGB(255, 0, 0), -- Cor do título
-    TitleFont = Enum.Font.Gotham, -- Fonte do título
-    TitleFontSize = 28, -- Tamanho da fonte do título
-    ButtonColor = Color3.fromRGB(255, 255, 255), -- Cor dos botões
-    ButtonFont = Enum.Font.SourceSans, -- Fonte dos botões
-    ButtonFontSize = 18, -- Tamanho da fonte dos botões
-    ButtonHoverColor = Color3.fromRGB(0, 255, 0), -- Cor do botão quando hover
-    ButtonClickColor = Color3.fromRGB(255, 0, 0), -- Cor do botão quando clicado
-    Transparency = 0.5, -- Transparência do fundo
-    ScrollBarThickness = 10, -- Espessura da barra de rolagem
-    MenuWidth = 400, -- Largura do menu
-    MenuHeight = 500, -- Altura do menu
-    MenuPosX = 0.5, -- Posição X do menu (proporcional)
-    MenuPosY = 0.5, -- Posição Y do menu (proporcional)
-    SubMenuSpacing = 5, -- Espaçamento entre os botões do submenu
-}
-
--- Função de configuração da interface
-local function configureUI()
-    -- Configuração do menu principal
-    MainFrame.BackgroundColor3 = config.BackgroundColor
-    MainFrame.BackgroundTransparency = config.Transparency
-    MainFrame.Size = UDim2.new(0, config.MenuWidth, 0, config.MenuHeight)
-    MainFrame.Position = UDim2.new(config.MenuPosX, -config.MenuWidth / 2, config.MenuPosY, -config.MenuHeight / 2)
-
-    -- Configuração do título
-    Title.TextColor3 = config.TitleColor
-    Title.Font = config.TitleFont
-    Title.TextSize = config.TitleFontSize
-    Title.TextStrokeTransparency = 0.5
-    Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-
-    -- Configuração da barra lateral
-    SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    SideBar.BackgroundTransparency = 0.7
-    SideBar.BorderSizePixel = 0
-
-    -- Configuração do ScrollingFrame
-    ScrollingFrame.ScrollBarThickness = config.ScrollBarThickness
-end
-
--- Inicializando a interface
+-- Configuração da interface
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.5
+MainFrame.Size = UDim2.new(0, 400, 0, 500)
+MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+MainFrame.BorderSizePixel = 2
+MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.Visible = false
+
+-- Título do Menu
 Title.Parent = MainFrame
+Title.Size = UDim2.new(0, 400, 0, 50)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Title.Text = "Ghost Menu V1"
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.Font = Enum.Font.Gotham
+Title.TextSize = 28
+Title.TextStrokeTransparency = 0.5
+Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+
+-- Configuração do ScrollingFrame (sub-menu rolável)
 ScrollingFrame.Parent = MainFrame
-SideBar.Parent = MainFrame
-
-Title.Size = UDim2.new(0, config.MenuWidth, 0, 50)
-ScrollingFrame.Size = UDim2.new(1, -120, 0, config.MenuHeight - 50)
+ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
 ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.ScrollBarThickness = 10
 
+-- Layout do ScrollingFrame
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, config.SubMenuSpacing)
+UIListLayout.Padding = UDim.new(0, 5)
 
 -- Função para limpar o submenu antes de adicionar novas opções
 local function clearSubMenu()
@@ -89,21 +65,21 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
-    CheckBoxText.TextSize = config.ButtonFontSize
+    CheckBoxText.TextSize = 18
     CheckBoxText.TextXAlignment = Enum.TextXAlignment.Left
     CheckBoxText.Parent = Frame
 
     local Checkbox = Instance.new("TextButton")
     Checkbox.Size = UDim2.new(0, 20, 0, 20)
     Checkbox.Position = UDim2.new(1, -30, 0.5, -10)
-    Checkbox.BackgroundColor3 = config.ButtonClickColor
+    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
     local isChecked = false
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
-        Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or config.ButtonClickColor
+        Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
         if isChecked then
             cheatFunction()
         end
@@ -111,7 +87,7 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Funções de trapaças (de exemplo)
+-- Funções de trapaças
 local function activateGodMode()
     -- Adicionando God Mode
     game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
@@ -148,19 +124,109 @@ local function infiniteJump()
     player.Character.Humanoid.JumpHeight = 100
 end
 
+local function spawnItem(itemName)
+    -- Spawna um item específico
+    print("Item " .. itemName .. " spawnado!")
+    -- Adicionar lógica de spawn de item aqui
+end
+
+-- Funções extras e trolls
+local function explodePlayer(player)
+    -- Explodir um jogador
+    player.Character:BreakJoints()
+end
+
+local function chatSpammer()
+    -- Spam de mensagens no chat
+    while true do
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Spam!", "All")
+        wait(0.5)
+    end
+end
+
+local function fakeBan()
+    -- Enviar uma falsa mensagem de banimento
+    print("Você foi banido do servidor!")
+end
+
+local function teleportToRandom()
+    -- Teleportar para um local aleatório no mapa
+    local randomPos = Vector3.new(math.random(-100, 100), 50, math.random(-100, 100))
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
+end
+
+local function spawnVehicle(vehicleType)
+    -- Função de spawn de veículos (personalizar conforme necessário)
+    print(vehicleType .. " spawnado!")
+end
+
 -- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, -50)
 SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
 
--- Função para adicionar botões na Sidebar
+-- Função para adicionar botões laterais e carregar funções específicas
+local buttonFunctions = {
+    GERAL = {
+        {"AutoClick", function() print("AutoClick ativado") end},
+        {"God Mode", activateGodMode},
+        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
+        {"Infinitive Jump", infiniteJump},
+        {"Speed Hack", speedHack},
+        {"Spawn Item - Carro", function() spawnItem("Carro") end},
+        {"Teleport To Player", teleportToPlayer},
+        {"Explode Player", explodePlayer},
+        {"Teleport To Random Position", teleportToRandom},
+        {"Chat Spammer", chatSpammer},
+        {"Fake Ban", fakeBan},
+    },
+    ARMA = {
+        {"Aimbot", activateAimbot},
+        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
+        {"No Recoil", function() print("No Recoil ativado!") end},
+        {"Weapon Hack", function() print("Weapon Hack ativado!") end},
+        {"Super Aim", function() print("Super Aim ativado!") end},
+    },
+    JOGADORES = {
+        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
+        {"Teleport", teleportToPlayer},
+        {"Speed Hack", speedHack},
+        {"NoClip", noClip},
+        {"Invisibility", function() print("Invisibility ativado!") end},
+        {"Freeze Player", function() print("Freeze Player ativado!") end},
+    },
+    VEICULO = {
+        {"Boost Nitro", function() print("Boost Nitro ativado!") end},
+        {"Carro Voador", function() print("Carro Voador ativado!") end},
+        {"Anti-Crash", function() print("Anti-Crash ativado!") end},
+        {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
+        {"Spawn Tank", function() spawnVehicle("Tank") end},
+    },
+    TROLLS = {
+        {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
+        {"Loop Kill", function() print("Loop Kill ativado!") end},
+        {"Spam Chat", chatSpammer},
+        {"Trocar ID", function() print("ID trocado!") end},
+    },
+    CONFIGURACOES = {
+        {"Alterar Cores", function() print("Cores alteradas!") end},
+        {"Ativar Animações", function() print("Animações ativadas!") end},
+        {"Configurar Teclas de Atalho", function() print("Teclas de atalho configuradas!") end},
+    }
+}
+
+-- Função para criar botões na Sidebar
 local function createButton(name, category)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(1, 0, 0, 50)
-    Button.BackgroundColor3 = config.ButtonColor
+    Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     Button.Text = name
     Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.Font = config.ButtonFont
-    Button.TextSize = config.ButtonFontSize
+    Button.Font = Enum.Font.Gotham
+    Button.TextSize = 18
     Button.TextStrokeTransparency = 0.5
     Button.TextStrokeColor3 = Color3.fromRGB(255, 0, 0)
     Button.Parent = SideBar
@@ -173,41 +239,13 @@ local function createButton(name, category)
     end)
 end
 
--- Função para criar o botão de configurações
-local function createSettingsButton()
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(1, 0, 0, 50)
-    Button.BackgroundColor3 = config.ButtonColor
-    Button.Text = "Configurações"
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.Font = config.ButtonFont
-    Button.TextSize = config.ButtonFontSize
-    Button.TextStrokeTransparency = 0.5
-    Button.TextStrokeColor3 = Color3.fromRGB(255, 0, 0)
-    Button.Parent = SideBar
-
-    Button.MouseButton1Click:Connect(function()
-        clearSubMenu()
-        -- Adicionar as opções de configurações
-        addCheckboxToMenu("Alterar Cor de Fundo", function()
-            config.BackgroundColor = Color3.fromRGB(255, 255, 255) -- Exemplo de alteração de cor
-            configureUI() -- Reconfigura a interface
-        end)
-        addCheckboxToMenu("Alterar Cor do Título", function()
-            config.TitleColor = Color3.fromRGB(0, 255, 0) -- Exemplo de alteração de cor
-            configureUI() -- Reconfigura a interface
-        end)
-        -- Mais opções de configuração podem ser adicionadas aqui
-    end)
-end
-
 -- Adicionando botões laterais
 createButton("Geral", "GERAL")
 createButton("Arma", "ARMA")
 createButton("Jogadores", "JOGADORES")
 createButton("Veículo", "VEICULO")
 createButton("Trolls", "TROLLS")
-createSettingsButton() -- Botão de configurações
+createButton("Configurações", "CONFIGURACOES")
 
 -- Função para abrir e fechar o menu
 local openKey = Enum.KeyCode.LeftControl
@@ -224,6 +262,3 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, gameProce
         end
     end
 end)
-
--- Chama a função de configuração da interface
-configureUI()
