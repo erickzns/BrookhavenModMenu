@@ -62,7 +62,7 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     CheckBoxText.Size = UDim2.new(1, -40, 1, 0)
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
-    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255) -- Tornando os nomes dos botões brancos
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
     CheckBoxText.TextSize = 18
@@ -88,6 +88,7 @@ local function addCheckboxToMenu(functionName, cheatFunction)
 end
 
 -- Funções de trapaças
+
 local function activateGodMode()
     -- Adicionando God Mode
     game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
@@ -131,6 +132,7 @@ local function spawnItem(itemName)
 end
 
 -- Funções extras e trolls
+
 local function explodePlayer(player)
     -- Explodir um jogador
     player.Character:BreakJoints()
@@ -208,51 +210,58 @@ local buttonFunctions = {
     TROLLS = {
         {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
         {"Loop Kill", function() print("Loop Kill ativado!") end},
-        {"Spam Chat", chatSpammer},
-        {"Trocar ID", function() print("ID trocado!") end},
+        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
+        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
+        {"Destroy Server", function() print("Server destruído!") end},
+    },
+    CONFIGURACOES = {
+        {"Mudar Tema", function() print("Tema alterado!") end},
+        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
+        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
+        {"Anti-AFK", function() print("Anti-AFK ativado!") end},
     }
 }
 
--- Função para criar botões na Sidebar
-local function createButton(name, category)
+local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(1, 0, 0, 50)
-    Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Button.Size = UDim2.new(0, 120, 0, 40)
+    Button.Position = UDim2.new(0, 0, 0, yPosition)
     Button.Text = name
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.Font = Enum.Font.Gotham
+    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
+    Button.Font = Enum.Font.SourceSans
     Button.TextSize = 18
-    Button.TextStrokeTransparency = 0.5
-    Button.TextStrokeColor3 = Color3.fromRGB(255, 0, 0)
     Button.Parent = SideBar
 
     Button.MouseButton1Click:Connect(function()
         clearSubMenu()
-        for _, func in pairs(buttonFunctions[category]) do
-            addCheckboxToMenu(func[1], func[2])
+        for _, funcData in ipairs(buttonFunctions[name] or {}) do
+            local funcName, func = unpack(funcData)
+            addCheckboxToMenu(funcName, func)
         end
     end)
+
+    table.insert(Buttons, Button)
 end
 
 -- Adicionando botões laterais
-createButton("Geral", "GERAL")
-createButton("Arma", "ARMA")
-createButton("Jogadores", "JOGADORES")
-createButton("Veículo", "VEICULO")
-createButton("Trolls", "TROLLS")
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)
+end
 
--- Função para abrir e fechar o menu
-local openKey = Enum.KeyCode.LeftControl
-local closeKey = Enum.KeyCode.RightControl
+-- Botão de abrir/fechar o menu
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 60, 0, 60)
+toggleButton.Position = UDim2.new(0, 0, 0, 0)
+toggleButton.Text = "+"
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 36
+toggleButton.Parent = ScreenGui
 
-game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-
-    if input.UserInputType == Enum.UserInputType.Keyboard then
-        if input.KeyCode == openKey then
-            MainFrame.Visible = true
-        elseif input.KeyCode == closeKey then
-            MainFrame.Visible = false
-        end
-    end
+toggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+    toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
