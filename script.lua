@@ -15,7 +15,7 @@ MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
-MainFrame.Visible = true  -- O menu começa visível
+MainFrame.Visible = false  -- O menu começa invisível
 
 -- Título do Menu
 Title.Parent = MainFrame
