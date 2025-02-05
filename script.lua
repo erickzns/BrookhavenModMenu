@@ -30,20 +30,19 @@ Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
 Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Configuração do ScrollingFrame
+-- ScrollingFrame (submenu)
 ScrollingFrame.Parent = MainFrame
 ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
 ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
 ScrollingFrame.BackgroundTransparency = 1
 ScrollingFrame.ScrollBarThickness = 10
 
--- Layout do ScrollingFrame
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
--- Função para limpar o submenu antes de adicionar novas opções
+-- Função para limpar submenu
 local function clearSubMenu()
     for _, child in pairs(ScrollingFrame:GetChildren()) do
         if child:IsA("Frame") then
@@ -52,7 +51,7 @@ local function clearSubMenu()
     end
 end
 
--- Função para adicionar funções ao submenu com botões de alternar
+-- Função para adicionar botão no menu
 local function addTogglerButtonToMenu(functionName, cheatFunction)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
@@ -78,78 +77,76 @@ local function addTogglerButtonToMenu(functionName, cheatFunction)
     ToggleButton.Parent = Frame
 
     local isActive = false
-
     ToggleButton.MouseButton1Click:Connect(function()
         isActive = not isActive
         ToggleButton.BackgroundColor3 = isActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
         ToggleButton.Text = isActive and "Ativado" or "Desativado"
         cheatFunction(isActive)
-        print(functionName .. " " .. (isActive and "Ativado" or "Desativado"))
     end)
 end
 
--- Funções de trapaça específicas para Mad City
-local function toggleInfiniteMoney(isActive)
-    -- Código para ativar dinheiro infinito
-end
-
-local function toggleWeaponSpawn(isActive)
-    -- Código para spawnar armas exclusivas
-end
-
-local function toggleTeleport(isActive)
-    -- Código para teleporte rápido
-end
-
-local function toggleGodMode(isActive)
-    -- Código para ativar God Mode
-end
-
--- Adicionando botões para as trapaças principais
-local function addSideButton(name, positionY)
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 120, 0, 50)
-    Button.Position = UDim2.new(0, 0, 0, positionY)
-    Button.Text = name
-    Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
-    Button.Font = Enum.Font.SourceSans
-    Button.TextSize = 18
-    Button.Parent = SideBar
-
-    Button.MouseButton1Click:Connect(function()
-        clearSubMenu()
-        if name == "MAD CITY" then
-            addTogglerButtonToMenu("Dinheiro Infinito", toggleInfiniteMoney)
-            addTogglerButtonToMenu("Spawn de Armas", toggleWeaponSpawn)
-            addTogglerButtonToMenu("Teleporte Rápido", toggleTeleport)
-            addTogglerButtonToMenu("God Mode", toggleGodMode)
-        end
-    end)
-end
-
--- Barra Lateral
+-- Botões Laterais
 SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, -50)
 SideBar.Position = UDim2.new(0, 0, 0, 50)
 SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 SideBar.BackgroundTransparency = 0.7
-SideBar.BorderSizePixel = 0
 
--- Adicionando botão para Mad City
-addSideButton("MAD CITY", 0)
+local function addSideButton(name, functions)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 120, 0, 50)
+    Button.Position = UDim2.new(0, 0, 0, #Buttons * 50)
+    Button.Text = name
+    Button.Parent = SideBar
+    table.insert(Buttons, Button)
 
--- Botão de abrir/fechar o menu
-local toggleButton = Instance.new("TextButton")
+    Button.MouseButton1Click:Connect(function()
+        clearSubMenu()
+        for funcName, func in pairs(functions) do
+            addTogglerButtonToMenu(funcName, func)
+        end
+    end)
+end
+
+-- Funções de Cheats do Mad City
+local functionsGeral = {
+    ["Speed Hack"] = function(isActive) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = isActive and 100 or 16 end,
+    ["No Clip"] = function(isActive) game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not isActive end,
+    ["Fly Hack"] = function(isActive) game.Players.LocalPlayer.Character.Humanoid.PlatformStand = isActive end,
+}
+
+local functionsArma = {
+    ["Munição Infinita"] = function(isActive) print("Munição infinita ativada: " .. tostring(isActive)) end,
+    ["No Recoil"] = function(isActive) print("Sem recoil: " .. tostring(isActive)) end,
+    ["Disparo Rápido"] = function(isActive) print("Disparo rápido ativado: " .. tostring(isActive)) end,
+}
+
+local functionsJogadores = {
+    ["Congelar Jogador"] = function(isActive) game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = isActive end,
+    ["God Mode"] = function(isActive) print("God Mode: " .. tostring(isActive)) end,
+}
+
+local functionsVeiculo = {
+    ["Invencibilidade no Veículo"] = function(isActive) print("Veículo Invencível: " .. tostring(isActive)) end,
+}
+
+local functionsTrolls = {
+    ["Ativar Gravidade"] = function(isActive) print("Gravidade alterada: " .. tostring(isActive)) end,
+    ["Spawnar Dinheiro"] = function(isActive) print("Dinheiro infinito ativado: " .. tostring(isActive)) end,
+}
+
+addSideButton("GERAL", functionsGeral)
+addSideButton("ARMA", functionsArma)
+addSideButton("JOGADORES", functionsJogadores)
+addSideButton("VEICULO", functionsVeiculo)
+addSideButton("TROLLS", functionsTrolls)
+
+-- Botão de abrir/fechar menu
+toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(0, 60, 0, 60)
 toggleButton.Position = UDim2.new(0, 0, 0, 0)
 toggleButton.Text = "+"
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 36
 toggleButton.Parent = ScreenGui
-
 toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
