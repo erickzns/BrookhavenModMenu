@@ -262,34 +262,80 @@ local function enableAntiCheat()
     print("Anti-Cheat ativado!")
 end
 
--- Adicionando todas as opções ao menu
-clearSubMenu()
+-- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
 
-addCheckboxToMenu("Ativar Speed Hack", activateSpeedHack)
-addCheckboxToMenu("Teleportar para Aleatório", teleportToRandom)
-addCheckboxToMenu("Ativar No-Clip", activateNoClip)
-addCheckboxToMenu("Ativar Voar", toggleFly)
-addCheckboxToMenu("Ativar Munição Infinita", infiniteAmmo)
-addCheckboxToMenu("Ativar Sem Recoil", noRecoil)
-addCheckboxToMenu("Ativar Disparo Rápido", rapidFire)
-addCheckboxToMenu("Ativar Auto-Aim", autoAim)
-addCheckboxToMenu("Remover Cooldown de Arma", removeWeaponCooldown)
-addCheckboxToMenu("Teleportar para Jogador", teleportToPlayer)
-addCheckboxToMenu("Matar Jogador", killPlayer)
-addCheckboxToMenu("Congelar Jogador", freezePlayer)
-addCheckboxToMenu("Descongelar Jogador", unfrozenPlayer)
-addCheckboxToMenu("Adicionar Dinheiro", addMoney)
-addCheckboxToMenu("Remover Dinheiro", removeMoney)
-addCheckboxToMenu("Definir Dinheiro", setMoney)
-addCheckboxToMenu("Gerar Veículo", spawnVehicle)
-addCheckboxToMenu("Dar Chaves de Veículo", giveVehicleKeys)
-addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
-addCheckboxToMenu("Ativar Bombas", spawnBomb)
-addCheckboxToMenu("Ativar Gravidade", toggleGravity)
-addCheckboxToMenu("Gerar Jogador Falso", spawnFakePlayer)
-addCheckboxToMenu("Gerar Confete", spawnConfetti)
-addCheckboxToMenu("Ajustar Velocidade", setPlayerSpeed)
-addCheckboxToMenu("Ajustar Gravidade", setGravity)
-addCheckboxToMenu("Ajustar Altura do Pulo", setJumpHeight)
-addCheckboxToMenu("Ajustar Velocidade de Caminhada", setWalkSpeed)
-addCheckboxToMenu("Ativar Anti-Cheat", enableAntiCheat)
+-- Função para adicionar botões laterais e carregar funções específicas
+local function addSideButton(name, positionY)
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 120, 0, 50)
+    Button.Position = UDim2.new(0, 0, 0, positionY)
+    Button.Text = name
+    Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 18
+    Button.Parent = SideBar
+
+    Button.MouseButton1Click:Connect(function()
+        clearSubMenu()
+        -- Dependendo do nome do botão, adicionar funções diferentes
+        if name == "GERAL" then
+            addCheckboxToMenu("Ativar Speed Hack", activateSpeedHack)
+            addCheckboxToMenu("Teleportar para Aleatório", teleportToRandom)
+            addCheckboxToMenu("Ativar No-Clip", activateNoClip)
+            addCheckboxToMenu("Ativar Voar", toggleFly)
+        elseif name == "ARMA" then
+            addCheckboxToMenu("Ativar Munição Infinita", infiniteAmmo)
+            addCheckboxToMenu("Ativar Sem Recoil", noRecoil)
+            addCheckboxToMenu("Ativar Disparo Rápido", rapidFire)
+            addCheckboxToMenu("Ativar Auto-Aim", autoAim)
+            addCheckboxToMenu("Remover Cooldown de Arma", removeWeaponCooldown)
+        elseif name == "JOGADORES" then
+            addCheckboxToMenu("Teleportar para Jogador", teleportToPlayer)
+            addCheckboxToMenu("Matar Jogador", killPlayer)
+            addCheckboxToMenu("Congelar Jogador", freezePlayer)
+            addCheckboxToMenu("Descongelar Jogador", unfrozenPlayer)
+        elseif name == "DINHEIRO" then
+            addCheckboxToMenu("Adicionar Dinheiro", addMoney)
+            addCheckboxToMenu("Remover Dinheiro", removeMoney)
+            addCheckboxToMenu("Definir Dinheiro", setMoney)
+        elseif name == "VEICULO" then
+            addCheckboxToMenu("Gerar Veículo", spawnVehicle)
+            addCheckboxToMenu("Dar Chaves de Veículo", giveVehicleKeys)
+            addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
+        elseif name == "TROLLS" then
+            addCheckboxToMenu("Ativar Bombas", spawnBomb)
+            addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+            addCheckboxToMenu("Gerar Jogador Falso", spawnFakePlayer)
+            addCheckboxToMenu("Gerar Confete", spawnConfetti)
+        end
+    end)
+end
+
+-- Adicionando botões laterais
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)
+end
+
+-- Botão de abrir/fechar o menu
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 60, 0, 60)
+toggleButton.Position = UDim2.new(0, 0, 0, 0)
+toggleButton.Text = "+"
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.Gotham
+toggleButton.TextSize = 28
+toggleButton.Parent = MainFrame
+
+toggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible  -- Alterna a visibilidade do menu
+    toggleButton.Text = MainFrame.Visible and "-" or "+"  -- Alterna o texto do botão
+end)
