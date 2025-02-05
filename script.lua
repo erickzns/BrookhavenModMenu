@@ -161,6 +161,45 @@ local function toggleFreeze(isActive)
     end
 end
 
+-- Funções extras (arma, jogadores, dinheiro)
+local function giveWeapon(weaponName)
+    local player = game.Players.LocalPlayer
+    if weaponName == "AK-47" then
+        local tool = Instance.new("Tool")
+        tool.Name = "AK-47"
+        tool.Parent = player.Backpack
+    elseif weaponName == "Pistola" then
+        local tool = Instance.new("Tool")
+        tool.Name = "Pistola"
+        tool.Parent = player.Backpack
+    end
+end
+
+local function addMoney(amount)
+    local player = game.Players.LocalPlayer
+    player.leaderstats.Money.Value = player.leaderstats.Money.Value + amount
+end
+
+local function freezePlayer(targetPlayer)
+    local character = targetPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = true
+        end
+    end
+end
+
+local function unfreezePlayer(targetPlayer)
+    local character = targetPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = false
+        end
+    end
+end
+
 -- Método de Bypass avançado
 local function bypassAntiCheat(func)
     -- Função para ocultar alterações e impedir que o AntiCheat detecte atividades
@@ -225,6 +264,15 @@ local function addSideButton(name, positionY)
             addTogglerButtonToMenu("Ativar Invisibilidade", toggleInvisible)
             addTogglerButtonToMenu("Ativar Teleporte", toggleTeleport)
             addTogglerButtonToMenu("Ativar Freeze", toggleFreeze)
+        elseif name == "ARMAS" then
+            addTogglerButtonToMenu("Dar AK-47", function() giveWeapon("AK-47") end)
+            addTogglerButtonToMenu("Dar Pistola", function() giveWeapon("Pistola") end)
+        elseif name == "DINHEIRO" then
+            addTogglerButtonToMenu("Adicionar Dinheiro", function() addMoney(10000) end)
+        elseif name == "JOGADORES" then
+            -- Aqui você pode adicionar funções para manipular jogadores
+            addTogglerButtonToMenu("Congelar Jogador", function() freezePlayer(game.Players.LocalPlayer) end)
+            addTogglerButtonToMenu("Descongelar Jogador", function() unfreezePlayer(game.Players.LocalPlayer) end)
         end
     end)
 end
@@ -238,7 +286,7 @@ SideBar.BackgroundTransparency = 0.7
 SideBar.BorderSizePixel = 0
 
 -- Funções para adicionar botões laterais e carregar funções específicas
-local buttonNames = {"GERAL", "TROLL"}
+local buttonNames = {"GERAL", "ARMAS", "JOGADORES", "DINHEIRO", "TROLL"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
