@@ -100,7 +100,6 @@ end
 -- Funções de trapaça (exemplo)
 -- GERAL
 local function toggleSpeedHack(isActive)
-    -- Bypass para esconder a alteração de velocidade
     bypassCheatDetection(function()
         for _, player in ipairs(game.Players:GetChildren()) do
             if player.Character then
@@ -136,15 +135,21 @@ end
 
 -- ARMA
 local function toggleInfiniteAmmo(isActive)
-    -- Código para ativar ou desativar a munição infinita
+    bypassCheatDetection(function()
+        -- Código para ativar ou desativar a munição infinita
+    end)
 end
 
 local function toggleNoRecoil(isActive)
-    -- Código para ativar ou desativar o recoil
+    bypassCheatDetection(function()
+        -- Código para ativar ou desativar o recoil
+    end)
 end
 
 local function toggleRapidFire(isActive)
-    -- Código para ativar ou desativar o disparo rápido
+    bypassCheatDetection(function()
+        -- Código para ativar ou desativar o disparo rápido
+    end)
 end
 
 -- JOGADORES
@@ -159,16 +164,22 @@ end
 
 -- VEICULO
 local function toggleVehicleInvincibility(isActive)
-    -- Código para ativar ou desativar a invencibilidade do veículo
+    bypassCheatDetection(function()
+        -- Código para ativar ou desativar a invencibilidade do veículo
+    end)
 end
 
 -- TROLLS
 local function toggleGravity(isActive)
-    -- Código para ativar ou desativar a gravidade
+    bypassCheatDetection(function()
+        -- Código para ativar ou desativar a gravidade
+    end)
 end
 
 local function toggleBomb(isActive)
-    -- Código para ativar ou desativar bombas
+    bypassCheatDetection(function()
+        -- Código para ativar ou desativar bombas
+    end)
 end
 
 -- Adicionando botões para as trapaças principais
