@@ -330,13 +330,11 @@ toggleButton.Position = UDim2.new(0, 0, 0, 0)
 toggleButton.Text = "+"
 toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.Gotham
-toggleButton.TextSize = 28
-toggleButton.Parent = MainFrame
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 36
+toggleButton.Parent = ScreenGui
 
 toggleButton.MouseButton1Click:Connect(function()
-    -- Alterna a visibilidade do menu
     MainFrame.Visible = not MainFrame.Visible
-    -- Alterna o texto do botão
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
