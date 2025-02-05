@@ -5,7 +5,6 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
-local ToggleButton = Instance.new("TextButton")  -- Botão de alternância (+ e -)
 
 -- Configuração da interface
 ScreenGui.Parent = game.CoreGui
@@ -16,7 +15,7 @@ MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
-MainFrame.Visible = false  -- Inicialmente o menu está invisível
+MainFrame.Visible = false
 
 -- Título do Menu
 Title.Parent = MainFrame
@@ -43,36 +42,6 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
--- Barra Lateral (SideBar)
-SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, -50)
-SideBar.Position = UDim2.new(0, 0, 0, 50)
-SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SideBar.BackgroundTransparency = 0.7
-SideBar.BorderSizePixel = 0
-
--- Adicionando o botão "+" para abrir e minimizar o menu
-ToggleButton.Parent = MainFrame
-ToggleButton.Size = UDim2.new(0, 30, 0, 30)
-ToggleButton.Position = UDim2.new(1, -40, 0, 10)
-ToggleButton.Text = "+"
-ToggleButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleButton.Font = Enum.Font.Gotham
-ToggleButton.TextSize = 24
-
--- Função de clique do botão "+" para abrir ou minimizar o menu
-ToggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible  -- Alterna a visibilidade do menu
-
-    -- Troca o texto do botão para "-" ou "+" dependendo do estado do menu
-    if MainFrame.Visible then
-        ToggleButton.Text = "-"
-    else
-        ToggleButton.Text = "+"
-    end
-end)
-
 -- Função para limpar o submenu antes de adicionar novas opções
 local function clearSubMenu()
     for _, child in pairs(ScrollingFrame:GetChildren()) do
@@ -82,7 +51,7 @@ local function clearSubMenu()
     end
 end
 
--- Função para adicionar checkboxes ao submenu
+-- Função para adicionar funções ao submenu com checkboxes
 local function addCheckboxToMenu(functionName, cheatFunction)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
@@ -107,23 +76,16 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    -- Verificar o estado salvo da checkbox
     local isChecked = false
-    Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-
-    -- Função que lida com o clique na checkbox
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-
         if isChecked then
             cheatFunction()
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
 end
-
--- Adicionar outras funções aqui...
 
 -- Funções de trapaças (Adicionadas novas funções)
 local function activateGodMode()
@@ -168,6 +130,7 @@ local function spawnItem(itemName)
     -- Adicionar lógica de spawn de item aqui
 end
 
+-- Funções extras e trolls
 local function explodePlayer(player)
     -- Explodir um jogador
     player.Character:BreakJoints()
@@ -197,114 +160,91 @@ local function spawnVehicle(vehicleType)
     print(vehicleType .. " spawnado!")
 end
 
--- Definir funções para cada categoria
-local ARMA = {
-    {"Aimbot", activateAimbot},
-    {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
-    {"No Recoil", function() print("No Recoil ativado!") end},
-    {"Weapon Hack", function() print("Weapon Hack ativado!") end},
-    {"Super Aim", function() print("Super Aim ativado!") end},
-    {"Auto Fire", function() print("Auto Fire ativado!") end},
-    {"Rapid Fire", function() print("Rapid Fire ativado!") end},
-    {"Explosive Ammo", function() print("Munição explosiva ativada!") end},
-    {"Sniper Zoom", function() print("Zoom de sniper ativado!") end},
-    {"Laser Sight", function() print("Laser Sight ativado!") end},
+-- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
+
+-- Função para adicionar botões laterais e carregar funções específicas
+local buttonFunctions = {
+    GERAL = {
+        {"AutoClick", function() print("AutoClick ativado") end},
+        {"God Mode", activateGodMode},
+        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
+        {"Infinitive Jump", infiniteJump},
+        {"Speed Hack", speedHack},
+        {"Spawn Item - Carro", function() spawnItem("Carro") end},
+        {"Teleport To Player", teleportToPlayer},
+        {"Explode Player", explodePlayer},
+        {"Teleport To Random Position", teleportToRandom},
+        {"Chat Spammer", chatSpammer},
+        {"Fake Ban", fakeBan},
+    },
+    ARMA = {
+        {"Aimbot", activateAimbot},
+        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
+        {"No Recoil", function() print("No Recoil ativado!") end},
+    },
+    JOGADORES = {
+        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
+        {"Teleport", teleportToPlayer},
+        {"Speed Hack", speedHack},
+        {"NoClip", noClip},
+        {"Invisibility", function() print("Invisibility ativado!") end},
+    },
+    VEICULO = {
+        {"Spawn Carro", function() spawnVehicle("Carro") end},
+        {"Spawn Helicopter", function() spawnVehicle("Helicopter") end},
+    },
+    TROLLS = {
+        {"Explodir Jogador", explodePlayer},
+        {"Chat Spammer", chatSpammer},
+    },
 }
 
-local JOGADORES = {
-    {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
-    {"Teleport", teleportToPlayer},
-    {"Speed Hack", speedHack},
-    {"NoClip", noClip},
-    {"Invisibility", function() print("Invisibility ativado!") end},
-    {"Freeze Player", function() print("Freeze Player ativado!") end},
-    {"Player Tagging", function() print("Player Tagging ativado!") end},
-    {"Player ESP", function() print("Player ESP ativado!") end},
-    {"Player Info", function() print("Informações do jogador exibidas!") end},
-    {"Change Player Speed", function() print("Velocidade do jogador alterada!") end},
-    {"Kill Player", function() print("Jogador morto!") end},
-}
-
-local VEICULO = {
-    {"Boost Nitro", function() print("Boost Nitro ativado!") end},
-    {"Carro Voador", function() print("Carro Voador ativado!") end},
-    {"Anti-Crash", function() print("Anti-Crash ativado!") end},
-    {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
-    {"Spawn Tank", function() spawnVehicle("Tank") end},
-    {"Spawn Helicopter", function() spawnVehicle("Helicopter") end},
-    {"Carro Turbo", function() print("Carro Turbo ativado!") end},
-    {"Super Boost", function() print("Super Boost ativado!") end},
-    {"Fly Mode", function() print("Modo Voo ativado!") end},
-    {"Spawn Plane", function() print("Avião spawnado!") end},
-}
-
-local TROLLS = {
-    {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
-    {"Loop Kill", function() print("Loop Kill ativado!") end},
-    {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-    {"Troca de nome", function() print("Troca de nome ativado!") end},
-}
-
-local GERAL = {
-    {"AutoClick", function() print("AutoClick ativado") end},
-    {"God Mode", activateGodMode},
-    {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
-    {"Infinitive Jump", infiniteJump},
-    {"Speed Hack", speedHack},
-    {"Spawn Item - Carro", function() spawnItem("Carro") end},
-    {"Teleport To Player", teleportToPlayer},
-    {"Explode Player", explodePlayer},
-    {"Teleport To Random Position", teleportToRandom},
-    {"Chat Spammer", chatSpammer},
-    {"Fake Ban", fakeBan},
-    {"Fake Admin", function() print("Você agora é um Fake Admin!") end},
-    {"Unlock All Items", function() print("Todos os itens desbloqueados!") end},
-    {"Unlock All Levels", function() print("Todos os níveis desbloqueados!") end},
-    {"Disable Anti-AFK", function() print("Anti-AFK desabilitado!") end},
-    {"God Mode", activateGodMode},
-}
-
-local CATEGORIAS = {
-    {"GERAL", GERAL},
-    {"JOGADORES", JOGADORES},
-    {"ARMA", ARMA},
-    {"VEICULO", VEICULO},
-    {"TROLLS", TROLLS}
-}
-
--- Função para criar botões de categoria
-local function criarBotaoDeCategoria(nome)
+local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(1, 0, 0, 50)
-    Button.Text = nome
-    Button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.Font = Enum.Font.Gotham
-    Button.TextSize = 22
+    Button.Size = UDim2.new(0, 120, 0, 40)
+    Button.Position = UDim2.new(0, 0, 0, yPosition)
+    Button.Text = name
+    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 18
     Button.Parent = SideBar
+
     Button.MouseButton1Click:Connect(function()
         clearSubMenu()
-        local categoria = CATEGORIAS[nome]
-        for _, item in pairs(categoria[2]) do
-            addCheckboxToMenu(item[1], item[2])
+        for _, funcData in ipairs(buttonFunctions[name] or {}) do
+            local funcName, func = unpack(funcData)
+            addCheckboxToMenu(funcName, func)
         end
     end)
+
+    table.insert(Buttons, Button)
 end
 
--- Criar Sidebar de Categoria
-SideBar.Size = UDim2.new(0, 120, 1, 0)
-SideBar.Position = UDim2.new(0, 0, 0, 0)
-SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SideBar.Parent = MainFrame
-
--- Criar Botões de Categoria
-for _, categoria in ipairs(CATEGORIAS) do
-    criarBotaoDeCategoria(categoria[1])
+-- Adicionando botões laterais
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)
 end
 
--- Ativar a interface com a tecla F4
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.F4 then
-        MainFrame.Visible = not MainFrame.Visible
-    end
+-- Botão de abrir/fechar o menu
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 60, 0, 60)
+toggleButton.Position = UDim2.new(0, 0, 0, 0)
+toggleButton.Text = "+"
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 36
+toggleButton.Parent = ScreenGui
+
+toggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+    toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
