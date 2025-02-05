@@ -1,4 +1,4 @@
-local ScreenGui = Instance.new("ScreenGui") 
+local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
@@ -82,8 +82,6 @@ local function addCheckboxToMenu(functionName, cheatFunction)
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
         if isChecked then
             cheatFunction()
-        else
-            -- Adicionar lógica para desativar as trapaças, se necessário.
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
@@ -254,17 +252,16 @@ end
 
 -- Botão de abrir/fechar o menu
 local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 60, 0, 60)
-toggleButton.Position = UDim2.new(0, 0, 0, 0)
-toggleButton.Text = "+"
+toggleButton.Size = UDim2.new(0, 50, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -25, 0.5, 200)
 toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.Text = "+"
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 36
+toggleButton.TextSize = 24
 toggleButton.Parent = ScreenGui
 
 toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
-
