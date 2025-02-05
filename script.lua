@@ -130,7 +130,7 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função para permitir a movimentação do menu pela barra de título
+-- Função de movimentação ajustada
 local dragging = false
 local dragStart = nil
 local startPos = nil
@@ -146,7 +146,7 @@ end)
 Title.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
-        -- Atualizando posição sem limitações
+        -- Movimenta a tela de acordo com o delta
         MainFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
     end
 end)
