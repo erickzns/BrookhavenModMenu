@@ -112,10 +112,24 @@ local bombActive = false
 local function toggleSpeedHack()
     if speedHackActive then
         print("Speed Hack desativado!")
-        -- Código para desativar o speed hack
+        for _, player in ipairs(game.Players:GetChildren()) do
+            if player.Character then
+                local humanoid = player.Character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = 16  -- Volta para a velocidade normal
+                end
+            end
+        end
     else
         print("Speed Hack ativado!")
-        -- Código para ativar o speed hack
+        for _, player in ipairs(game.Players:GetChildren()) do
+            if player.Character then
+                local humanoid = player.Character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = 100  -- Aumento de velocidade
+                end
+            end
+        end
     end
     speedHackActive = not speedHackActive
 end
@@ -123,10 +137,16 @@ end
 local function toggleNoClip()
     if noClipActive then
         print("No-Clip desativado!")
-        -- Código para desativar no-clip
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            character.HumanoidRootPart.Anchored = false
+        end
     else
         print("No-Clip ativado!")
-        -- Código para ativar no-clip
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            character.HumanoidRootPart.Anchored = true
+        end
     end
     noClipActive = not noClipActive
 end
@@ -134,10 +154,22 @@ end
 local function toggleFly()
     if flyActive then
         print("Voar desativado!")
-        -- Código para desativar voar
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.PlatformStand = false
+            end
+        end
     else
         print("Voar ativado!")
-        -- Código para ativar voar
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.PlatformStand = true
+            end
+        end
     end
     flyActive = not flyActive
 end
@@ -146,10 +178,10 @@ end
 local function toggleInfiniteAmmo()
     if infiniteAmmoActive then
         print("Munição infinita desativada!")
-        -- Código para desativar munição infinita
+        -- Código para desativar a munição infinita
     else
         print("Munição infinita ativada!")
-        -- Código para ativar munição infinita
+        -- Código para ativar a munição infinita
     end
     infiniteAmmoActive = not infiniteAmmoActive
 end
@@ -168,10 +200,10 @@ end
 local function toggleRapidFire()
     if rapidFireActive then
         print("Disparo rápido desativado!")
-        -- Código para desativar disparo rápido
+        -- Código para desativar o disparo rápido
     else
         print("Disparo rápido ativado!")
-        -- Código para ativar disparo rápido
+        -- Código para disparos rápidos
     end
     rapidFireActive = not rapidFireActive
 end
@@ -180,10 +212,16 @@ end
 local function toggleFreezePlayer()
     if freezePlayerActive then
         print("Descongelando jogador!")
-        -- Código para descongelar jogador
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character.HumanoidRootPart.Anchored = false
+        end
     else
         print("Congelando jogador!")
-        -- Código para congelar jogador
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character.HumanoidRootPart.Anchored = true
+        end
     end
     freezePlayerActive = not freezePlayerActive
 end
@@ -192,10 +230,10 @@ end
 local function toggleVehicleInvincibility()
     if vehicleInvincibilityActive then
         print("Invencibilidade do veículo desativada!")
-        -- Código para desativar invencibilidade do veículo
+        -- Código para desativar a invencibilidade do veículo
     else
         print("Invencibilidade do veículo ativada!")
-        -- Código para ativar invencibilidade do veículo
+        -- Código para ativar a invencibilidade do veículo
     end
     vehicleInvincibilityActive = not vehicleInvincibilityActive
 end
@@ -204,10 +242,10 @@ end
 local function toggleGravity()
     if gravityActive then
         print("Gravidade desativada!")
-        -- Código para desativar gravidade
+        -- Código para desativar a gravidade
     else
         print("Gravidade ativada!")
-        -- Código para ativar gravidade
+        -- Código para ativar a gravidade
     end
     gravityActive = not gravityActive
 end
@@ -221,30 +259,6 @@ local function toggleBomb()
         -- Código para ativar bombas
     end
     bombActive = not bombActive
-end
-
--- Função para adicionar checkbox para as trapaças
-local function addCheckboxToMenu(label, toggleFunction)
-    local checkbox = Instance.new("TextButton")
-    checkbox.Size = UDim2.new(0, 120, 0, 30)
-    checkbox.Text = label
-    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha
-    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    checkbox.Font = Enum.Font.SourceSans
-    checkbox.TextSize = 18
-    checkbox.Parent = MainFrame
-
-    checkbox.MouseButton1Click:Connect(function()
-        -- Alternar entre ativar/desativar a trapaça
-        toggleFunction()
-
-        -- Alterando a cor da checkbox diretamente
-        if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
-            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
-        else
-            checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho para desativado
-        end
-    end)
 end
 
 -- Barra Lateral (SideBar)
@@ -289,17 +303,29 @@ local function addSideButton(name, positionY)
     end)
 end
 
--- Exemplo de como adicionar checkboxes para as trapaças
-addCheckboxToMenu("Ativar Speed Hack", toggleSpeedHack)
-addCheckboxToMenu("Ativar No-Clip", toggleNoClip)
-addCheckboxToMenu("Ativar Voar", toggleFly)
-addCheckboxToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
-addCheckboxToMenu("Ativar Sem Recoil", toggleNoRecoil)
-addCheckboxToMenu("Ativar Disparo Rápido", toggleRapidFire)
-addCheckboxToMenu("Congelar Jogador", toggleFreezePlayer)
-addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
-addCheckboxToMenu("Ativar Bombas", toggleBomb)
-addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+-- Função para adicionar checkbox para as trapaças
+local function addCheckboxToMenu(label, toggleFunction)
+    local checkbox = Instance.new("TextButton")
+    checkbox.Size = UDim2.new(0, 120, 0, 30)
+    checkbox.Text = label
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha
+    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    checkbox.Font = Enum.Font.SourceSans
+    checkbox.TextSize = 18
+    checkbox.Parent = MainFrame
+
+    checkbox.MouseButton1Click:Connect(function()
+        -- Alternar entre ativar/desativar a trapaça
+        toggleFunction()
+
+        -- Alterando a cor da checkbox diretamente
+        if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
+            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
+        else
+            checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho para desativado
+        end
+    end)
+end
 
 -- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
@@ -307,7 +333,7 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função para abrir/fechar o menu
+-- Botão de abrir/fechar o menu
 local toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(0, 60, 0, 60)
 toggleButton.Position = UDim2.new(0, 0, 0, 0)
@@ -322,5 +348,6 @@ toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
+
 
 
