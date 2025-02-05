@@ -236,8 +236,6 @@ local buttonFunctions = {
 
 -- Adicionando os botões ao lado do menu
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
-local yPos = 0
-for _, name in ipairs(buttonNames) do
-    addSideButton(name, yPos)
-    yPos = yPos + 45
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)
 end
