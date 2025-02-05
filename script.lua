@@ -302,3 +302,4 @@ toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
+
