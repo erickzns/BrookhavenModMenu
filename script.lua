@@ -303,7 +303,7 @@ local function addSideButton(name, positionY)
     end)
 end
 
--- Função para adicionar checkbox para as trapaças
+--- Função para adicionar checkbox para as trapaças
 local function addCheckboxToMenu(label, toggleFunction)
     local checkbox = Instance.new("TextButton")
     checkbox.Size = UDim2.new(0, 120, 0, 30)
