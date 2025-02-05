@@ -1,4 +1,4 @@
-ScreenGui = Instance.new("ScreenGui")
+local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
