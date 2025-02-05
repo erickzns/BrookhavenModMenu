@@ -93,6 +93,8 @@ local function addCheckboxToMenu(functionName, cheatFunction)
 end
 
 -- Funções de trapaça (exemplo)
+
+-- GERAL
 local function activateSpeedHack()
     print("Speed Hack ativado!")
     for _, player in ipairs(game.Players:GetChildren()) do
@@ -110,54 +112,184 @@ local function teleportToRandom()
     game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(randomPos)
 end
 
--- Barra Lateral (SideBar)
-SideBar.Parent = MainFrame
-SideBar.Size = UDim2.new(0, 120, 1, -50)
-SideBar.Position = UDim2.new(0, 0, 0, 50)
-SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SideBar.BackgroundTransparency = 0.7
-SideBar.BorderSizePixel = 0
+local function activateNoClip()
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        character.HumanoidRootPart.Anchored = true
+    end
+end
 
--- Função para adicionar botões laterais e carregar funções específicas
-local function addSideButton(name, positionY)
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 120, 0, 50)
-    Button.Position = UDim2.new(0, 0, 0, positionY)
-    Button.Text = name
-    Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
-    Button.Font = Enum.Font.SourceSans
-    Button.TextSize = 18
-    Button.Parent = SideBar
-
-    Button.MouseButton1Click:Connect(function()
-        clearSubMenu()
-        -- Dependendo do nome do botão, adicionar funções diferentes
-        if name == "GERAL" then
-            addCheckboxToMenu("Speed Hack", activateSpeedHack)
-            addCheckboxToMenu("Teleport to Random Position", teleportToRandom)
+local function toggleFly(enable)
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = enable
         end
-    end)
+    end
 end
 
--- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
-for i, name in ipairs(buttonNames) do
-    addSideButton(name, (i - 1) * 50)
+-- ARMA
+local function infiniteAmmo()
+    print("Munição infinita ativada!")
+    -- Código para implementar a munição infinita
 end
 
--- Botão de abrir/fechar o menu
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 60, 0, 60)
-toggleButton.Position = UDim2.new(0, 0, 0, 0)
-toggleButton.Text = "+"
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.Gotham
-toggleButton.TextSize = 28
-toggleButton.Parent = MainFrame
+local function noRecoil()
+    print("Recoil desativado!")
+    -- Código para remover o recoil
+end
 
-toggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible  -- Alterna a visibilidade do menu
-    toggleButton.Text = MainFrame.Visible and "-" or "+"  -- Alterna o texto do botão
-end)
+local function rapidFire()
+    print("Disparo rápido ativado!")
+    -- Código para disparos rápidos
+end
+
+local function autoAim()
+    print("Auto-Aim ativado!")
+    -- Código para implementar Auto-Aim
+end
+
+local function removeWeaponCooldown()
+    print("Cooldown de arma removido!")
+    -- Código para remover o cooldown de arma
+end
+
+-- JOGADORES
+local function teleportToPlayer()
+    local targetPlayer = game.Players.LocalPlayer
+    if targetPlayer.Character then
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
+    end
+end
+
+local function killPlayer()
+    print("Matando jogador alvo!")
+    -- Código para matar o jogador alvo
+end
+
+local function freezePlayer()
+    local player = game.Players.LocalPlayer
+    if player.Character then
+        player.Character.HumanoidRootPart.Anchored = true
+    end
+end
+
+local function unfrozenPlayer()
+    local player = game.Players.LocalPlayer
+    if player.Character then
+        player.Character.HumanoidRootPart.Anchored = false
+    end
+end
+
+-- DINHEIRO
+local function addMoney()
+    local player = game.Players.LocalPlayer
+    player.leaderstats.Money.Value = player.leaderstats.Money.Value + 1000
+end
+
+local function removeMoney()
+    local player = game.Players.LocalPlayer
+    player.leaderstats.Money.Value = player.leaderstats.Money.Value - 1000
+end
+
+local function setMoney(value)
+    local player = game.Players.LocalPlayer
+    player.leaderstats.Money.Value = value
+end
+
+-- VEICULO
+local function spawnVehicle(vehicleType)
+    print("Gerando veículo: " .. vehicleType)
+    -- Código para gerar o veículo
+end
+
+local function giveVehicleKeys()
+    print("Chaves de veículo dadas!")
+    -- Código para dar as chaves do veículo ao jogador
+end
+
+local function toggleVehicleInvincibility(enable)
+    if enable then
+        print("Veículo invencível ativado!")
+    else
+        print("Veículo invencível desativado!")
+    end
+end
+
+-- TROLLS
+local function spawnBomb()
+    print("Bombas ativadas!")
+    -- Código para gerar uma bomba
+end
+
+local function toggleGravity(enable)
+    if enable then
+        print("Gravidade ativada!")
+    else
+        print("Gravidade desativada!")
+    end
+end
+
+local function spawnFakePlayer()
+    print("Jogador falso gerado!")
+    -- Código para gerar um jogador falso
+end
+
+local function spawnConfetti()
+    print("Confete ativado!")
+    -- Código para gerar confetes
+end
+
+-- CONFIGURAÇÕES
+local function setPlayerSpeed(speed)
+    print("Ajustando a velocidade do jogador para: " .. speed)
+end
+
+local function setGravity(gravity)
+    print("Ajustando a gravidade para: " .. gravity)
+end
+
+local function setJumpHeight(height)
+    print("Ajustando a altura do pulo para: " .. height)
+end
+
+local function setWalkSpeed(speed)
+    print("Ajustando a velocidade de caminhada para: " .. speed)
+end
+
+local function enableAntiCheat()
+    print("Anti-Cheat ativado!")
+end
+
+-- Adicionando todas as opções ao menu
+clearSubMenu()
+
+addCheckboxToMenu("Ativar Speed Hack", activateSpeedHack)
+addCheckboxToMenu("Teleportar para Aleatório", teleportToRandom)
+addCheckboxToMenu("Ativar No-Clip", activateNoClip)
+addCheckboxToMenu("Ativar Voar", toggleFly)
+addCheckboxToMenu("Ativar Munição Infinita", infiniteAmmo)
+addCheckboxToMenu("Ativar Sem Recoil", noRecoil)
+addCheckboxToMenu("Ativar Disparo Rápido", rapidFire)
+addCheckboxToMenu("Ativar Auto-Aim", autoAim)
+addCheckboxToMenu("Remover Cooldown de Arma", removeWeaponCooldown)
+addCheckboxToMenu("Teleportar para Jogador", teleportToPlayer)
+addCheckboxToMenu("Matar Jogador", killPlayer)
+addCheckboxToMenu("Congelar Jogador", freezePlayer)
+addCheckboxToMenu("Descongelar Jogador", unfrozenPlayer)
+addCheckboxToMenu("Adicionar Dinheiro", addMoney)
+addCheckboxToMenu("Remover Dinheiro", removeMoney)
+addCheckboxToMenu("Definir Dinheiro", setMoney)
+addCheckboxToMenu("Gerar Veículo", spawnVehicle)
+addCheckboxToMenu("Dar Chaves de Veículo", giveVehicleKeys)
+addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
+addCheckboxToMenu("Ativar Bombas", spawnBomb)
+addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+addCheckboxToMenu("Gerar Jogador Falso", spawnFakePlayer)
+addCheckboxToMenu("Gerar Confete", spawnConfetti)
+addCheckboxToMenu("Ajustar Velocidade", setPlayerSpeed)
+addCheckboxToMenu("Ajustar Gravidade", setGravity)
+addCheckboxToMenu("Ajustar Altura do Pulo", setJumpHeight)
+addCheckboxToMenu("Ajustar Velocidade de Caminhada", setWalkSpeed)
+addCheckboxToMenu("Ativar Anti-Cheat", enableAntiCheat)
