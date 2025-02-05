@@ -219,6 +219,9 @@ local buttonFunctions = {
         {"Change Player Speed", function() print("Velocidade do jogador alterada!") end},
         {"Kill Player", function() print("Jogador morto!") end},
     },
+    DINHEIRO = {
+        {'pull money', function() print("Dinheiro Adicionado") end},
+    },
     VEICULO = {
         {"Boost Nitro", function() print("Boost Nitro ativado!") end},
         {"Carro Voador", function() print("Carro Voador ativado!") end},
