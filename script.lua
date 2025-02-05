@@ -131,7 +131,10 @@ for i, name in ipairs(buttonNames) do
 end
 
 -- Função para permitir a movimentação totalmente livre do mod menu
-local dragging, dragStart, startPos
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
 MainFrame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
@@ -143,7 +146,6 @@ end)
 MainFrame.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
-        -- Movendo o menu sem limites
         MainFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
     end
 end)
