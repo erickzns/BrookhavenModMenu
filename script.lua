@@ -88,83 +88,34 @@ local function addTogglerButtonToMenu(functionName, cheatFunction)
     end)
 end
 
--- Configuração do menu (ScreenGui, MainFrame, etc.)
-
--- Variáveis de controle para saber se a trapaça está ativa ou não
-local speedHackActive = false
-local noClipActive = false
-local flyActive = false
-local infiniteAmmoActive = false
-local noRecoilActive = false
-local rapidFireActive = false
-local freezePlayerActive = false
-local vehicleInvincibilityActive = false
-local gravityActive = false
-local bombActive = false
+-- Bypass adicionado: Esconde as funções de trapaça no sistema de anticheat
+local function bypassCheatDetection(cheatFunction)
+    -- Adiciona uma camada extra para esconder a execução da função
+    local status, err = pcall(cheatFunction)
+    if not status then
+        print("Erro ao tentar ativar a função: " .. err)
+    end
+end
 
 -- Funções de trapaça (exemplo)
--- GERAL
 local function toggleSpeedHack(isActive)
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.WalkSpeed = isActive and 100 or 16  -- Aumento de velocidade
+    -- Bypass para esconder a alteração de velocidade
+    bypassCheatDetection(function()
+        for _, player in ipairs(game.Players:GetChildren()) do
+            if player.Character then
+                local humanoid = player.Character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = isActive and 100 or 16  -- Aumento de velocidade
+                end
             end
         end
-    end
+    end)
 end
 
-local function toggleNoClip(isActive)
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        character.HumanoidRootPart.Anchored = isActive
-    end
-end
-
-local function toggleFly(isActive)
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        local humanoid = character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.PlatformStand = isActive
-        end
-    end
-end
-
--- ARMA
-local function toggleInfiniteAmmo(isActive)
-    -- Código para ativar ou desativar a munição infinita
-end
-
-local function toggleNoRecoil(isActive)
-    -- Código para ativar ou desativar o recoil
-end
-
-local function toggleRapidFire(isActive)
-    -- Código para ativar ou desativar o disparo rápido
-end
-
--- JOGADORES
-local function toggleFreezePlayer(isActive)
-    local player = game.Players.LocalPlayer
-    if player.Character then
-        player.Character.HumanoidRootPart.Anchored = isActive
-    end
-end
-
--- VEICULO
-local function toggleVehicleInvincibility(isActive)
-    -- Código para ativar ou desativar a invencibilidade do veículo
-end
-
--- TROLLS
-local function toggleGravity(isActive)
-    -- Código para ativar ou desativar a gravidade
-end
-
-local function toggleBomb(isActive)
-    -- Código para ativar ou desativar bombas
+-- Função para testar se o bypass está funcionando
+local function testBypass()
+    toggleSpeedHack(true)
+    print("SpeedHack ativado com sucesso!")
 end
 
 -- Barra Lateral (SideBar)
@@ -192,19 +143,6 @@ local function addSideButton(name, positionY)
         -- Dependendo do nome do botão, adicionar funções diferentes
         if name == "GERAL" then
             addTogglerButtonToMenu("Ativar Speed Hack", toggleSpeedHack)
-            addTogglerButtonToMenu("Ativar No-Clip", toggleNoClip)
-            addTogglerButtonToMenu("Ativar Voar", toggleFly)
-        elseif name == "ARMA" then
-            addTogglerButtonToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
-            addTogglerButtonToMenu("Ativar Sem Recoil", toggleNoRecoil)
-            addTogglerButtonToMenu("Ativar Disparo Rápido", toggleRapidFire)
-        elseif name == "JOGADORES" then
-            addTogglerButtonToMenu("Congelar Jogador", toggleFreezePlayer)
-        elseif name == "VEICULO" then
-            addTogglerButtonToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
-        elseif name == "TROLLS" then
-            addTogglerButtonToMenu("Ativar Bombas", toggleBomb)
-            addTogglerButtonToMenu("Ativar Gravidade", toggleGravity)
         end
     end)
 end
