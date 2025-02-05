@@ -252,13 +252,13 @@ end
 
 -- Botão de abrir/fechar o menu
 local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 50, 0, 50)
-toggleButton.Position = UDim2.new(0.5, -25, 0.5, 200)
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+toggleButton.Size = UDim2.new(0, 60, 0, 60)
+toggleButton.Position = UDim2.new(0, 0, 0, 0)
 toggleButton.Text = "+"
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 24
+toggleButton.TextSize = 36
 toggleButton.Parent = ScreenGui
 
 toggleButton.MouseButton1Click:Connect(function()
