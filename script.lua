@@ -93,6 +93,8 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
+-- Configuração do menu (ScreenGui, MainFrame, etc.)
+
 -- Funções de trapaça (exemplo)
 -- GERAL
 local function activateSpeedHack()
@@ -107,6 +109,18 @@ local function activateSpeedHack()
     end
 end
 
+local function deactivateSpeedHack()
+    print("Speed Hack desativado!")
+    for _, player in ipairs(game.Players:GetChildren()) do
+        if player.Character then
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 16  -- Volta para a velocidade normal
+            end
+        end
+    end
+end
+
 local function teleportToRandom()
     local randomPos = CFrame.new(math.random(-500, 500), math.random(50, 100), math.random(-500, 500))
     game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(randomPos)
@@ -116,6 +130,13 @@ local function activateNoClip()
     local character = game.Players.LocalPlayer.Character
     if character then
         character.HumanoidRootPart.Anchored = true
+    end
+end
+
+local function deactivateNoClip()
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        character.HumanoidRootPart.Anchored = false
     end
 end
 
@@ -135,9 +156,19 @@ local function infiniteAmmo()
     -- Código para implementar a munição infinita
 end
 
+local function deactivateInfiniteAmmo()
+    print("Munição infinita desativada!")
+    -- Código para desativar a munição infinita
+end
+
 local function noRecoil()
     print("Recoil desativado!")
     -- Código para remover o recoil
+end
+
+local function deactivateNoRecoil()
+    print("Recoil ativado!")
+    -- Código para reverter o recoil
 end
 
 local function rapidFire()
@@ -145,14 +176,9 @@ local function rapidFire()
     -- Código para disparos rápidos
 end
 
-local function autoAim()
-    print("Auto-Aim ativado!")
-    -- Código para implementar Auto-Aim
-end
-
-local function removeWeaponCooldown()
-    print("Cooldown de arma removido!")
-    -- Código para remover o cooldown de arma
+local function deactivateRapidFire()
+    print("Disparo rápido desativado!")
+    -- Código para desativar o disparo rápido
 end
 
 -- JOGADORES
@@ -265,21 +291,18 @@ local function addSideButton(name, positionY)
         clearSubMenu()
         -- Dependendo do nome do botão, adicionar funções diferentes
         if name == "GERAL" then
-            addCheckboxToMenu("Ativar Speed Hack", activateSpeedHack)
+            addCheckboxToMenu("Ativar Speed Hack", activateSpeedHack, deactivateSpeedHack)
             addCheckboxToMenu("Teleportar para Aleatório", teleportToRandom)
-            addCheckboxToMenu("Ativar No-Clip", activateNoClip)
+            addCheckboxToMenu("Ativar No-Clip", activateNoClip, deactivateNoClip)
             addCheckboxToMenu("Ativar Voar", toggleFly)
         elseif name == "ARMA" then
-            addCheckboxToMenu("Ativar Munição Infinita", infiniteAmmo)
-            addCheckboxToMenu("Ativar Sem Recoil", noRecoil)
-            addCheckboxToMenu("Ativar Disparo Rápido", rapidFire)
-            addCheckboxToMenu("Ativar Auto-Aim", autoAim)
-            addCheckboxToMenu("Remover Cooldown de Arma", removeWeaponCooldown)
+            addCheckboxToMenu("Ativar Munição Infinita", infiniteAmmo, deactivateInfiniteAmmo)
+            addCheckboxToMenu("Ativar Sem Recoil", noRecoil, deactivateNoRecoil)
+            addCheckboxToMenu("Ativar Disparo Rápido", rapidFire, deactivateRapidFire)
         elseif name == "JOGADORES" then
             addCheckboxToMenu("Teleportar para Jogador", teleportToPlayer)
             addCheckboxToMenu("Matar Jogador", killPlayer)
-            addCheckboxToMenu("Congelar Jogador", freezePlayer)
-            addCheckboxToMenu("Descongelar Jogador", unfrozenPlayer)
+            addCheckboxToMenu("Congelar Jogador", freezePlayer, unfrozenPlayer)
         elseif name == "DINHEIRO" then
             addCheckboxToMenu("Adicionar Dinheiro", addMoney)
             addCheckboxToMenu("Remover Dinheiro", removeMoney)
@@ -289,25 +312,18 @@ local function addSideButton(name, positionY)
             addCheckboxToMenu("Dar Chaves de Veículo", giveVehicleKeys)
             addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
         elseif name == "TROLLS" then
-            addCheckboxToMenu("Gerar Bomba", spawnBomb)
-            addCheckboxToMenu("Ativar/Desativar Gravidade", toggleGravity)
+            addCheckboxToMenu("Ativar Bombas", spawnBomb)
+            addCheckboxToMenu("Ativar Gravidade", toggleGravity)
             addCheckboxToMenu("Gerar Jogador Falso", spawnFakePlayer)
-            addCheckboxToMenu("Gerar Confetes", spawnConfetti)
+            addCheckboxToMenu("Gerar Confete", spawnConfetti)
         end
     end)
 end
 
--- Adicionar botões ao menu lateral
-addSideButton("GERAL", 0)
-addSideButton("ARMA", 60)
-addSideButton("JOGADORES", 120)
-addSideButton("DINHEIRO", 180)
-addSideButton("VEICULO", 240)
-addSideButton("TROLLS", 300)
-
--- Função para exibir/ocultar o menu
-local function toggleMenu()
-    MainFrame.Visible = not MainFrame.Visible
+-- Adicionando botões laterais
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
+for i, name in ipairs(buttonNames) do
+    addSideButton(name, (i - 1) * 50)
 end
 
 -- Botão de abrir/fechar o menu
