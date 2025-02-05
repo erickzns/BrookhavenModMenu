@@ -52,6 +52,8 @@ local function clearSubMenu()
 end
 
 -- Função para adicionar funções ao submenu com checkboxes
+local checkboxStates = {}  -- Tabela para armazenar o estado dos checkboxes
+
 local function addCheckboxToMenu(functionName, cheatFunction)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
@@ -76,10 +78,13 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    local isChecked = false
+    local isChecked = checkboxStates[functionName] or false  -- Verifica o estado salvo
+    Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        checkboxStates[functionName] = isChecked  -- Armazenando o estado
         if isChecked then
             cheatFunction()
         end
