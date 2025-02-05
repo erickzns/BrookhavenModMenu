@@ -92,7 +92,8 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Definição das funções de trapaças
+-- Funções de trapaça
+
 local function activateGodMode()
     print("God Mode ativado!")
     for _, player in ipairs(game.Players:GetChildren()) do
@@ -112,7 +113,7 @@ local function activateSpeedHack()
         if player.Character then
             local humanoid = player.Character:FindFirstChild("Humanoid")
             if humanoid then
-                humanoid.WalkSpeed = 100  -- Exemplo de aumento de velocidade
+                humanoid.WalkSpeed = 100  -- Aumento de velocidade
             end
         end
     end
@@ -120,42 +121,70 @@ end
 
 local function infiniteJump()
     print("Salto infinito ativado!")
+    game:GetService("UserInputService").JumpRequest:Connect(function()
+        game.Players.LocalPlayer.Character:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.Physics)
+        game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").PlatformStand = true
+    end)
 end
 
 local function spawnItem(item)
-    print("Spawnando item: " .. item)
+    print("Item " .. item .. " spawnado!")
+    local clone = game.ReplicatedStorage:WaitForChild(item):Clone()
+    clone.Parent = game.Workspace
 end
 
-local function teleportToPlayer()
-    print("Teleportando para o jogador!")
+local function teleportToPlayer(player)
+    if player and player.Character then
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(player.Character.HumanoidRootPart.CFrame)
+    end
 end
 
-local function explodePlayer()
-    print("Jogador explodido!")
+local function explodePlayer(player)
+    print("Explodindo jogador " .. player.Name)
+    local explosion = Instance.new("Explosion")
+    explosion.Position = player.Character.HumanoidRootPart.Position
+    explosion.BlastRadius = 10
+    explosion.BlastPressure = 5000
+    explosion.Parent = game.Workspace
 end
 
 local function teleportToRandom()
-    print("Teleportando para posição aleatória!")
+    local randomPos = CFrame.new(math.random(-500, 500), math.random(50, 100), math.random(-500, 500))
+    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(randomPos)
 end
 
 local function chatSpammer()
     print("Chat Spammer ativado!")
+    while true do
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Spam de chat", "All")
+        wait(0.1)
+    end
 end
 
 local function fakeBan()
-    print("Banimento falso enviado!")
+    print("Fake Ban ativado!")
+    game.Players.LocalPlayer:Kick("Você foi banido!")
 end
 
 local function activateAimbot()
     print("Aimbot ativado!")
+    -- Aqui você pode implementar um aimbot
 end
 
 local function noClip()
     print("NoClip ativado!")
+    local character = game.Players.LocalPlayer.Character
+    local humanoid = character:FindFirstChild("Humanoid")
+    if humanoid then
+        humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+        character.HumanoidRootPart.Anchored = true
+    end
 end
 
 local function spawnVehicle(vehicle)
-    print("Spawnando veículo: " .. vehicle)
+    print("Veículo " .. vehicle .. " spawnado!")
+    local vehicleModel = game.ReplicatedStorage:WaitForChild(vehicle):Clone()
+    vehicleModel.Parent = game.Workspace
 end
 
 -- Barra Lateral (SideBar)
@@ -221,9 +250,6 @@ local buttonFunctions = {
         {"Change Player Speed", function() print("Velocidade do jogador alterada!") end},
         {"Kill Player", function() print("Jogador morto!") end},
     },
-    DINHEIRO = {
-        {'pull money', function() print("Dinheiro Adicionado") end},
-    },
     VEICULO = {
         {"Boost Nitro", function() print("Boost Nitro ativado!") end},
         {"Carro Voador", function() print("Carro Voador ativado!") end},
@@ -249,43 +275,10 @@ local buttonFunctions = {
         {"Criar objetos invisíveis", function() print("Objetos invisíveis criados!") end},
         {"Dano global", function() print("Dano global ativado!") end},
     },
-    CONFIGURACOES = {
-        {"Mudar Tema", function() print("Tema alterado!") end},
-        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
-        {"Alterar Gravidade", function() print("Gravidade alterada!") end},
-        {"Redefinir Configurações", function() print("Configurações redefinidas!") end},
-        {"Alterar Sensibilidade", function() print("Sensibilidade alterada!") end},
-        {"Ativar Detecção de Player", function() print("Detecção de Player ativada!") end},
-        {"Personalizar HUD", function() print("HUD personalizado!") end},
-        {"Modo Noturno", function() print("Modo Noturno ativado!") end},
-        {"Reiniciar Configurações", function() print("Configurações reiniciadas!") end},
-    }
 }
 
-local function addSideButton(name, yPosition)
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 120, 0, 40)
-    Button.Position = UDim2.new(0, 0, 0, yPosition)
-    Button.Text = name
-    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
-    Button.Font = Enum.Font.SourceSans
-    Button.TextSize = 18
-    Button.Parent = SideBar
-
-    Button.MouseButton1Click:Connect(function()
-        clearSubMenu()
-        for _, funcData in ipairs(buttonFunctions[name] or {}) do
-            local funcName, func = unpack(funcData)
-            addCheckboxToMenu(funcName, func)
-        end
-    end)
-
-    table.insert(Buttons, Button)
-end
-
 -- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "DINHEIRO", "VEICULO", "TROLLS", "CONFIGURACOES"}
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
@@ -297,8 +290,6 @@ toggleButton.Position = UDim2.new(0, 0, 0, 0)
 toggleButton.Text = "+"
 toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 36
 toggleButton.Parent = ScreenGui
 
 toggleButton.MouseButton1Click:Connect(function()
