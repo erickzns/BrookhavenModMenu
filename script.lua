@@ -1,4 +1,4 @@
-local ScreenGui = Instance.new("ScreenGui")
+local ScreenGui = Instance.new("ScreenGui") 
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local ScrollingFrame = Instance.new("ScrollingFrame")
@@ -82,6 +82,8 @@ local function addCheckboxToMenu(functionName, cheatFunction)
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
         if isChecked then
             cheatFunction()
+        else
+            -- Adicionar lógica para desativar as trapaças, se necessário.
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
@@ -265,3 +267,4 @@ toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
+
