@@ -308,7 +308,7 @@ local function addCheckboxToMenu(label, toggleFunction)
     local checkbox = Instance.new("TextButton")
     checkbox.Size = UDim2.new(0, 120, 0, 30)
     checkbox.Text = label
-    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha (desativada)
     checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
     checkbox.Font = Enum.Font.SourceSans
     checkbox.TextSize = 18
@@ -320,8 +320,10 @@ local function addCheckboxToMenu(label, toggleFunction)
 
         -- Alterando a cor da checkbox diretamente
         if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
+            -- Quando a checkbox é vermelha, significa que a trapaça está desativada
             checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
         else
+            -- Quando a checkbox é verde, significa que a trapaça está ativada
             checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho para desativado
         end
     end)
