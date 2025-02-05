@@ -42,6 +42,9 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
+-- Tabela para armazenar o estado dos checkboxes
+local checkboxStates = {}
+
 -- Função para limpar o submenu antes de adicionar novas opções
 local function clearSubMenu()
     for _, child in pairs(ScrollingFrame:GetChildren()) do
@@ -51,7 +54,7 @@ local function clearSubMenu()
     end
 end
 
--- Função para adicionar funções ao submenu com checkboxes
+-- Função para adicionar checkboxes ao submenu
 local function addCheckboxToMenu(functionName, cheatFunction)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
@@ -76,10 +79,18 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    local isChecked = false
+    -- Verificar o estado salvo da checkbox
+    local isChecked = checkboxStates[functionName] or false
+    Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+
+    -- Função que lida com o clique na checkbox
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+
+        -- Salvar o estado da checkbox
+        checkboxStates[functionName] = isChecked
+
         if isChecked then
             cheatFunction()
         end
@@ -237,67 +248,36 @@ local buttonFunctions = {
         {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
         {"Loop Kill", function() print("Loop Kill ativado!") end},
         {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
-        {"Destroy Server", function() print("Server destruído!") end},
-        {"Freeze Server", function() print("Servidor congelado!") end},
-        {"Kick All Players", function() print("Todos os jogadores foram expulsos!") end},
-        {"Lag Server", function() print("Servidor lagado!") end},
-        {"Send Fake Ban", function() print("Banimento falso enviado!") end},
-    },
-    CONFIGURACOES = {
-        {"Mudar Tema", function() print("Tema alterado!") end},
-        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
-        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
-        {"Anti-AFK", function() print("Anti-AFK ativado!") end},
-        {"Redefinir Configurações", function() print("Configurações redefinidas!") end},
-        {"Alterar Sensibilidade", function() print("Sensibilidade alterada!") end},
-        {"Ativar Detecção de Player", function() print("Detecção de Player ativada!") end},
-        {"Personalizar HUD", function() print("HUD personalizado!") end},
-        {"Modo Noturno", function() print("Modo Noturno ativado!") end},
-        {"Reiniciar Configurações", function() print("Configurações reiniciadas!") end},
+        {"Troca de nome", function() print("Troca de nome ativado!") end},
     }
 }
 
-local function addSideButton(name, yPosition)
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 120, 0, 40)
-    Button.Position = UDim2.new(0, 0, 0, yPosition)
-    Button.Text = name
-    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
-    Button.Font = Enum.Font.SourceSans
-    Button.TextSize = 18
-    Button.Parent = SideBar
+-- Função para adicionar um botão lateral
+local function addButtonToSideBar(buttonName, submenu)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 0, 40)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.Text = buttonName
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSans
+    button.TextSize = 18
+    button.Parent = SideBar
 
-    Button.MouseButton1Click:Connect(function()
+    button.MouseButton1Click:Connect(function()
         clearSubMenu()
-        for _, funcData in ipairs(buttonFunctions[name] or {}) do
-            local funcName, func = unpack(funcData)
-            addCheckboxToMenu(funcName, func)
+        -- Adicionando funções específicas para cada submenu
+        for _, option in ipairs(buttonFunctions[submenu]) do
+            addCheckboxToMenu(option[1], option[2])
         end
     end)
 
-    table.insert(Buttons, Button)
+    -- Armazenar botão para que ele possa ser destruído posteriormente
+    table.insert(Buttons, button)
 end
 
--- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
-for i, name in ipairs(buttonNames) do
-    addSideButton(name, (i - 1) * 50)
-end
-
--- Botão de abrir/fechar o menu
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 60, 0, 60)
-toggleButton.Position = UDim2.new(0, 0, 0, 0)
-toggleButton.Text = "+"
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 36
-toggleButton.Parent = ScreenGui
-
-toggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-    toggleButton.Text = MainFrame.Visible and "-" or "+"
-end)
+-- Adicionando os botões da barra lateral
+addButtonToSideBar("Geral", "GERAL")
+addButtonToSideBar("Arma", "ARMA")
+addButtonToSideBar("Jogadores", "JOGADORES")
+addButtonToSideBar("Veículos", "VEICULO")
+addButtonToSideBar("Trolls", "TROLLS")
