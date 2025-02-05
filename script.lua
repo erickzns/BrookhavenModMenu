@@ -308,17 +308,17 @@ local function addCheckboxToMenu(label, toggleFunction)
     local checkbox = Instance.new("TextButton")
     checkbox.Size = UDim2.new(0, 120, 0, 30)
     checkbox.Text = label
-    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha
     checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
     checkbox.Font = Enum.Font.SourceSans
     checkbox.TextSize = 18
     checkbox.Parent = MainFrame
 
     checkbox.MouseButton1Click:Connect(function()
-        -- Alternar entre ativar/desativar e mudar a cor da checkbox
+        -- Alternar entre ativar/desativar a trapaça
         toggleFunction()
 
-        -- Mudar a cor da checkbox
+        -- Alterando a cor da checkbox diretamente
         if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
             checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
         else
@@ -348,3 +348,4 @@ toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
+
