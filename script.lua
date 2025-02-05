@@ -130,7 +130,7 @@ for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
 
--- Função para permitir a movimentação totalmente livre do mod menu
+-- Função para permitir a movimentação controlada
 local dragging = false
 local dragStart = nil
 local startPos = nil
