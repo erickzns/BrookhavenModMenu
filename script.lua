@@ -335,6 +335,8 @@ toggleButton.TextSize = 28
 toggleButton.Parent = MainFrame
 
 toggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible  -- Alterna a visibilidade do menu
-    toggleButton.Text = MainFrame.Visible and "-" or "+"  -- Alterna o texto do botão
+    -- Alterna a visibilidade do menu
+    MainFrame.Visible = not MainFrame.Visible
+    -- Alterna o texto do botão
+    toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
