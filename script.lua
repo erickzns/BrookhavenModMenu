@@ -114,20 +114,24 @@ local function toggleSpeedHack(isActive)
 end
 
 local function toggleNoClip(isActive)
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        character.HumanoidRootPart.Anchored = isActive
-    end
+    bypassCheatDetection(function()
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            character.HumanoidRootPart.Anchored = isActive
+        end
+    end)
 end
 
 local function toggleFly(isActive)
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        local humanoid = character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.PlatformStand = isActive
+    bypassCheatDetection(function()
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.PlatformStand = isActive
+            end
         end
-    end
+    end)
 end
 
 -- ARMA
@@ -145,10 +149,12 @@ end
 
 -- JOGADORES
 local function toggleFreezePlayer(isActive)
-    local player = game.Players.LocalPlayer
-    if player.Character then
-        player.Character.HumanoidRootPart.Anchored = isActive
-    end
+    bypassCheatDetection(function()
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character.HumanoidRootPart.Anchored = isActive
+        end
+    end)
 end
 
 -- VEICULO
