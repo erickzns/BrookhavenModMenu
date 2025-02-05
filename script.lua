@@ -95,176 +95,170 @@ end
 
 -- Configuração do menu (ScreenGui, MainFrame, etc.)
 
+-- Variáveis de controle para saber se a trapaça está ativa ou não
+local speedHackActive = false
+local noClipActive = false
+local flyActive = false
+local infiniteAmmoActive = false
+local noRecoilActive = false
+local rapidFireActive = false
+local freezePlayerActive = false
+local vehicleInvincibilityActive = false
+local gravityActive = false
+local bombActive = false
+
 -- Funções de trapaça (exemplo)
 -- GERAL
-local function activateSpeedHack()
-    print("Speed Hack ativado!")
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.WalkSpeed = 100  -- Aumento de velocidade
+local function toggleSpeedHack()
+    if speedHackActive then
+        print("Speed Hack desativado!")
+        for _, player in ipairs(game.Players:GetChildren()) do
+            if player.Character then
+                local humanoid = player.Character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = 16  -- Volta para a velocidade normal
+                end
+            end
+        end
+    else
+        print("Speed Hack ativado!")
+        for _, player in ipairs(game.Players:GetChildren()) do
+            if player.Character then
+                local humanoid = player.Character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = 100  -- Aumento de velocidade
+                end
             end
         end
     end
+    speedHackActive = not speedHackActive
 end
 
-local function deactivateSpeedHack()
-    print("Speed Hack desativado!")
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
+local function toggleNoClip()
+    if noClipActive then
+        print("No-Clip desativado!")
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            character.HumanoidRootPart.Anchored = false
+        end
+    else
+        print("No-Clip ativado!")
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            character.HumanoidRootPart.Anchored = true
+        end
+    end
+    noClipActive = not noClipActive
+end
+
+local function toggleFly()
+    if flyActive then
+        print("Voar desativado!")
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
             if humanoid then
-                humanoid.WalkSpeed = 16  -- Volta para a velocidade normal
+                humanoid.PlatformStand = false
+            end
+        end
+    else
+        print("Voar ativado!")
+        local character = game.Players.LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.PlatformStand = true
             end
         end
     end
-end
-
-local function teleportToRandom()
-    local randomPos = CFrame.new(math.random(-500, 500), math.random(50, 100), math.random(-500, 500))
-    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(randomPos)
-end
-
-local function activateNoClip()
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        character.HumanoidRootPart.Anchored = true
-    end
-end
-
-local function deactivateNoClip()
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        character.HumanoidRootPart.Anchored = false
-    end
-end
-
-local function toggleFly(enable)
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        local humanoid = character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.PlatformStand = enable
-        end
-    end
+    flyActive = not flyActive
 end
 
 -- ARMA
-local function infiniteAmmo()
-    print("Munição infinita ativada!")
-    -- Código para implementar a munição infinita
+local function toggleInfiniteAmmo()
+    if infiniteAmmoActive then
+        print("Munição infinita desativada!")
+        -- Código para desativar a munição infinita
+    else
+        print("Munição infinita ativada!")
+        -- Código para ativar a munição infinita
+    end
+    infiniteAmmoActive = not infiniteAmmoActive
 end
 
-local function deactivateInfiniteAmmo()
-    print("Munição infinita desativada!")
-    -- Código para desativar a munição infinita
+local function toggleNoRecoil()
+    if noRecoilActive then
+        print("Recoil ativado!")
+        -- Código para reverter o recoil
+    else
+        print("Recoil desativado!")
+        -- Código para remover o recoil
+    end
+    noRecoilActive = not noRecoilActive
 end
 
-local function noRecoil()
-    print("Recoil desativado!")
-    -- Código para remover o recoil
-end
-
-local function deactivateNoRecoil()
-    print("Recoil ativado!")
-    -- Código para reverter o recoil
-end
-
-local function rapidFire()
-    print("Disparo rápido ativado!")
-    -- Código para disparos rápidos
-end
-
-local function deactivateRapidFire()
-    print("Disparo rápido desativado!")
-    -- Código para desativar o disparo rápido
+local function toggleRapidFire()
+    if rapidFireActive then
+        print("Disparo rápido desativado!")
+        -- Código para desativar o disparo rápido
+    else
+        print("Disparo rápido ativado!")
+        -- Código para disparos rápidos
+    end
+    rapidFireActive = not rapidFireActive
 end
 
 -- JOGADORES
-local function teleportToPlayer()
-    local targetPlayer = game.Players.LocalPlayer
-    if targetPlayer.Character then
-        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(targetPlayer.Character.PrimaryPart.CFrame)
+local function toggleFreezePlayer()
+    if freezePlayerActive then
+        print("Descongelando jogador!")
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character.HumanoidRootPart.Anchored = false
+        end
+    else
+        print("Congelando jogador!")
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character.HumanoidRootPart.Anchored = true
+        end
     end
-end
-
-local function killPlayer()
-    print("Matando jogador alvo!")
-    -- Código para matar o jogador alvo
-end
-
-local function freezePlayer()
-    local player = game.Players.LocalPlayer
-    if player.Character then
-        player.Character.HumanoidRootPart.Anchored = true
-    end
-end
-
-local function unfrozenPlayer()
-    local player = game.Players.LocalPlayer
-    if player.Character then
-        player.Character.HumanoidRootPart.Anchored = false
-    end
-end
-
--- DINHEIRO
-local function addMoney()
-    local player = game.Players.LocalPlayer
-    player.leaderstats.Money.Value = player.leaderstats.Money.Value + 1000
-end
-
-local function removeMoney()
-    local player = game.Players.LocalPlayer
-    player.leaderstats.Money.Value = player.leaderstats.Money.Value - 1000
-end
-
-local function setMoney(value)
-    local player = game.Players.LocalPlayer
-    player.leaderstats.Money.Value = value
+    freezePlayerActive = not freezePlayerActive
 end
 
 -- VEICULO
-local function spawnVehicle(vehicleType)
-    print("Gerando veículo: " .. vehicleType)
-    -- Código para gerar o veículo
-end
-
-local function giveVehicleKeys()
-    print("Chaves de veículo dadas!")
-    -- Código para dar as chaves do veículo ao jogador
-end
-
-local function toggleVehicleInvincibility(enable)
-    if enable then
-        print("Veículo invencível ativado!")
+local function toggleVehicleInvincibility()
+    if vehicleInvincibilityActive then
+        print("Invencibilidade do veículo desativada!")
+        -- Código para desativar a invencibilidade do veículo
     else
-        print("Veículo invencível desativado!")
+        print("Invencibilidade do veículo ativada!")
+        -- Código para ativar a invencibilidade do veículo
     end
+    vehicleInvincibilityActive = not vehicleInvincibilityActive
 end
 
 -- TROLLS
-local function spawnBomb()
-    print("Bombas ativadas!")
-    -- Código para gerar uma bomba
-end
-
-local function toggleGravity(enable)
-    if enable then
-        print("Gravidade ativada!")
-    else
+local function toggleGravity()
+    if gravityActive then
         print("Gravidade desativada!")
+        -- Código para desativar a gravidade
+    else
+        print("Gravidade ativada!")
+        -- Código para ativar a gravidade
     end
+    gravityActive = not gravityActive
 end
 
-local function spawnFakePlayer()
-    print("Jogador falso gerado!")
-    -- Código para gerar um jogador falso
-end
-
-local function spawnConfetti()
-    print("Confete ativado!")
-    -- Código para gerar confetes
+local function toggleBomb()
+    if bombActive then
+        print("Bombas desativadas!")
+        -- Código para desativar bombas
+    else
+        print("Bombas ativadas!")
+        -- Código para ativar bombas
+    end
+    bombActive = not bombActive
 end
 
 -- Barra Lateral (SideBar)
@@ -291,31 +285,20 @@ local function addSideButton(name, positionY)
         clearSubMenu()
         -- Dependendo do nome do botão, adicionar funções diferentes
         if name == "GERAL" then
-            addCheckboxToMenu("Ativar Speed Hack", activateSpeedHack, deactivateSpeedHack)
-            addCheckboxToMenu("Teleportar para Aleatório", teleportToRandom)
-            addCheckboxToMenu("Ativar No-Clip", activateNoClip, deactivateNoClip)
+            addCheckboxToMenu("Ativar Speed Hack", toggleSpeedHack)
+            addCheckboxToMenu("Ativar No-Clip", toggleNoClip)
             addCheckboxToMenu("Ativar Voar", toggleFly)
         elseif name == "ARMA" then
-            addCheckboxToMenu("Ativar Munição Infinita", infiniteAmmo, deactivateInfiniteAmmo)
-            addCheckboxToMenu("Ativar Sem Recoil", noRecoil, deactivateNoRecoil)
-            addCheckboxToMenu("Ativar Disparo Rápido", rapidFire, deactivateRapidFire)
+            addCheckboxToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
+            addCheckboxToMenu("Ativar Sem Recoil", toggleNoRecoil)
+            addCheckboxToMenu("Ativar Disparo Rápido", toggleRapidFire)
         elseif name == "JOGADORES" then
-            addCheckboxToMenu("Teleportar para Jogador", teleportToPlayer)
-            addCheckboxToMenu("Matar Jogador", killPlayer)
-            addCheckboxToMenu("Congelar Jogador", freezePlayer, unfrozenPlayer)
-        elseif name == "DINHEIRO" then
-            addCheckboxToMenu("Adicionar Dinheiro", addMoney)
-            addCheckboxToMenu("Remover Dinheiro", removeMoney)
-            addCheckboxToMenu("Definir Dinheiro", setMoney)
+            addCheckboxToMenu("Congelar Jogador", toggleFreezePlayer)
         elseif name == "VEICULO" then
-            addCheckboxToMenu("Gerar Veículo", spawnVehicle)
-            addCheckboxToMenu("Dar Chaves de Veículo", giveVehicleKeys)
             addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
         elseif name == "TROLLS" then
-            addCheckboxToMenu("Ativar Bombas", spawnBomb)
+            addCheckboxToMenu("Ativar Bombas", toggleBomb)
             addCheckboxToMenu("Ativar Gravidade", toggleGravity)
-            addCheckboxToMenu("Gerar Jogador Falso", spawnFakePlayer)
-            addCheckboxToMenu("Gerar Confete", spawnConfetti)
         end
     end)
 end
