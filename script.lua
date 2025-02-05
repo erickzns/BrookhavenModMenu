@@ -42,6 +42,12 @@ UIListLayout.FillDirection = Enum.FillDirection.Vertical
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 5)
 
+-- Sidebar
+SideBar.Size = UDim2.new(0, 120, 1, 0)
+SideBar.Position = UDim2.new(0, 0, 0, 0)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.Parent = MainFrame
+
 -- Tabela para armazenar o estado das checkboxes
 local checkboxStates = {}
 
@@ -245,6 +251,7 @@ local CATEGORIAS = {
     {"TROLLS", TROLLS}
 }
 
+-- Função para criar botões de categoria
 local function criarBotaoDeCategoria(nome)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(1, 0, 0, 50)
@@ -273,3 +280,10 @@ SideBar.Parent = MainFrame
 for _, categoria in ipairs(CATEGORIAS) do
     criarBotaoDeCategoria(categoria[1])
 end
+
+-- Ativar a interface com a tecla F4
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.F4 then
+        MainFrame.Visible = not MainFrame.Visible
+    end
+end)
