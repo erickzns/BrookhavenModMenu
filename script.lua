@@ -10,12 +10,12 @@ local Buttons = {}
 ScreenGui.Parent = game.CoreGui
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-MainFrame.BackgroundTransparency = 0.5
+MainFrame.BackgroundTransparency = 0.5  -- Fundo semi-transparente
 MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
-MainFrame.Visible = false
+MainFrame.Visible = false  -- Começa invisível
 
 -- Título do Menu
 Title.Parent = MainFrame
@@ -23,7 +23,7 @@ Title.Size = UDim2.new(0, 400, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Title.Text = "Ghost Menu V1"
-Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+Title.TextColor3 = Color3.fromRGB(255, 0, 0)  -- Texto vermelho
 Title.Font = Enum.Font.Gotham
 Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
@@ -131,37 +131,6 @@ local function spawnItem(itemName)
     -- Adicionar lógica de spawn de item aqui
 end
 
--- Funções extras e trolls
-
-local function explodePlayer(player)
-    -- Explodir um jogador
-    player.Character:BreakJoints()
-end
-
-local function chatSpammer()
-    -- Spam de mensagens no chat
-    while true do
-        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Spam!", "All")
-        wait(0.5)
-    end
-end
-
-local function fakeBan()
-    -- Enviar uma falsa mensagem de banimento
-    print("Você foi banido do servidor!")
-end
-
-local function teleportToRandom()
-    -- Teleportar para um local aleatório no mapa
-    local randomPos = Vector3.new(math.random(-100, 100), 50, math.random(-100, 100))
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
-end
-
-local function spawnVehicle(vehicleType)
-    -- Função de spawn de veículos (personalizar conforme necessário)
-    print(vehicleType .. " spawnado!")
-end
-
 -- Barra Lateral (SideBar)
 SideBar.Parent = MainFrame
 SideBar.Size = UDim2.new(0, 120, 1, -50)
@@ -180,45 +149,32 @@ local buttonFunctions = {
         {"Speed Hack", speedHack},
         {"Spawn Item - Carro", function() spawnItem("Carro") end},
         {"Teleport To Player", teleportToPlayer},
-        {"Explode Player", explodePlayer},
-        {"Teleport To Random Position", teleportToRandom},
-        {"Chat Spammer", chatSpammer},
-        {"Fake Ban", fakeBan},
     },
     ARMA = {
         {"Aimbot", activateAimbot},
         {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
         {"No Recoil", function() print("No Recoil ativado!") end},
-        {"Weapon Hack", function() print("Weapon Hack ativado!") end},
-        {"Super Aim", function() print("Super Aim ativado!") end},
     },
     JOGADORES = {
         {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
         {"Teleport", teleportToPlayer},
         {"Speed Hack", speedHack},
         {"NoClip", noClip},
-        {"Invisibility", function() print("Invisibility ativado!") end},
-        {"Freeze Player", function() print("Freeze Player ativado!") end},
     },
     VEICULO = {
         {"Boost Nitro", function() print("Boost Nitro ativado!") end},
         {"Carro Voador", function() print("Carro Voador ativado!") end},
         {"Anti-Crash", function() print("Anti-Crash ativado!") end},
-        {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
-        {"Spawn Tank", function() spawnVehicle("Tank") end},
     },
     TROLLS = {
         {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
         {"Loop Kill", function() print("Loop Kill ativado!") end},
         {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
-        {"Destroy Server", function() print("Server destruído!") end},
     },
     CONFIGURACOES = {
         {"Mudar Tema", function() print("Tema alterado!") end},
         {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
         {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
-        {"Anti-AFK", function() print("Anti-AFK ativado!") end},
     }
 }
 
@@ -263,5 +219,21 @@ toggleButton.Parent = ScreenGui
 
 toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
-    toggleButton.Text = MainFrame.Visible and "-" or "+"
+    toggleButton.Text = MainFrame.Visible and "−" or "+"
+end)
+
+-- Botão de fechar o mod menu
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 40, 0, 40)
+closeButton.Position = UDim2.new(1, -50, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.SourceSans
+closeButton.TextSize = 24
+closeButton.Parent = MainFrame
+
+closeButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    toggleButton.Text = "+"
 end)
