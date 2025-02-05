@@ -173,7 +173,7 @@ local buttonFunctions = {
         {"God Mode", activateGodMode},
         {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
         {"Infinitive Jump", infiniteJump},
-        {"Speed Hack", activateSpeedHack},
+        {"Speed Hack", speedHack},
         {"Spawn Item - Carro", function() spawnItem("Carro") end},
         {"Teleport To Player", teleportToPlayer},
         {"Explode Player", explodePlayer},
@@ -196,23 +196,23 @@ local buttonFunctions = {
     },
     ARMA = {
         {"Aimbot", activateAimbot},
-        {"Reduzir Recarga", function() print("Reduzindo tempo de recarga!") end},
-        {"Aumentar Dano", function() print("Dano aumentado!") end},
-        {"Hitbox Expander", function() print("Expansão de Hitbox ativada!") end},
-        {"No Recoil", function() print("Sem recuo ativado!") end},
-        {"Weapon Hack", function() print("Hack de arma ativado!") end},
+        {"Reduzir Recarga", decreaseReloadTime},  -- Nova trapaça adicionada
+        {"Aumentar Dano", increaseWeaponDamage},  -- Nova trapaça adicionada
+        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
+        {"No Recoil", function() print("No Recoil ativado!") end},
+        {"Weapon Hack", function() print("Weapon Hack ativado!") end},
         {"Super Aim", function() print("Super Aim ativado!") end},
-        {"Auto Fire", function() print("Fogo automático ativado!") end},
-        {"Rapid Fire", function() print("Fogo rápido ativado!") end},
+        {"Auto Fire", function() print("Auto Fire ativado!") end},
+        {"Rapid Fire", function() print("Rapid Fire ativado!") end},
         {"Explosive Ammo", function() print("Munição explosiva ativada!") end},
         {"Sniper Zoom", function() print("Zoom de sniper ativado!") end},
         {"Laser Sight", function() print("Laser Sight ativado!") end},
     },
     JOGADORES = {
         {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
-        {"Teleportar para jogador", teleportToPlayer},
-        {"Teleportar para jogador específico", function() print("Teleportando para jogador específico!") end},
-        {"Alterar velocidade de jogadores", function() print("Alterando velocidade dos jogadores!") end},
+        {"Teleportar para jogador", teleportToPlayer},  -- Já existe
+        {"Teleportar para jogador específico", teleportToPlayerSpecific},  -- Nova trapaça adicionada
+        {"Alterar velocidade de jogadores", function() changePlayersSpeed(50) end},  -- Nova trapaça
         {"Invisibility", function() print("Invisibility ativado!") end},
         {"Freeze Player", function() print("Freeze Player ativado!") end},
         {"Player Tagging", function() print("Player Tagging ativado!") end},
@@ -237,6 +237,7 @@ local buttonFunctions = {
         {"Spawn Plane", function() print("Avião spawnado!") end},
     },
     TROLLS = {
+        TROLLS = {
         {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
         {"Loop Kill", function() print("Loop Kill ativado!") end},
         {"Chat Spammer", function() print("Chat Spammer ativado!") end},
@@ -246,19 +247,20 @@ local buttonFunctions = {
         {"Kick All Players", function() print("Todos os jogadores foram expulsos!") end},
         {"Lag Server", function() print("Servidor lagado!") end},
         {"Send Fake Ban", function() print("Banimento falso enviado!") end},
-        {"Criar objetos invisíveis", function() print("Objetos invisíveis criados!") end},
-        {"Dano global", function() print("Dano global ativado!") end},
+        {"Criar objetos invisíveis", createInvisibleObjects},  -- Nova trapaça
+        {"Dano global", globalDamage},  -- Nova trapaça
     },
     CONFIGURACOES = {
         {"Mudar Tema", function() print("Tema alterado!") end},
         {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
-        {"Alterar Gravidade", function() print("Gravidade alterada!") end},
+        {"Alterar Gravidade", function() changeGravity(50) end},  -- Nova trapaça
         {"Redefinir Configurações", function() print("Configurações redefinidas!") end},
         {"Alterar Sensibilidade", function() print("Sensibilidade alterada!") end},
         {"Ativar Detecção de Player", function() print("Detecção de Player ativada!") end},
         {"Personalizar HUD", function() print("HUD personalizado!") end},
         {"Modo Noturno", function() print("Modo Noturno ativado!") end},
         {"Reiniciar Configurações", function() print("Configurações reiniciadas!") end},
+},
     }
 }
 
@@ -303,4 +305,5 @@ toggleButton.Parent = ScreenGui
 
 toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
+    toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
