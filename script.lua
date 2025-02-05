@@ -31,7 +31,7 @@ Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
 Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Configuração do ScrollingFrame (sub-menu rolável)
+-- Configuração do ScrollingFrame
 ScrollingFrame.Parent = MainFrame
 ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
 ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
@@ -92,17 +92,6 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Atualizar as checkboxes quando o submenu for aberto novamente
-local function updateCheckboxes()
-    for functionName, checkbox in pairs(checkboxes) do
-        if cheatStates[functionName] then
-            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        else
-            checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-        end
-    end
-end
-
 -- Definição das categorias e funções
 local buttonFunctions = {
     GERAL = {
@@ -113,12 +102,18 @@ local buttonFunctions = {
         {"Speed Hack", function() print("Speed Hack ativado!") end},
         {"Spawn Item - Carro", function() print("Carro spawnado!") end},
         {"Teleport To Player", function() print("Teleportando para jogador!") end},
+        {"Explode Player", function() print("Explodir jogador!") end},
+        {"Teleport To Random Position", function() print("Teleportando aleatoriamente!") end},
+        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
+        {"Fake Ban", function() print("Fake Ban ativado!") end},
     },
     ARMA = {
         {"Aimbot", function() print("Aimbot ativado!") end},
         {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
         {"No Recoil", function() print("No Recoil ativado!") end},
         {"Weapon Hack", function() print("Weapon Hack ativado!") end},
+        {"Super Aim", function() print("Super Aim ativado!") end},
+        {"Auto Fire", function() print("Auto Fire ativado!") end},
     },
     JOGADORES = {
         {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
@@ -135,6 +130,8 @@ local buttonFunctions = {
         {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
         {"Loop Kill", function() print("Loop Kill ativado!") end},
         {"Chat Spammer", function() print("Chat Spammer ativado!") end},
+        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
+        {"Destroy Server", function() print("Server destruído!") end},
     },
     CONFIGURACOES = {
         {"Mudar Tema", function() print("Tema alterado!") end},
@@ -166,6 +163,5 @@ for category, functions in pairs(buttonFunctions) do
         for _, func in ipairs(functions) do
             addCheckboxToMenu(func[1], func[2])
         end
-        updateCheckboxes()
     end)
 end
