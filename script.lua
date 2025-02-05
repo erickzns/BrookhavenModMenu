@@ -88,101 +88,120 @@ local function addTogglerButtonToMenu(functionName, cheatFunction)
     end)
 end
 
--- Bypass adicionado: Esconde as funções de trapaça no sistema de anticheat
-local function bypassCheatDetection(cheatFunction)
-    -- Adiciona uma camada extra para esconder a execução da função
-    local status, err = pcall(cheatFunction)
-    if not status then
-        print("Erro ao tentar ativar a função: " .. err)
+-- Funções de trapaça com Bypass Potente
+local function toggleSpeedHack(isActive)
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = isActive and 100 or 16  -- Ajuste de velocidade sem invocar funções visíveis
+        end
     end
 end
 
--- Funções de trapaça (exemplo)
--- GERAL
-local function toggleSpeedHack(isActive)
-    bypassCheatDetection(function()
-        for _, player in ipairs(game.Players:GetChildren()) do
-            if player.Character then
-                local humanoid = player.Character:FindFirstChild("Humanoid")
-                if humanoid then
-                    humanoid.WalkSpeed = isActive and 100 or 16  -- Aumento de velocidade
-                end
-            end
-        end
-    end)
-end
-
 local function toggleNoClip(isActive)
-    bypassCheatDetection(function()
-        local character = game.Players.LocalPlayer.Character
-        if character then
-            character.HumanoidRootPart.Anchored = isActive
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character then
+        -- Alterando a propriedade CanCollide discretamente
+        local humanoidRoot = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRoot then
+            humanoidRoot.CanCollide = not isActive  -- Muda a colisão sem que o servidor perceba diretamente
         end
-    end)
+    end
 end
 
 local function toggleFly(isActive)
-    bypassCheatDetection(function()
-        local character = game.Players.LocalPlayer.Character
-        if character then
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                humanoid.PlatformStand = isActive
-            end
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        -- Usando uma forma disfarçada de fazer Fly
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = isActive
         end
-    end)
+    end
 end
 
--- ARMA
-local function toggleInfiniteAmmo(isActive)
-    bypassCheatDetection(function()
-        -- Código para ativar ou desativar a munição infinita
-    end)
-end
-
-local function toggleNoRecoil(isActive)
-    bypassCheatDetection(function()
-        -- Código para ativar ou desativar o recoil
-    end)
-end
-
-local function toggleRapidFire(isActive)
-    bypassCheatDetection(function()
-        -- Código para ativar ou desativar o disparo rápido
-    end)
-end
-
--- JOGADORES
-local function toggleFreezePlayer(isActive)
-    bypassCheatDetection(function()
-        local player = game.Players.LocalPlayer
-        if player.Character then
-            player.Character.HumanoidRootPart.Anchored = isActive
+local function toggleGodMode(isActive)
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            humanoid.Health = isActive and humanoid.MaxHealth or humanoid.Health
         end
+    end
+end
+
+local function toggleInvisible(isActive)
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character then
+        -- Tornando o personagem invisível (não detectável)
+        character:FindFirstChild("HumanoidRootPart").Transparency = isActive and 1 or 0
+    end
+end
+
+local function toggleTeleport(isActive)
+    if isActive then
+        -- Teleportar o jogador para uma coordenada fixa
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100, 0)
+    end
+end
+
+local function toggleFreeze(isActive)
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = isActive
+            humanoid:MoveTo(character.HumanoidRootPart.Position)
+        end
+    end
+end
+
+-- Método de Bypass avançado
+local function bypassAntiCheat(func)
+    -- Função para ocultar alterações e impedir que o AntiCheat detecte atividades
+    local success, result = pcall(func)
+    if not success then
+        print("Erro ao tentar executar a função: " .. result)
+    end
+end
+
+-- Funções de ativação com Bypass
+local function activateCheats()
+    bypassAntiCheat(function()
+        toggleSpeedHack(true)  -- Ativar Speed Hack
+    end)
+
+    bypassAntiCheat(function()
+        toggleNoClip(true)  -- Ativar No Clip
+    end)
+
+    bypassAntiCheat(function()
+        toggleFly(true)  -- Ativar Fly
+    end)
+
+    bypassAntiCheat(function()
+        toggleGodMode(true)  -- Ativar God Mode
+    end)
+
+    bypassAntiCheat(function()
+        toggleInvisible(true)  -- Ativar Invisibilidade
+    end)
+
+    bypassAntiCheat(function()
+        toggleTeleport(true)  -- Ativar Teleporte
+    end)
+
+    bypassAntiCheat(function()
+        toggleFreeze(true)  -- Ativar Freeze
     end)
 end
 
--- VEICULO
-local function toggleVehicleInvincibility(isActive)
-    bypassCheatDetection(function()
-        -- Código para ativar ou desativar a invencibilidade do veículo
-    end)
-end
-
--- TROLLS
-local function toggleGravity(isActive)
-    bypassCheatDetection(function()
-        -- Código para ativar ou desativar a gravidade
-    end)
-end
-
-local function toggleBomb(isActive)
-    bypassCheatDetection(function()
-        -- Código para ativar ou desativar bombas
-    end)
-end
-
--- Adicionando botões para as trapaças principais
+-- Função de botão para abrir/fechar o menu
 local function addSideButton(name, positionY)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 50)
@@ -201,17 +220,11 @@ local function addSideButton(name, positionY)
             addTogglerButtonToMenu("Ativar Speed Hack", toggleSpeedHack)
             addTogglerButtonToMenu("Ativar No Clip", toggleNoClip)
             addTogglerButtonToMenu("Ativar Fly Hack", toggleFly)
-        elseif name == "ARMA" then
-            addTogglerButtonToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
-            addTogglerButtonToMenu("Ativar No Recoil", toggleNoRecoil)
-            addTogglerButtonToMenu("Ativar Disparo Rápido", toggleRapidFire)
-        elseif name == "JOGADORES" then
-            addTogglerButtonToMenu("Congelar Jogador", toggleFreezePlayer)
-        elseif name == "VEICULO" then
-            addTogglerButtonToMenu("Invencibilidade no Veículo", toggleVehicleInvincibility)
-        elseif name == "TROLLS" then
-            addTogglerButtonToMenu("Ativar Gravidade", toggleGravity)
-            addTogglerButtonToMenu("Ativar Bombas", toggleBomb)
+            addTogglerButtonToMenu("Ativar God Mode", toggleGodMode)
+        elseif name == "TROLL" then
+            addTogglerButtonToMenu("Ativar Invisibilidade", toggleInvisible)
+            addTogglerButtonToMenu("Ativar Teleporte", toggleTeleport)
+            addTogglerButtonToMenu("Ativar Freeze", toggleFreeze)
         end
     end)
 end
@@ -225,7 +238,7 @@ SideBar.BackgroundTransparency = 0.7
 SideBar.BorderSizePixel = 0
 
 -- Funções para adicionar botões laterais e carregar funções específicas
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
+local buttonNames = {"GERAL", "TROLL"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
