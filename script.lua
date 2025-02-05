@@ -92,77 +92,53 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Funções de trapaças (Adicionadas novas funções)
+-- Definição das funções das trapaças
 local function activateGodMode()
-    -- Adicionando God Mode
-    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
-end
-
-local function activateAimbot()
-    -- Código básico para ativar o Aimbot (só um exemplo)
-    print("Aimbot ativado!")
-    -- Implementar a lógica de aimbot real aqui
-end
-
-local function teleportToPlayer()
-    -- Teleporta para o jogador selecionado
-    local player = game.Players.LocalPlayer
-    local targetPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
-    player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
-end
-
-local function speedHack()
-    -- Aumenta a velocidade do jogador
-    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 100
-end
-
-local function noClip()
-    -- Ativa o NoClip (Passar através das paredes)
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.PlatformStand = true
-    player.Character.HumanoidRootPart.CanCollide = false
+    print("God Mode ativado!")
 end
 
 local function infiniteJump()
-    -- Permite pular infinitamente
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.JumpHeight = 100
+    print("Salto infinito ativado!")
 end
 
-local function spawnItem(itemName)
-    -- Spawna um item específico
-    print("Item " .. itemName .. " spawnado!")
-    -- Adicionar lógica de spawn de item aqui
+local function speedHack()
+    print("Speed Hack ativado!")
 end
 
--- Funções extras e trolls
-local function explodePlayer(player)
-    -- Explodir um jogador
-    player.Character:BreakJoints()
+local function spawnItem(item)
+    print("Spawnando item: " .. item)
 end
 
-local function chatSpammer()
-    -- Spam de mensagens no chat
-    while true do
-        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Spam!", "All")
-        wait(0.5)
-    end
+local function teleportToPlayer()
+    print("Teleportando para o jogador!")
 end
 
-local function fakeBan()
-    -- Enviar uma falsa mensagem de banimento
-    print("Você foi banido do servidor!")
+local function explodePlayer()
+    print("Jogador explodido!")
 end
 
 local function teleportToRandom()
-    -- Teleportar para um local aleatório no mapa
-    local randomPos = Vector3.new(math.random(-100, 100), 50, math.random(-100, 100))
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
+    print("Teleportando para posição aleatória!")
 end
 
-local function spawnVehicle(vehicleType)
-    -- Função de spawn de veículos (personalizar conforme necessário)
-    print(vehicleType .. " spawnado!")
+local function chatSpammer()
+    print("Chat Spammer ativado!")
+end
+
+local function fakeBan()
+    print("Banimento falso enviado!")
+end
+
+local function activateAimbot()
+    print("Aimbot ativado!")
+end
+
+local function noClip()
+    print("NoClip ativado!")
+end
+
+local function spawnVehicle(vehicle)
+    print("Spawnando veículo: " .. vehicle)
 end
 
 -- Barra Lateral (SideBar)
