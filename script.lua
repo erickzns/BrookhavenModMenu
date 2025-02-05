@@ -15,7 +15,7 @@ MainFrame.Size = UDim2.new(0, 400, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
-MainFrame.Visible = false  -- O menu começa invisível
+MainFrame.Visible = true  -- O menu começa visível
 
 -- Título do Menu
 Title.Parent = MainFrame
@@ -93,7 +93,6 @@ local function addCheckboxToMenu(functionName, cheatFunction)
 end
 
 -- Funções de trapaça (exemplo)
-
 -- GERAL
 local function activateSpeedHack()
     print("Speed Hack ativado!")
