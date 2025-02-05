@@ -5,6 +5,7 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
+local cheatStates = {} -- Tabela para armazenar o estado das trapaças
 
 -- Configuração da interface
 ScreenGui.Parent = game.CoreGui
@@ -76,10 +77,17 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    local isChecked = false
+    -- Verificar o estado armazenado ou definir como desativado
+    local isChecked = cheatStates[functionName] or false
+    Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+
+        -- Armazenar o estado da trapaça
+        cheatStates[functionName] = isChecked
+
         if isChecked then
             cheatFunction()
         end
@@ -248,56 +256,36 @@ local buttonFunctions = {
         {"Mudar Tema", function() print("Tema alterado!") end},
         {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
         {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
-        {"Anti-AFK", function() print("Anti-AFK ativado!") end},
-        {"Redefinir Configurações", function() print("Configurações redefinidas!") end},
-        {"Alterar Sensibilidade", function() print("Sensibilidade alterada!") end},
-        {"Ativar Detecção de Player", function() print("Detecção de Player ativada!") end},
-        {"Personalizar HUD", function() print("HUD personalizado!") end},
-        {"Modo Noturno", function() print("Modo Noturno ativado!") end},
-        {"Reiniciar Configurações", function() print("Configurações reiniciadas!") end},
-    }
+        {"Alterar Cores", function() print("Cores alteradas!") end},
+        {"Ativar/Desativar Música", function() print("Música ativada/desativada!") end},
+        {"Ativar Modo Noturno", function() print("Modo Noturno ativado!") end},
+        {"Desativar Notificações", function() print("Notificações desativadas!") end},
+        {"Mudar Opções de Menu", function() print("Opções de menu alteradas!") end},
+        {"Restaurar Configurações Padrão", function() print("Configurações restauradas!") end},
+        {"Habilitar/Desabilitar Logs", function() print("Logs ativados/desativados!") end},
+        {"Habilitar Atualizações Automáticas", function() print("Atualizações automáticas ativadas!") end},
+        {"Alterar Idioma", function() print("Idioma alterado!") end},
+        {"Configurar Sensibilidade", function() print("Sensibilidade configurada!") end},
+        {"Redefinir Padrões de Controles", function() print("Controles redefinidos!") end},
+    },
 }
 
-local function addSideButton(name, yPosition)
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 120, 0, 40)
-    Button.Position = UDim2.new(0, 0, 0, yPosition)
-    Button.Text = name
-    Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Button.TextColor3 = Color3.fromRGB(255, 0, 0)
-    Button.Font = Enum.Font.SourceSans
-    Button.TextSize = 18
-    Button.Parent = SideBar
+-- Adicionando botões para as novas opções de Configurações
+for category, functions in pairs(buttonFunctions) do
+    -- Adiciona botões de categoria
+    local CategoryButton = Instance.new("TextButton")
+    CategoryButton.Size = UDim2.new(1, 0, 0, 50)
+    CategoryButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    CategoryButton.Text = category
+    CategoryButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CategoryButton.Font = Enum.Font.SourceSans
+    CategoryButton.TextSize = 20
+    CategoryButton.Parent = SideBar
 
-    Button.MouseButton1Click:Connect(function()
+    CategoryButton.MouseButton1Click:Connect(function()
         clearSubMenu()
-        for _, funcData in ipairs(buttonFunctions[name] or {}) do
-            local funcName, func = unpack(funcData)
-            addCheckboxToMenu(funcName, func)
+        for _, func in ipairs(functions) do
+            addCheckboxToMenu(func[1], func[2])
         end
     end)
-
-    table.insert(Buttons, Button)
 end
-
--- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
-for i, name in ipairs(buttonNames) do
-    addSideButton(name, (i - 1) * 50)
-end
-
--- Botão de abrir/fechar o menu
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 60, 0, 60)
-toggleButton.Position = UDim2.new(0, 0, 0, 0)
-toggleButton.Text = "+"
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 36
-toggleButton.Parent = ScreenGui
-
-toggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-    toggleButton.Text = MainFrame.Visible and "-" or "+"
-end)
