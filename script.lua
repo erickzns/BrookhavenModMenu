@@ -6,7 +6,6 @@ local UIListLayout = Instance.new("UIListLayout")
 local SideBar = Instance.new("Frame")
 local Buttons = {}
 local cheatStates = {} -- Tabela para armazenar o estado das trapaças
-local checkboxes = {}  -- Tabela para armazenar as checkboxes
 
 -- Configuração da interface
 ScreenGui.Parent = game.CoreGui
@@ -31,7 +30,7 @@ Title.TextSize = 28
 Title.TextStrokeTransparency = 0.5
 Title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Configuração do ScrollingFrame
+-- Configuração do ScrollingFrame (sub-menu rolável)
 ScrollingFrame.Parent = MainFrame
 ScrollingFrame.Size = UDim2.new(1, -120, 0, 420)
 ScrollingFrame.Position = UDim2.new(0, 120, 0.1, 0)
@@ -51,7 +50,6 @@ local function clearSubMenu()
             child:Destroy()
         end
     end
-    checkboxes = {} -- Resetar checkboxes para atualizar corretamente
 end
 
 -- Função para adicionar funções ao submenu com checkboxes
@@ -75,69 +73,100 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     local Checkbox = Instance.new("TextButton")
     Checkbox.Size = UDim2.new(0, 20, 0, 20)
     Checkbox.Position = UDim2.new(1, -30, 0.5, -10)
-    Checkbox.BackgroundColor3 = cheatStates[functionName] and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    checkboxes[functionName] = Checkbox
+    -- Verificar o estado armazenado ou definir como desativado
+    local isChecked = cheatStates[functionName] or false
+    Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
 
     Checkbox.MouseButton1Click:Connect(function()
-        cheatStates[functionName] = not cheatStates[functionName]
-        Checkbox.BackgroundColor3 = cheatStates[functionName] and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        isChecked = not isChecked
+        Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
 
-        if cheatStates[functionName] then
+        -- Armazenar o estado da trapaça
+        cheatStates[functionName] = isChecked
+
+        if isChecked then
             cheatFunction()
         end
-        print(functionName .. " " .. (cheatStates[functionName] and "Ativado" or "Desativado"))
+        print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
 end
 
--- Definição das categorias e funções
-local buttonFunctions = {
-    GERAL = {
-        {"AutoClick", function() print("AutoClick ativado") end},
-        {"God Mode", function() print("God Mode ativado!") end},
-        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
-        {"Infinitive Jump", function() print("Jump infinito ativado!") end},
-        {"Speed Hack", function() print("Speed Hack ativado!") end},
-        {"Spawn Item - Carro", function() print("Carro spawnado!") end},
-        {"Teleport To Player", function() print("Teleportando para jogador!") end},
-        {"Explode Player", function() print("Explodir jogador!") end},
-        {"Teleport To Random Position", function() print("Teleportando aleatoriamente!") end},
-        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-        {"Fake Ban", function() print("Fake Ban ativado!") end},
-    },
-    ARMA = {
-        {"Aimbot", function() print("Aimbot ativado!") end},
-        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
-        {"No Recoil", function() print("No Recoil ativado!") end},
-        {"Weapon Hack", function() print("Weapon Hack ativado!") end},
-        {"Super Aim", function() print("Super Aim ativado!") end},
-        {"Auto Fire", function() print("Auto Fire ativado!") end},
-    },
-    JOGADORES = {
-        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
-        {"Teleport", function() print("Teleport ativado!") end},
-        {"Speed Hack", function() print("Speed Hack ativado!") end},
-        {"NoClip", function() print("NoClip ativado!") end},
-    },
-    VEICULO = {
-        {"Boost Nitro", function() print("Boost Nitro ativado!") end},
-        {"Carro Voador", function() print("Carro Voador ativado!") end},
-        {"Spawn Tank", function() print("Tank spawnado!") end},
-    },
-    TROLLS = {
-        {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
-        {"Loop Kill", function() print("Loop Kill ativado!") end},
-        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
-        {"Destroy Server", function() print("Server destruído!") end},
-    },
-    CONFIGURACOES = {
-        {"Mudar Tema", function() print("Tema alterado!") end},
-        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
-    }
-}
+-- Funções de trapaças (Adicionadas novas funções)
+local function activateGodMode()
+    -- Adicionando God Mode
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
+end
+
+local function activateAimbot()
+    -- Código básico para ativar o Aimbot (só um exemplo)
+    print("Aimbot ativado!")
+    -- Implementar a lógica de aimbot real aqui
+end
+
+local function teleportToPlayer()
+    -- Teleporta para o jogador selecionado
+    local player = game.Players.LocalPlayer
+    local targetPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+    player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+end
+
+local function speedHack()
+    -- Aumenta a velocidade do jogador
+    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 100
+end
+
+local function noClip()
+    -- Ativa o NoClip (Passar através das paredes)
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.PlatformStand = true
+    player.Character.HumanoidRootPart.CanCollide = false
+end
+
+local function infiniteJump()
+    -- Permite pular infinitamente
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.JumpHeight = 100
+end
+
+local function spawnItem(itemName)
+    -- Spawna um item específico
+    print("Item " .. itemName .. " spawnado!")
+    -- Adicionar lógica de spawn de item aqui
+end
+
+-- Funções extras e trolls
+local function explodePlayer(player)
+    -- Explodir um jogador
+    player.Character:BreakJoints()
+end
+
+local function chatSpammer()
+    -- Spam de mensagens no chat
+    while true do
+        game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Spam!", "All")
+        wait(0.5)
+    end
+end
+
+local function fakeBan()
+    -- Enviar uma falsa mensagem de banimento
+    print("Você foi banido do servidor!")
+end
+
+local function teleportToRandom()
+    -- Teleportar para um local aleatório no mapa
+    local randomPos = Vector3.new(math.random(-100, 100), 50, math.random(-100, 100))
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(randomPos)
+end
+
+local function spawnVehicle(vehicleType)
+    -- Função de spawn de veículos (personalizar conforme necessário)
+    print(vehicleType .. " spawnado!")
+end
 
 -- Barra Lateral (SideBar)
 SideBar.Parent = MainFrame
@@ -147,8 +176,103 @@ SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 SideBar.BackgroundTransparency = 0.7
 SideBar.BorderSizePixel = 0
 
--- Adicionando botões para as categorias
+-- Função para adicionar botões laterais e carregar funções específicas
+local buttonFunctions = {
+    GERAL = {
+        {"AutoClick", function() print("AutoClick ativado") end},
+        {"God Mode", activateGodMode},
+        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
+        {"Infinitive Jump", infiniteJump},
+        {"Speed Hack", speedHack},
+        {"Spawn Item - Carro", function() spawnItem("Carro") end},
+        {"Teleport To Player", teleportToPlayer},
+        {"Explode Player", explodePlayer},
+        {"Teleport To Random Position", teleportToRandom},
+        {"Chat Spammer", chatSpammer},
+        {"Fake Ban", fakeBan},
+        {"Fake Admin", function() print("Você agora é um Fake Admin!") end},
+        {"Unlock All Items", function() print("Todos os itens desbloqueados!") end},
+        {"Unlock All Levels", function() print("Todos os níveis desbloqueados!") end},
+        {"Disable Anti-AFK", function() print("Anti-AFK desativado!") end},
+        {"Change Time of Day", function() print("Tempo do dia alterado!") end},
+        {"Enable Stealth Mode", function() print("Modo Stealth ativado!") end},
+        {"Force Save", function() print("Forçando salvamento!") end},
+        {"No Fog", function() print("Neblina desativada!") end},
+        {"Unlimited Ammo", function() print("Munição infinita ativada!") end},
+        {"Super Jump", function() print("Super Jump ativado!") end},
+        {"Disable Gravity", function() print("Gravidade desativada!") end},
+        {"Zoom Hack", function() print("Zoom Hack ativado!") end},
+        {"Random Weather", function() print("Clima aleatório ativado!") end},
+    },
+    ARMA = {
+        {"Aimbot", activateAimbot},
+        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
+        {"No Recoil", function() print("No Recoil ativado!") end},
+        {"Weapon Hack", function() print("Weapon Hack ativado!") end},
+        {"Super Aim", function() print("Super Aim ativado!") end},
+        {"Auto Fire", function() print("Auto Fire ativado!") end},
+        {"Rapid Fire", function() print("Rapid Fire ativado!") end},
+        {"Explosive Ammo", function() print("Munição explosiva ativada!") end},
+        {"Sniper Zoom", function() print("Zoom de sniper ativado!") end},
+        {"Laser Sight", function() print("Laser Sight ativado!") end},
+    },
+    JOGADORES = {
+        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
+        {"Teleport", teleportToPlayer},
+        {"Speed Hack", speedHack},
+        {"NoClip", noClip},
+        {"Invisibility", function() print("Invisibility ativado!") end},
+        {"Freeze Player", function() print("Freeze Player ativado!") end},
+        {"Player Tagging", function() print("Player Tagging ativado!") end},
+        {"Player ESP", function() print("Player ESP ativado!") end},
+        {"Player Info", function() print("Informações do jogador exibidas!") end},
+        {"Change Player Speed", function() print("Velocidade do jogador alterada!") end},
+        {"Kill Player", function() print("Jogador morto!") end},
+    },
+    VEICULO = {
+        {"Boost Nitro", function() print("Boost Nitro ativado!") end},
+        {"Carro Voador", function() print("Carro Voador ativado!") end},
+        {"Anti-Crash", function() print("Anti-Crash ativado!") end},
+        {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
+        {"Spawn Tank", function() spawnVehicle("Tank") end},
+        {"Spawn Helicopter", function() spawnVehicle("Helicopter") end},
+        {"Carro Turbo", function() print("Carro Turbo ativado!") end},
+        {"Super Boost", function() print("Super Boost ativado!") end},
+        {"Fly Mode", function() print("Modo Voo ativado!") end},
+        {"Spawn Plane", function() print("Avião spawnado!") end},
+    },
+    TROLLS = {
+        {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
+        {"Loop Kill", function() print("Loop Kill ativado!") end},
+        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
+        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
+        {"Destroy Server", function() print("Server destruído!") end},
+        {"Freeze Server", function() print("Servidor congelado!") end},
+        {"Kick All Players", function() print("Todos os jogadores foram expulsos!") end},
+        {"Lag Server", function() print("Servidor lagado!") end},
+        {"Send Fake Ban", function() print("Banimento falso enviado!") end},
+    },
+    CONFIGURACOES = {
+        {"Mudar Tema", function() print("Tema alterado!") end},
+        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
+        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
+        {"Alterar Cores", function() print("Cores alteradas!") end},
+        {"Ativar/Desativar Música", function() print("Música ativada/desativada!") end},
+        {"Ativar Modo Noturno", function() print("Modo Noturno ativado!") end},
+        {"Desativar Notificações", function() print("Notificações desativadas!") end},
+        {"Mudar Opções de Menu", function() print("Opções de menu alteradas!") end},
+        {"Restaurar Configurações Padrão", function() print("Configurações restauradas!") end},
+        {"Habilitar/Desabilitar Logs", function() print("Logs ativados/desativados!") end},
+        {"Habilitar Atualizações Automáticas", function() print("Atualizações automáticas ativadas!") end},
+        {"Alterar Idioma", function() print("Idioma alterado!") end},
+        {"Configurar Sensibilidade", function() print("Sensibilidade configurada!") end},
+        {"Redefinir Padrões de Controles", function() print("Controles redefinidos!") end},
+    },
+}
+
+-- Adicionando botões para as novas opções de Configurações
 for category, functions in pairs(buttonFunctions) do
+    -- Adiciona botões de categoria
     local CategoryButton = Instance.new("TextButton")
     CategoryButton.Size = UDim2.new(1, 0, 0, 50)
     CategoryButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
