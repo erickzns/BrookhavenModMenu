@@ -93,8 +93,6 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Configuração do menu (ScreenGui, MainFrame, etc.)
-
 -- Variáveis de controle para saber se a trapaça está ativa ou não
 local speedHackActive = false
 local noClipActive = false
@@ -107,7 +105,7 @@ local vehicleInvincibilityActive = false
 local gravityActive = false
 local bombActive = false
 
--- Funções de trapaça (exemplo)
+-- Funções de trapaça
 -- GERAL
 local function toggleSpeedHack()
     if speedHackActive then
@@ -303,32 +301,6 @@ local function addSideButton(name, positionY)
     end)
 end
 
---- Função para adicionar checkbox para as trapaças
-local function addCheckboxToMenu(label, toggleFunction)
-    local checkbox = Instance.new("TextButton")
-    checkbox.Size = UDim2.new(0, 120, 0, 30)
-    checkbox.Text = label
-    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha (desativada)
-    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    checkbox.Font = Enum.Font.SourceSans
-    checkbox.TextSize = 18
-    checkbox.Parent = MainFrame
-
-    checkbox.MouseButton1Click:Connect(function()
-        if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
-            -- Ativar a trapaça
-            toggleFunction()
-            -- Mudar a cor para verde (ativo)
-            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        elseif checkbox.BackgroundColor3 == Color3.fromRGB(0, 255, 0) then
-            -- Desativar a trapaça
-            toggleFunction()
-            -- Mudar a cor para vermelho (desativado)
-            checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-        end
-    end)
-end
-
 -- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
 for i, name in ipairs(buttonNames) do
@@ -350,6 +322,3 @@ toggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
     toggleButton.Text = MainFrame.Visible and "-" or "+"
 end)
-
-
-
