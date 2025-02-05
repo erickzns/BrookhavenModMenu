@@ -92,34 +92,17 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Definição das funções de trapaças
+-- Definição das funções das trapaças
 local function activateGodMode()
     print("God Mode ativado!")
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.Health = humanoid.MaxHealth
-                humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-            end
-        end
-    end
-end
-
-local function activateSpeedHack()
-    print("Speed Hack ativado!")
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.WalkSpeed = 100  -- Exemplo de aumento de velocidade
-            end
-        end
-    end
 end
 
 local function infiniteJump()
     print("Salto infinito ativado!")
+end
+
+local function speedHack()
+    print("Speed Hack ativado!")
 end
 
 local function spawnItem(item)
@@ -169,9 +152,11 @@ SideBar.BorderSizePixel = 0
 -- Função para adicionar botões laterais e carregar funções específicas
 local buttonFunctions = {
     GERAL = {
+        {"AutoClick", function() print("AutoClick ativado") end},
         {"God Mode", activateGodMode},
-        {"Speed Hack", activateSpeedHack},
+        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
         {"Infinitive Jump", infiniteJump},
+        {"Speed Hack", speedHack},
         {"Spawn Item - Carro", function() spawnItem("Carro") end},
         {"Teleport To Player", teleportToPlayer},
         {"Explode Player", explodePlayer},
@@ -194,6 +179,7 @@ local buttonFunctions = {
     },
     ARMA = {
         {"Aimbot", activateAimbot},
+        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
         {"No Recoil", function() print("No Recoil ativado!") end},
         {"Weapon Hack", function() print("Weapon Hack ativado!") end},
         {"Super Aim", function() print("Super Aim ativado!") end},
@@ -206,7 +192,7 @@ local buttonFunctions = {
     JOGADORES = {
         {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
         {"Teleport", teleportToPlayer},
-        {"Speed Hack", activateSpeedHack},
+        {"Speed Hack", speedHack},
         {"NoClip", noClip},
         {"Invisibility", function() print("Invisibility ativado!") end},
         {"Freeze Player", function() print("Freeze Player ativado!") end},
@@ -215,6 +201,41 @@ local buttonFunctions = {
         {"Player Info", function() print("Informações do jogador exibidas!") end},
         {"Change Player Speed", function() print("Velocidade do jogador alterada!") end},
         {"Kill Player", function() print("Jogador morto!") end},
+    },
+    VEICULO = {
+        {"Boost Nitro", function() print("Boost Nitro ativado!") end},
+        {"Carro Voador", function() print("Carro Voador ativado!") end},
+        {"Anti-Crash", function() print("Anti-Crash ativado!") end},
+        {"Spawn Motorcycle", function() spawnVehicle("Motorcycle") end},
+        {"Spawn Tank", function() spawnVehicle("Tank") end},
+        {"Spawn Helicopter", function() spawnVehicle("Helicopter") end},
+        {"Carro Turbo", function() print("Carro Turbo ativado!") end},
+        {"Super Boost", function() print("Super Boost ativado!") end},
+        {"Fly Mode", function() print("Modo Voo ativado!") end},
+        {"Spawn Plane", function() print("Avião spawnado!") end},
+    },
+    TROLLS = {
+        {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
+        {"Loop Kill", function() print("Loop Kill ativado!") end},
+        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
+        {"Send Fake Message", function() print("Mensagem falsa enviada!") end},
+        {"Destroy Server", function() print("Server destruído!") end},
+        {"Freeze Server", function() print("Servidor congelado!") end},
+        {"Kick All Players", function() print("Todos os jogadores foram expulsos!") end},
+        {"Lag Server", function() print("Servidor lagado!") end},
+        {"Send Fake Ban", function() print("Banimento falso enviado!") end},
+    },
+    CONFIGURACOES = {
+        {"Mudar Tema", function() print("Tema alterado!") end},
+        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
+        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
+        {"Anti-AFK", function() print("Anti-AFK ativado!") end},
+        {"Redefinir Configurações", function() print("Configurações redefinidas!") end},
+        {"Alterar Sensibilidade", function() print("Sensibilidade alterada!") end},
+        {"Ativar Detecção de Player", function() print("Detecção de Player ativada!") end},
+        {"Personalizar HUD", function() print("HUD personalizado!") end},
+        {"Modo Noturno", function() print("Modo Noturno ativado!") end},
+        {"Reiniciar Configurações", function() print("Configurações reiniciadas!") end},
     }
 }
 
@@ -241,7 +262,7 @@ local function addSideButton(name, yPosition)
 end
 
 -- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES"}
+local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS", "CONFIGURACOES"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
 end
