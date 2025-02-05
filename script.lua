@@ -78,84 +78,18 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.Text = ""
     Checkbox.Parent = Frame
 
-    local isChecked = checkboxStates[functionName] or false  -- Verifica o estado salvo
+    local isChecked = checkboxStates[functionName] or false
     Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
 
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-        checkboxStates[functionName] = isChecked  -- Armazenando o estado
+        checkboxStates[functionName] = isChecked
         if isChecked then
             cheatFunction()
         end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
-end
-
--- Definição das funções de trapaças
-local function activateGodMode()
-    print("God Mode ativado!")
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.Health = humanoid.MaxHealth
-                humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-            end
-        end
-    end
-end
-
-local function activateSpeedHack()
-    print("Speed Hack ativado!")
-    for _, player in ipairs(game.Players:GetChildren()) do
-        if player.Character then
-            local humanoid = player.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.WalkSpeed = 100  -- Exemplo de aumento de velocidade
-            end
-        end
-    end
-end
-
-local function infiniteJump()
-    print("Salto infinito ativado!")
-end
-
-local function spawnItem(item)
-    print("Spawnando item: " .. item)
-end
-
-local function teleportToPlayer()
-    print("Teleportando para o jogador!")
-end
-
-local function explodePlayer()
-    print("Jogador explodido!")
-end
-
-local function teleportToRandom()
-    print("Teleportando para posição aleatória!")
-end
-
-local function chatSpammer()
-    print("Chat Spammer ativado!")
-end
-
-local function fakeBan()
-    print("Banimento falso enviado!")
-end
-
-local function activateAimbot()
-    print("Aimbot ativado!")
-end
-
-local function noClip()
-    print("NoClip ativado!")
-end
-
-local function spawnVehicle(vehicle)
-    print("Spawnando veículo: " .. vehicle)
 end
 
 -- Barra Lateral (SideBar)
@@ -167,8 +101,7 @@ SideBar.BackgroundTransparency = 0.7
 SideBar.BorderSizePixel = 0
 
 -- Função para adicionar botões laterais e carregar funções específicas
-local buttonFunctions = {
-    GERAL = {
+GERAL = {
         {"AutoClick", function() print("AutoClick ativado") end},
         {"God Mode", activateGodMode},
         {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
@@ -259,6 +192,8 @@ local buttonFunctions = {
     }
 }
 
+local buttonFunctions = GERAL, ARMA, JOGADORES, DINHEIRO, VEICULO, TROLLS, CONFIGURACOES
+
 local function addSideButton(name, yPosition)
     local Button = Instance.new("TextButton")
     Button.Size = UDim2.new(0, 120, 0, 40)
@@ -269,37 +204,20 @@ local function addSideButton(name, yPosition)
     Button.Font = Enum.Font.SourceSans
     Button.TextSize = 18
     Button.Parent = SideBar
-
+    
     Button.MouseButton1Click:Connect(function()
         clearSubMenu()
-        for _, funcData in ipairs(buttonFunctions[name] or {}) do
-            local funcName, func = unpack(funcData)
-            addCheckboxToMenu(funcName, func)
+        if buttonFunctions[name] then
+            for _, funcData in ipairs(buttonFunctions[name]) do
+                local funcName, func = unpack(funcData)
+                addCheckboxToMenu(funcName, func)
+            end
         end
     end)
 
     table.insert(Buttons, Button)
 end
 
--- Adicionando botões laterais
-local buttonNames = {"GERAL", "ARMA", "JOGADORES", "DINHEIRO", "VEICULO", "TROLLS", "CONFIGURACOES"}
-for i, name in ipairs(buttonNames) do
+for i, name in ipairs({"GERAL", "ARMA", "JOGADORES", "DINHEIRO", "VEICULO", "TROLLS", "CONFIGURACOES"}) do
     addSideButton(name, (i - 1) * 50)
 end
-
--- Botão de abrir/fechar o menu
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 60, 0, 60)
-toggleButton.Position = UDim2.new(0, 0, 0, 0)
-toggleButton.Text = "+"
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.SourceSans
-toggleButton.TextSize = 36
-toggleButton.Parent = ScreenGui
-
-toggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-    toggleButton.Text = MainFrame.Visible and "-" or "+"
-end)
-
