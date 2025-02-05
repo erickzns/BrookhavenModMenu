@@ -315,13 +315,12 @@ local function addCheckboxToMenu(label, toggleFunction)
     checkbox.Parent = MainFrame
 
     checkbox.MouseButton1Click:Connect(function()
-        -- Alternar entre ativar/desativar a trapaça
         if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
             -- Ativar a trapaça
             toggleFunction()
             -- Mudar a cor para verde (ativo)
             checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        else
+        elseif checkbox.BackgroundColor3 == Color3.fromRGB(0, 255, 0) then
             -- Desativar a trapaça
             toggleFunction()
             -- Mudar a cor para vermelho (desativado)
