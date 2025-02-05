@@ -303,30 +303,53 @@ local function addSideButton(name, positionY)
     end)
 end
 
--- Função para adicionar checkbox para as trapaças
-local function addCheckboxToMenu(label, toggleFunction)
-    local checkbox = Instance.new("TextButton")
-    checkbox.Size = UDim2.new(0, 120, 0, 30)
-    checkbox.Text = label
-    checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha (desativada)
-    checkbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    checkbox.Font = Enum.Font.SourceSans
-    checkbox.TextSize = 18
-    checkbox.Parent = MainFrame
+-- Função para adicionar toggle switch para as trapaças
+local function addToggleSwitchToMenu(label, toggleFunction)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 120, 0, 50)
+    frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    frame.BackgroundTransparency = 1
+    frame.Parent = MainFrame
 
-    checkbox.MouseButton1Click:Connect(function()
-        -- Alternar entre ativar/desativar a trapaça
-        toggleFunction()
+    -- O botão que desliza
+    local toggleButton = Instance.new("TextButton")
+    toggleButton.Size = UDim2.new(0, 50, 0, 30)
+    toggleButton.Position = UDim2.new(0, 0, 0, 0)
+    toggleButton.Text = ""
+    toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Inicialmente vermelha (desativada)
+    toggleButton.Parent = frame
 
-        -- Alterando a cor da checkbox diretamente
-        if checkbox.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
-            -- Quando a checkbox é vermelha, significa que a trapaça está desativada
-            checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde para ativado
+    -- O fundo do toggle switch
+    local switchBackground = Instance.new("Frame")
+    switchBackground.Size = UDim2.new(0, 120, 0, 30)
+    switchBackground.Position = UDim2.new(0, 0, 0, 0)
+    switchBackground.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    switchBackground.Parent = frame
+
+    -- Função para alternar o estado da trapaça
+    toggleButton.MouseButton1Click:Connect(function()
+        toggleFunction()  -- Ativa ou desativa a trapaça
+
+        -- Alterna entre verde e vermelho
+        if toggleButton.BackgroundColor3 == Color3.fromRGB(255, 0, 0) then
+            -- Desativa e vai para a direita (vermelho para verde)
+            toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde (ativo)
+            toggleButton.Position = UDim2.new(0, 70, 0, 0) -- Desliza para a direita
         else
-            -- Quando a checkbox é verde, significa que a trapaça está ativada
-            checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho para desativado
+            -- Ativa e vai para a esquerda (verde para vermelho)
+            toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Vermelho (desativo)
+            toggleButton.Position = UDim2.new(0, 0, 0, 0)  -- Desliza para a esquerda
         end
     end)
+    
+    -- Adiciona o texto
+    local labelText = Instance.new("TextLabel")
+    labelText.Size = UDim2.new(0, 120, 0, 30)
+    labelText.Text = label
+    labelText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    labelText.BackgroundTransparency = 1
+    labelText.Position = UDim2.new(0, 0, 0, 35)  -- Coloca o texto abaixo do toggle
+    labelText.Parent = frame
 end
 
 -- Adicionando botões laterais
