@@ -92,68 +92,64 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     end)
 end
 
--- Funções das trapaças
+-- Definição das funções das trapaças
 local function activateGodMode()
-    -- Lógica para ativar God Mode aqui
     print("God Mode ativado!")
 end
 
 local function infiniteJump()
-    -- Lógica para ativar salto infinito aqui
     print("Salto infinito ativado!")
 end
 
 local function speedHack()
-    -- Lógica para ativar Speed Hack aqui
     print("Speed Hack ativado!")
 end
 
 local function spawnItem(item)
-    -- Lógica para spawnar o item aqui
     print("Spawnando item: " .. item)
 end
 
 local function teleportToPlayer()
-    -- Lógica para teleportar para o jogador aqui
     print("Teleportando para o jogador!")
 end
 
 local function explodePlayer()
-    -- Lógica para explodir o jogador aqui
     print("Jogador explodido!")
 end
 
 local function teleportToRandom()
-    -- Lógica para teleportar para uma posição aleatória aqui
     print("Teleportando para posição aleatória!")
 end
 
 local function chatSpammer()
-    -- Lógica para spammar chat aqui
     print("Chat Spammer ativado!")
 end
 
 local function fakeBan()
-    -- Lógica para enviar um banimento falso aqui
     print("Banimento falso enviado!")
 end
 
 local function activateAimbot()
-    -- Lógica para ativar Aimbot aqui
     print("Aimbot ativado!")
 end
 
 local function noClip()
-    -- Lógica para ativar NoClip aqui
     print("NoClip ativado!")
 end
 
 local function spawnVehicle(vehicle)
-    -- Lógica para spawnar o veículo aqui
     print("Spawnando veículo: " .. vehicle)
 end
 
--- Agora, vamos definir os botões que chamarão essas funções:
+-- Barra Lateral (SideBar)
+SideBar.Parent = MainFrame
+SideBar.Size = UDim2.new(0, 120, 1, -50)
+SideBar.Position = UDim2.new(0, 0, 0, 50)
+SideBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SideBar.BackgroundTransparency = 0.7
+SideBar.BorderSizePixel = 0
+
+-- Função para adicionar botões laterais e carregar funções específicas
 local buttonFunctions = {
     GERAL = {
         {"AutoClick", function() print("AutoClick ativado") end},
