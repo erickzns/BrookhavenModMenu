@@ -62,7 +62,7 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     CheckBoxText.Size = UDim2.new(1, -40, 1, 0)
     CheckBoxText.Position = UDim2.new(0, 10, 0, 0)
     CheckBoxText.Text = functionName
-    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CheckBoxText.TextColor3 = Color3.fromRGB(255, 255, 255) -- Tornando os nomes dos botões brancos
     CheckBoxText.BackgroundTransparency = 1
     CheckBoxText.Font = Enum.Font.SourceSans
     CheckBoxText.TextSize = 18
@@ -210,11 +210,6 @@ local buttonFunctions = {
         {"Loop Kill", function() print("Loop Kill ativado!") end},
         {"Spam Chat", chatSpammer},
         {"Trocar ID", function() print("ID trocado!") end},
-    },
-    CONFIGURACOES = {
-        {"Alterar Cores", function() print("Cores alteradas!") end},
-        {"Ativar Animações", function() print("Animações ativadas!") end},
-        {"Configurar Teclas de Atalho", function() print("Teclas de atalho configuradas!") end},
     }
 }
 
@@ -245,7 +240,6 @@ createButton("Arma", "ARMA")
 createButton("Jogadores", "JOGADORES")
 createButton("Veículo", "VEICULO")
 createButton("Trolls", "TROLLS")
-createButton("Configurações", "CONFIGURACOES")
 
 -- Função para abrir e fechar o menu
 local openKey = Enum.KeyCode.LeftControl
