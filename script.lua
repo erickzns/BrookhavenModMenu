@@ -146,7 +146,7 @@ end)
 Title.InputChanged:Connect(function(input)
     if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = input.Position - dragStart
-        -- Verificando os limites da tela para permitir o movimento controlado
+        -- Atualizando posição sem limitações
         MainFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
     end
 end)
