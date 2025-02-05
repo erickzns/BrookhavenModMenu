@@ -52,7 +52,7 @@ local function clearSubMenu()
 end
 
 -- Função para adicionar funções ao submenu com checkboxes
-local function addCheckboxToMenu(functionName, cheatFunction)
+local function addCheckboxToMenu(functionName)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
     Frame.BackgroundTransparency = 1
@@ -80,55 +80,8 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     Checkbox.MouseButton1Click:Connect(function()
         isChecked = not isChecked
         Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-        if isChecked then
-            cheatFunction()
-        end
         print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
     end)
-end
-
--- Funções de trapaças
-
-local function activateGodMode()
-    -- Adicionando God Mode
-    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health = math.huge
-end
-
-local function activateAimbot()
-    -- Código básico para ativar o Aimbot (só um exemplo)
-    print("Aimbot ativado!")
-    -- Implementar a lógica de aimbot real aqui
-end
-
-local function teleportToPlayer()
-    -- Teleporta para o jogador selecionado
-    local player = game.Players.LocalPlayer
-    local targetPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
-    player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
-end
-
-local function speedHack()
-    -- Aumenta a velocidade do jogador
-    game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 100
-end
-
-local function noClip()
-    -- Ativa o NoClip (Passar através das paredes)
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.PlatformStand = true
-    player.Character.HumanoidRootPart.CanCollide = false
-end
-
-local function infiniteJump()
-    -- Permite pular infinitamente
-    local player = game.Players.LocalPlayer
-    player.Character.Humanoid.JumpHeight = 100
-end
-
-local function spawnItem(itemName)
-    -- Spawna um item específico
-    print("Item " .. itemName .. " spawnado!")
-    -- Adicionar lógica de spawn de item aqui
 end
 
 -- Barra Lateral (SideBar)
@@ -141,41 +94,12 @@ SideBar.BorderSizePixel = 0
 
 -- Função para adicionar botões laterais e carregar funções específicas
 local buttonFunctions = {
-    GERAL = {
-        {"AutoClick", function() print("AutoClick ativado") end},
-        {"God Mode", activateGodMode},
-        {"Bypass Anti-Cheat", function() print("Anti-Cheat Bypass ativado!") end},
-        {"Infinitive Jump", infiniteJump},
-        {"Speed Hack", speedHack},
-        {"Spawn Item - Carro", function() spawnItem("Carro") end},
-        {"Teleport To Player", teleportToPlayer},
-    },
-    ARMA = {
-        {"Aimbot", activateAimbot},
-        {"Hitbox Expander", function() print("Hitbox Expander ativado!") end},
-        {"No Recoil", function() print("No Recoil ativado!") end},
-    },
-    JOGADORES = {
-        {"ESP Wallhack", function() print("ESP Wallhack ativado!") end},
-        {"Teleport", teleportToPlayer},
-        {"Speed Hack", speedHack},
-        {"NoClip", noClip},
-    },
-    VEICULO = {
-        {"Boost Nitro", function() print("Boost Nitro ativado!") end},
-        {"Carro Voador", function() print("Carro Voador ativado!") end},
-        {"Anti-Crash", function() print("Anti-Crash ativado!") end},
-    },
-    TROLLS = {
-        {"Explodir Jogador", function() print("Explodir Jogador ativado!") end},
-        {"Loop Kill", function() print("Loop Kill ativado!") end},
-        {"Chat Spammer", function() print("Chat Spammer ativado!") end},
-    },
-    CONFIGURACOES = {
-        {"Mudar Tema", function() print("Tema alterado!") end},
-        {"Ativar Modo Stealth", function() print("Modo Stealth ativado!") end},
-        {"Personalizar Teclas", function() print("Teclas personalizadas!") end},
-    }
+    GERAL = {"AutoClick", "God Mode", "Bypass Anti-Cheat"},
+    ARMA = {"Aimbot", "Hitbox Expander", "No Recoil"},
+    JOGADORES = {"ESP Wallhack", "Teleport", "Speed Hack"},
+    VEICULO = {"Boost Nitro", "Carro Voador", "Anti-Crash"},
+    TROLLS = {"Explodir Jogador", "Loop Kill", "Chat Spammer"},
+    CONFIGURACOES = {"Mudar Tema", "Ativar Modo Stealth", "Personalizar Teclas"}
 }
 
 local function addSideButton(name, yPosition)
@@ -191,9 +115,8 @@ local function addSideButton(name, yPosition)
 
     Button.MouseButton1Click:Connect(function()
         clearSubMenu()
-        for _, funcData in ipairs(buttonFunctions[name] or {}) do
-            local funcName, func = unpack(funcData)
-            addCheckboxToMenu(funcName, func)
+        for _, func in ipairs(buttonFunctions[name] or {}) do
+            addCheckboxToMenu(func)
         end
     end)
 
