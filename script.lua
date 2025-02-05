@@ -52,10 +52,8 @@ local function clearSubMenu()
     end
 end
 
--- Função para adicionar funções ao submenu com checkboxes
-local checkboxStates = {}  -- Tabela para armazenar o estado dos checkboxes
-
-local function addCheckboxToMenu(functionName, cheatFunction)
+-- Função para adicionar funções ao submenu com botões de alternar
+local function addTogglerButtonToMenu(functionName, cheatFunction)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, 0, 0, 30)
     Frame.BackgroundTransparency = 1
@@ -72,26 +70,25 @@ local function addCheckboxToMenu(functionName, cheatFunction)
     CheckBoxText.TextXAlignment = Enum.TextXAlignment.Left
     CheckBoxText.Parent = Frame
 
-    local Checkbox = Instance.new("TextButton")
-    Checkbox.Size = UDim2.new(0, 20, 0, 20)
-    Checkbox.Position = UDim2.new(1, -30, 0.5, -10)
-    Checkbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    Checkbox.Text = ""
-    Checkbox.Parent = Frame
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Size = UDim2.new(0, 60, 0, 30)
+    ToggleButton.Position = UDim2.new(1, -70, 0.5, -15)
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    ToggleButton.Text = "Desativado"
+    ToggleButton.Parent = Frame
 
-    local isChecked = checkboxStates[functionName] or false  -- Verifica o estado salvo
-    Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    local isActive = false  -- Inicialmente a função está desativada
 
-    Checkbox.MouseButton1Click:Connect(function()
-        isChecked = not isChecked
-        Checkbox.BackgroundColor3 = isChecked and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-        checkboxStates[functionName] = isChecked  -- Armazenando o estado
-        if isChecked then
-            cheatFunction()
-        end
-        print(functionName .. " " .. (isChecked and "Ativado" or "Desativado"))
+    ToggleButton.MouseButton1Click:Connect(function()
+        isActive = not isActive
+        ToggleButton.BackgroundColor3 = isActive and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        ToggleButton.Text = isActive and "Ativado" or "Desativado"
+        cheatFunction(isActive)
+        print(functionName .. " " .. (isActive and "Ativado" or "Desativado"))
     end)
 end
+
+-- Configuração do menu (ScreenGui, MainFrame, etc.)
 
 -- Variáveis de controle para saber se a trapaça está ativa ou não
 local speedHackActive = false
@@ -105,158 +102,69 @@ local vehicleInvincibilityActive = false
 local gravityActive = false
 local bombActive = false
 
--- Funções de trapaça
+-- Funções de trapaça (exemplo)
 -- GERAL
-local function toggleSpeedHack()
-    if speedHackActive then
-        print("Speed Hack desativado!")
-        for _, player in ipairs(game.Players:GetChildren()) do
-            if player.Character then
-                local humanoid = player.Character:FindFirstChild("Humanoid")
-                if humanoid then
-                    humanoid.WalkSpeed = 16  -- Volta para a velocidade normal
-                end
-            end
-        end
-    else
-        print("Speed Hack ativado!")
-        for _, player in ipairs(game.Players:GetChildren()) do
-            if player.Character then
-                local humanoid = player.Character:FindFirstChild("Humanoid")
-                if humanoid then
-                    humanoid.WalkSpeed = 100  -- Aumento de velocidade
-                end
+local function toggleSpeedHack(isActive)
+    for _, player in ipairs(game.Players:GetChildren()) do
+        if player.Character then
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = isActive and 100 or 16  -- Aumento de velocidade
             end
         end
     end
-    speedHackActive = not speedHackActive
 end
 
-local function toggleNoClip()
-    if noClipActive then
-        print("No-Clip desativado!")
-        local character = game.Players.LocalPlayer.Character
-        if character then
-            character.HumanoidRootPart.Anchored = false
-        end
-    else
-        print("No-Clip ativado!")
-        local character = game.Players.LocalPlayer.Character
-        if character then
-            character.HumanoidRootPart.Anchored = true
-        end
+local function toggleNoClip(isActive)
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        character.HumanoidRootPart.Anchored = isActive
     end
-    noClipActive = not noClipActive
 end
 
-local function toggleFly()
-    if flyActive then
-        print("Voar desativado!")
-        local character = game.Players.LocalPlayer.Character
-        if character then
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                humanoid.PlatformStand = false
-            end
-        end
-    else
-        print("Voar ativado!")
-        local character = game.Players.LocalPlayer.Character
-        if character then
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                humanoid.PlatformStand = true
-            end
+local function toggleFly(isActive)
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = isActive
         end
     end
-    flyActive = not flyActive
 end
 
 -- ARMA
-local function toggleInfiniteAmmo()
-    if infiniteAmmoActive then
-        print("Munição infinita desativada!")
-        -- Código para desativar a munição infinita
-    else
-        print("Munição infinita ativada!")
-        -- Código para ativar a munição infinita
-    end
-    infiniteAmmoActive = not infiniteAmmoActive
+local function toggleInfiniteAmmo(isActive)
+    -- Código para ativar ou desativar a munição infinita
 end
 
-local function toggleNoRecoil()
-    if noRecoilActive then
-        print("Recoil ativado!")
-        -- Código para reverter o recoil
-    else
-        print("Recoil desativado!")
-        -- Código para remover o recoil
-    end
-    noRecoilActive = not noRecoilActive
+local function toggleNoRecoil(isActive)
+    -- Código para ativar ou desativar o recoil
 end
 
-local function toggleRapidFire()
-    if rapidFireActive then
-        print("Disparo rápido desativado!")
-        -- Código para desativar o disparo rápido
-    else
-        print("Disparo rápido ativado!")
-        -- Código para disparos rápidos
-    end
-    rapidFireActive = not rapidFireActive
+local function toggleRapidFire(isActive)
+    -- Código para ativar ou desativar o disparo rápido
 end
 
 -- JOGADORES
-local function toggleFreezePlayer()
-    if freezePlayerActive then
-        print("Descongelando jogador!")
-        local player = game.Players.LocalPlayer
-        if player.Character then
-            player.Character.HumanoidRootPart.Anchored = false
-        end
-    else
-        print("Congelando jogador!")
-        local player = game.Players.LocalPlayer
-        if player.Character then
-            player.Character.HumanoidRootPart.Anchored = true
-        end
+local function toggleFreezePlayer(isActive)
+    local player = game.Players.LocalPlayer
+    if player.Character then
+        player.Character.HumanoidRootPart.Anchored = isActive
     end
-    freezePlayerActive = not freezePlayerActive
 end
 
 -- VEICULO
-local function toggleVehicleInvincibility()
-    if vehicleInvincibilityActive then
-        print("Invencibilidade do veículo desativada!")
-        -- Código para desativar a invencibilidade do veículo
-    else
-        print("Invencibilidade do veículo ativada!")
-        -- Código para ativar a invencibilidade do veículo
-    end
-    vehicleInvincibilityActive = not vehicleInvincibilityActive
+local function toggleVehicleInvincibility(isActive)
+    -- Código para ativar ou desativar a invencibilidade do veículo
 end
 
 -- TROLLS
-local function toggleGravity()
-    if gravityActive then
-        print("Gravidade desativada!")
-        -- Código para desativar a gravidade
-    else
-        print("Gravidade ativada!")
-        -- Código para ativar a gravidade
-    end
-    gravityActive = not gravityActive
+local function toggleGravity(isActive)
+    -- Código para ativar ou desativar a gravidade
 end
 
-local function toggleBomb()
-    if bombActive then
-        print("Bombas desativadas!")
-        -- Código para desativar bombas
-    else
-        print("Bombas ativadas!")
-        -- Código para ativar bombas
-    end
-    bombActive = not bombActive
+local function toggleBomb(isActive)
+    -- Código para ativar ou desativar bombas
 end
 
 -- Barra Lateral (SideBar)
@@ -283,25 +191,25 @@ local function addSideButton(name, positionY)
         clearSubMenu()
         -- Dependendo do nome do botão, adicionar funções diferentes
         if name == "GERAL" then
-            addCheckboxToMenu("Ativar Speed Hack", toggleSpeedHack)
-            addCheckboxToMenu("Ativar No-Clip", toggleNoClip)
-            addCheckboxToMenu("Ativar Voar", toggleFly)
+            addTogglerButtonToMenu("Ativar Speed Hack", toggleSpeedHack)
+            addTogglerButtonToMenu("Ativar No-Clip", toggleNoClip)
+            addTogglerButtonToMenu("Ativar Voar", toggleFly)
         elseif name == "ARMA" then
-            addCheckboxToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
-            addCheckboxToMenu("Ativar Sem Recoil", toggleNoRecoil)
-            addCheckboxToMenu("Ativar Disparo Rápido", toggleRapidFire)
+            addTogglerButtonToMenu("Ativar Munição Infinita", toggleInfiniteAmmo)
+            addTogglerButtonToMenu("Ativar Sem Recoil", toggleNoRecoil)
+            addTogglerButtonToMenu("Ativar Disparo Rápido", toggleRapidFire)
         elseif name == "JOGADORES" then
-            addCheckboxToMenu("Congelar Jogador", toggleFreezePlayer)
+            addTogglerButtonToMenu("Congelar Jogador", toggleFreezePlayer)
         elseif name == "VEICULO" then
-            addCheckboxToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
+            addTogglerButtonToMenu("Ativar Invencibilidade no Veículo", toggleVehicleInvincibility)
         elseif name == "TROLLS" then
-            addCheckboxToMenu("Ativar Bombas", toggleBomb)
-            addCheckboxToMenu("Ativar Gravidade", toggleGravity)
+            addTogglerButtonToMenu("Ativar Bombas", toggleBomb)
+            addTogglerButtonToMenu("Ativar Gravidade", toggleGravity)
         end
     end)
 end
 
--- Adicionando botões laterais
+--- Adicionando botões laterais
 local buttonNames = {"GERAL", "ARMA", "JOGADORES", "VEICULO", "TROLLS"}
 for i, name in ipairs(buttonNames) do
     addSideButton(name, (i - 1) * 50)
